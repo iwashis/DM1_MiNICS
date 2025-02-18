@@ -1,0 +1,270 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm, enumitem}
+\usepackage{fullpage}
+
+\title{Discrete Mathematics 1 Lectures, Part 1}
+\author{Tomasz Brengos}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Counting (Combinatorics)}
+
+Counting forms the basis of combinatorics. In these lectures we explore several counting rules, examples, and proofs.
+
+\subsection{Rule of Sum (Addition Principle)}
+If a set $S$ is partitioned into disjoint subsets,
+\[
+S = S_1 \cup S_2 \cup \cdots \cup S_k,
+\]
+then the total number of elements in $S$ is the sum of the number of elements in each subset:
+\[
+|S| = |S_1| + |S_2| + \cdots + |S_k|.
+\]
+
+\paragraph{Example:}  
+Suppose we wish to count the number of ways to choose a subset of a set $X$ of size $u$, but we only consider subsets of a fixed size $k$. If we let $S$ be the family of all such subsets, then using the rule of sum by dividing the choices according to a distinguished element (say, whether a chosen element is included or not) we can count the subsets by summing over the possibilities. (This idea is used later in proofs for binomial coefficients and the power set.)
+
+\subsection{Rule of Product (Multiplication Principle)}
+When an object is constructed by a sequence of choices, where:
+\begin{itemize}[nosep]
+    \item The first choice can be made in $a$ ways,
+    \item The second in $b$ ways,
+    \item $\ldots$
+\end{itemize}
+the total number of objects is the product:
+\[
+a \times b \times \cdots.
+\]
+
+\paragraph{Example:}  
+A word of length $n$ over the binary alphabet $\{0,1\}$ is formed by choosing one of $2$ possibilities for each position. Hence, there are
+\[
+2^n
+\]
+possible words.
+
+\subsection{Rule of Bijection}
+If there exists a bijection (a one-to-one and onto mapping) between two sets $S$ and $T$, then they have the same number of elements:
+\[
+|S| = |T|.
+\]
+
+\paragraph{Example:}  
+Consider the power set of a set $X$, denoted by $\mathcal{P}(X)$. There is a natural bijection between $\mathcal{P}(X)$ and the set of binary sequences of length $|X|$: for each subset $A \subseteq X$, assign the sequence $(a_1,a_2,\dots,a_n)$ where 
+\[
+a_i = \begin{cases} 
+1, & \text{if } x_i \in A, \\
+0, & \text{if } x_i \notin A.
+\end{cases}
+\]
+This shows that 
+\[
+|\mathcal{P}(X)| = 2^{|X|}.
+\]
+
+\subsection{Binomial Coefficients and Permutations}
+Let $X$ be a set with $|X| = n$.
+
+\paragraph{Subsets:}  
+The number of ways to choose a $k$-subset of $X$ is given by the binomial coefficient
+\[
+\binom{n}{k}.
+\]
+
+\paragraph{Permutations:}  
+A $k$-permutation of $X$ is a sequence of $k$ distinct elements. The number of $k$-permutations is
+\[
+P(n,k) = \frac{n!}{(n-k)!}.
+\]
+Since every $k$-subset can be ordered in $k!$ ways, we have
+\[
+\binom{n}{k} \cdot k! = P(n,k).
+\]
+
+\paragraph{Proof by Counting in Two Ways:}  
+Count the number of $k$-permutations of an $n$-set in two ways:
+\begin{enumerate}[label=(\arabic*)]
+    \item Directly, by applying the rule of product:
+    \[
+    n \times (n-1) \times \cdots \times (n-k+1) = \frac{n!}{(n-k)!}.
+    \]
+    \item First choose a $k$-subset (in $\binom{n}{k}$ ways) and then arrange it (in $k!$ ways), giving
+    \[
+    \binom{n}{k} \cdot k!.
+    \]
+\end{enumerate}
+Equate these two counts to obtain the relation.
+
+\subsection{Binomial Theorem}
+For any $x,y$ in a field and nonnegative integer $n$, the binomial theorem states:
+\[
+(x+y)^n = \sum_{k=0}^{n} \binom{n}{k} x^k y^{n-k}.
+\]
+\paragraph{Explanation:}  
+This theorem is a direct consequence of counting the number of ways to choose $k$ copies of $x$ (and the remaining $n-k$ copies of $y$) when expanding the product.
+
+\subsection{Multisets}
+A \emph{multiset} of size $k$ taken from an $n$-set allows repetition of elements.  
+\paragraph{Result:}  
+The number of such multisets is given by:
+\[
+\binom{n+k-1}{k}.
+\]
+\paragraph{Bijection Explanation:}  
+There is a bijection between multisets of size $k$ from an $n$-set and the number of ways to distribute $k$ identical objects into $n$ distinct containers.
+
+\subsection{Lattice Paths}
+Consider an $m \times n$ grid with lattice points at the intersections.  
+\paragraph{Problem:}  
+How many paths are there from $(0,0)$ to $(m,n)$ if one may only move right or up?
+\paragraph{Solution:}  
+Every path consists of exactly $m$ right moves and $n$ up moves. Thus, a path can be represented as a sequence of $m+n$ moves, where we choose $n$ positions (out of $m+n$) for the up moves. Hence, the number of paths is:
+\[
+\binom{m+n}{n}.
+\]
+
+\paragraph{Bijection Explanation:}  
+There is a bijection between the set of such lattice paths and the set of binary sequences of length $m+n$ with exactly $n$ ones (representing the up moves).
+
+\section{Partitions and Stirling Numbers}
+
+\subsection{Set Partitions}
+A \emph{partition} of a set $N$ is a way to write $N$ as a union of disjoint nonempty subsets (called blocks).  
+\paragraph{Example:}  
+For $N = \{1,2,3,4\}$, one partition into $2$ blocks could be $\{\{1,3\}, \{2,4\}\}$.
+
+\subsection{Stirling Numbers of the Second Kind}
+The number of ways to partition an $n$-element set into $k$ nonempty blocks is denoted by $S(n,k)$.  
+\paragraph{Recurrence Relation:}  
+These numbers satisfy the recurrence:
+\[
+S(n,k) = S(n-1,k-1) + k\, S(n-1,k).
+\]
+\paragraph{Proof Idea:}  
+When adding a new element to an $(n-1)$-element set:
+\begin{itemize}[nosep]
+    \item It can form a new block (contributing $S(n-1,k-1)$),
+    \item Or it can join one of the $k$ existing blocks (contributing $k\, S(n-1,k)$).
+\end{itemize}
+
+\paragraph{Bell Numbers:}  
+The total number of partitions of an $n$-set is given by the Bell number:
+\[
+B_n = \sum_{k=1}^n S(n,k).
+\]
+
+\section{Inclusion-Exclusion Principle}
+Let $A_1, A_2, \dots, A_n$ be finite sets. Then the size of their union is given by:
+\[
+\left|\bigcup_{i=1}^n A_i\right| = \sum_{i=1}^n |A_i| - \sum_{1 \le i < j \le n} |A_i \cap A_j| + \sum_{1 \le i < j < k \le n} |A_i \cap A_j \cap A_k| - \cdots + (-1)^{n-1} |A_1 \cap A_2 \cap \cdots \cap A_n|.
+\]
+
+\paragraph{Proof Outline:}  
+Each element that belongs to exactly $t$ of the sets $A_i$ is counted $\binom{t}{1}$ times in the first summation, subtracted $\binom{t}{2}$ times in the second, and so on. The alternating sum ensures that each element is counted exactly once.
+
+\section{Permutations and Derangements}
+
+\subsection{Permutations}
+A permutation of an $n$-set is an arrangement of its elements. There are
+\[
+n!
+\]
+possible permutations.
+
+\subsection{Derangements}
+A \emph{derangement} is a permutation in which no element appears in its original position.  
+\paragraph{Counting Derangements:}  
+The number of derangements of an $n$-set, denoted $D(n)$, can be computed by:
+\[
+D(n) = n! \sum_{k=0}^{n} \frac{(-1)^k}{k!}.
+\]
+\paragraph{Proof using Inclusion-Exclusion:}  
+Define, for each $i$, the set
+\[
+A_i = \{\text{permutations in which the } i\text{-th element is fixed}\}.
+\]
+Then, the number of derangements is the total number of permutations minus those that have at least one fixed point. Applying the inclusion-exclusion principle yields:
+\[
+D(n) = n! - \binom{n}{1}(n-1)! + \binom{n}{2}(n-2)! - \cdots + (-1)^n \binom{n}{n}0!.
+\]
+This simplifies to the formula above.
+
+\section{Functions Between Sets}
+
+Let $N$ and $R$ be sets with $|N| = n$ and $|R| = r$.
+
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Total Functions:}  
+    The number of functions from $N$ to $R$ is
+    \[
+    r^n.
+    \]
+    \item \textbf{Injective Functions:}  
+    When $r \ge n$, an injective function (one-to-one) from $N$ to $R$ can be chosen by assigning distinct images to the $n$ elements. Thus, the number is:
+    \[
+    r \cdot (r-1) \cdots (r-n+1) = \frac{r!}{(r-n)!}.
+    \]
+    \item \textbf{Surjective Functions:}  
+    A function is surjective (onto) if every element in $R$ is an image. Using partitions of the domain and applying the Stirling numbers, the number of surjective functions is:
+    \[
+    r!\, S(n,r),
+    \]
+    where $S(n,r)$ is the Stirling number of the second kind.
+\end{enumerate}
+
+\paragraph{Example:}  
+For $N=\{1,2,3\}$ and $R=\{a,b\}$:
+\begin{itemize}[nosep]
+    \item Total functions: $2^3 = 8$.
+    \item Injective functions: Not possible since $|R|<|N|$.
+    \item Surjective functions: Here $r=2$, and one can verify directly by listing functions that cover both $a$ and $b$.
+\end{itemize}
+
+\section*{Additional Examples and Proofs from the Notes}
+
+\subsection*{Example on Counting Words}
+Let $S$ be the set of all words of length $n$ over the alphabet $\{0,1\}$. By the rule of product, each letter has 2 choices, and hence
+\[
+|S| = 2^n.
+\]
+Furthermore, if one wants to count the number of words with a given number of zeros and ones, one uses the binomial coefficient.
+
+\subsection*{Example on Bijections for Power Sets}
+Consider a set $X = \{x_1, x_2, \dots, x_n\}$. Each subset of $X$ can be represented by an $n$-tuple of 0's and 1's. The mapping that sends each subset to its corresponding binary vector is a bijection. This proves that
+\[
+|\mathcal{P}(X)| = 2^n.
+\]
+
+\subsection*{Proof of the Recurrence for Stirling Numbers}
+Given an $n$-set, consider the addition of a new element $x$. When partitioning the set into $k$ blocks, either:
+\begin{itemize}[nosep]
+    \item $x$ forms a block by itself (which gives $S(n-1,k-1)$ partitions), or
+    \item $x$ is added to one of the $k$ blocks of a partition of the remaining $n-1$ elements (which gives $k\, S(n-1,k)$ partitions).
+\end{itemize}
+Thus, we obtain
+\[
+S(n,k) = S(n-1,k-1) + k\, S(n-1,k).
+\]
+
+\subsection*{Proof of Derangements using Inclusion-Exclusion}
+For the set $N=\{1,2,\ldots,n\}$, define
+\[
+A_i = \{\sigma \in S_n \mid \sigma(i) = i\}.
+\]
+Then, by the inclusion-exclusion principle,
+\[
+D(n) = n! - \sum_{i} |A_i| + \sum_{i<j} |A_i \cap A_j| - \cdots + (-1)^n |A_1 \cap \cdots \cap A_n|.
+\]
+Since $|A_i| = (n-1)!$, $|A_i \cap A_j| = (n-2)!$, and in general
+\[
+|A_{i_1} \cap \cdots \cap A_{i_k}| = (n-k)!,
+\]
+we have:
+\[
+D(n) = n! \left[ 1 - \frac{1}{1!} + \frac{1}{2!} - \cdots + (-1)^n \frac{1}{n!} \right].
+\]
+
+\end{document}
+
