@@ -379,6 +379,42 @@ S(n, k) = |X_1| + |X_2| = S(n-1, k-1) + k \cdot S(n-1, k).
 \]
 This completes the proof.
 
+\subsection{Counting Maps}
+
+\paragraph{Setup:}
+Consider two finite sets \(N\) and \(R\) of sizes \(n\) and \(r\) respectively. We want to answer three main questions about the functions from \(N\) to \(R\): 
+
+\paragraph{Q1: How many functions from \(N\) to \(R\) are there?}
+\paragraph{Answer:} 
+Each of the \(n\) elements of \(N\) can be mapped to any of the \(r\) elements of \(R\). Hence, there are \(r^n\) possible functions in total.
+
+\paragraph{Q2: How many injective (one-to-one) functions from \(N\) to \(R\)?}
+\paragraph{Answer:} 
+To build an injective function, choose a distinct image in \(R\) for each element of \(N\). Thus, the number of injective functions is
+\[
+r \times (r - 1) \times (r - 2) \times \cdots \times (r - n + 1)
+= \frac{r!}{(r - n)!}.
+\]
+
+\paragraph{Q3: How many surjective (onto) functions from \(N\) to \(R\)?}
+\paragraph{Answer:}
+A function \(f : N \to R\) is surjective if every element of \(R\) has a nonempty preimage. Equivalently, the sets 
+\[
+f^{-1}(y_1), \quad f^{-1}(y_2), \quad \dots, \quad f^{-1}(y_r)
+\]
+form a partition of \(N\) into \(r\) nonempty blocks. Since there are \(S(n,r)\) ways to partition \(N\) into \(r\) nonempty subsets (where \(S(n,r)\) is the Stirling number of the second kind), and each partition can be labeled in \(r!\) ways (assigning each of the \(r\) blocks to a different \(y_i \in R\)), the total number of surjections is
+\[
+\text{Sur}(n, r) = r! \cdot S(n, r)
+\]
+
+\paragraph{Corollary:}
+Let \(N\) and \(R\) be finite sets with \(|N| = n\) and \(|R| = r\). Then the total number of functions from \(N\) to \(R\) can be expressed as
+\[
+| \mathrm{Map}(N, R) | \;=\; r^n \;=\; \sum_{k=0}^{r} \binom{r}{k} \; k! \; S(n,k).
+\]
+
+
+
 
 \section{Inclusion-Exclusion Principle}
 Let $A_1, A_2, \dots, A_n$ be finite sets. Then the size of their union is given by:
