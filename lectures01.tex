@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage{amsmath, amssymb, amsthm, enumitem}
 \usepackage{fullpage}
+\usepackage{tikz}
+\newtheorem{corollary}{Corollary}
 
 \title{Discrete Mathematics 1 Lectures, Part 1}
 \author{Tomasz Brengos}
@@ -412,6 +414,182 @@ Let \(N\) and \(R\) be finite sets with \(|N| = n\) and \(|R| = r\). Then the to
 \[
 | \mathrm{Map}(N, R) | \;=\; r^n \;=\; \sum_{k=0}^{r} \binom{r}{k} \; k! \; S(n,k).
 \]
+
+
+\subsection{Number Partitions}
+
+\textbf{Definition.} A \emph{number partition} of \(n\in\mathbb{N}\) is an expression
+\[
+n = \lambda_1 + \lambda_2 + \cdots + \lambda_k,
+\]
+where
+\[
+\lambda_1 \ge \lambda_2 \ge \cdots \ge \lambda_k \ge 1.
+\]
+
+\medskip
+
+\textbf{Example.} List all possible different number partitions of \(n=5\) into two summands:
+\[
+5 = 4+1 \quad \text{and} \quad 5 = 3+2.
+\]
+
+\medskip
+
+\textbf{Question.} How many \(k\)-partitions of \(n\) are there?
+
+\medskip
+
+\textbf{Answer.} Define
+\[
+P(n,k)=\Bigl\{ (\lambda_1,\dots,\lambda_k)\,\Big|\, n=\lambda_1+\lambda_2+\cdots+\lambda_k,\; \lambda_1\ge\lambda_2\ge\cdots\ge\lambda_k\ge1 \Bigr\},
+\]
+and let
+\[
+p(n,k)=|P(n,k)|.
+\]
+Moreover, set
+\[
+P(n)=\bigcup_{k=1}^{n} P(n,k) \quad\text{and}\quad p(n)=|P(n)|.
+\]
+An immediate observation is that
+\[
+p(n)=\sum_{k=0}^{n} p(n,k).
+\]
+
+\medskip
+
+\textbf{Example.} List all possible different number partitions of \(n=5\):
+\[
+P(5)=\Bigl\{\{5\},\, \{4,1\},\, \{3,2\},\, \{3,1,1\},\, \{2,2,1\},\, \{2,1,1,1\},\, \{1,1,1,1,1\}\Bigr\},
+\]
+with, for instance,
+\[
+P(5,1)=\{ \{5\}\},\quad P(5,2)=\{\{4,1\},\{3,2\}\},\quad P(5,3)=\{\{3,1,1\},\{2,2,1\}\},
+\]
+\[
+P(5,4)=\{\{2,1,1,1\}\},\quad P(5,5)=\{\{1,1,1,1,1\}\}.
+\]
+
+\medskip
+
+To derive recursive formulas for \(p(n)\) and \(p(n,k)\), we introduce the notation
+\[
+p(n,\le k)\stackrel{\text{def}}{=} |P(n,\le k)|,\quad\text{where}\quad P(n,\le k)=\bigcup_{i=1}^{k} P(n,i).
+\]
+\begin{itemize}
+  \item \textbf{Observation 1:} \(P(n,\le n)=P(n)\) and hence \(p(n,\le n)=p(n)\).
+  \item \textbf{Observation 2:} 
+  \[
+  p(n,\le k)=\sum_{i=1}^{k} p(n,i)=p(n,1)+p(n,2)+\cdots+p(n,k).
+  \]
+\end{itemize}
+
+\bigskip
+
+\textbf{Theorem.} There is a bijection
+\[
+\Phi\colon P(n,k) \longrightarrow P(n-k,\le k),
+\]
+defined as follows.
+
+\medskip
+
+Represent a partition
+\[
+\lambda=(\lambda_1,\lambda_2,\dots,\lambda_k)\in P(n,k)
+\]
+by its Ferrers diagram drawn in the standard way (with the largest row on top). In this diagram, the top row has \(\lambda_1\) cells, the second row has \(\lambda_2\) cells, and so on.
+
+\medskip
+
+\textbf{Explanation of the Mapping.}  
+Our goal is to relate partitions of \(n\) into exactly \(k\) parts to partitions of \(n-k\) with at most \(k\) parts. Notice that if we subtract \(1\) from each part \(\lambda_i\), then
+\[
+n = \lambda_1+\lambda_2+\cdots+\lambda_k \quad \Longrightarrow \quad n-k = (\lambda_1-1)+(\lambda_2-1)+\cdots+(\lambda_k-1).
+\]
+Graphically, subtracting \(1\) from a part corresponds to removing one cell from its corresponding row. Since the Ferrers diagram is left-justified, every row begins with a cell in the leftmost column. Thus, removing the entire leftmost column is equivalent to subtracting \(1\) from each \(\lambda_i\). In this way, the original diagram representing a partition of \(n\) with \(k\) parts is transformed into a diagram representing a partition of \(n-k\) that has at most \(k\) parts (some rows may vanish if \(\lambda_i=1\)).
+
+\medskip
+
+\textbf{Example.} Consider the partition \((\lambda_1,\lambda_2,\lambda_3)=(4,2,1)\) of \(n=7\) into \(3\) parts. Its Ferrers diagram is:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6]
+  % Ferrers diagram for (4,2,1)
+  % Top row: 4 cells (\(\lambda_1=4\))
+  \draw (0,0) rectangle (1,1);
+  \draw (1,0) rectangle (2,1);
+  \draw (2,0) rectangle (3,1);
+  \draw (3,0) rectangle (4,1);
+  % Second row: 2 cells (\(\lambda_2=2\))
+  \draw (0,-1) rectangle (1,0);
+  \draw (1,-1) rectangle (2,0);
+  % Third row: 1 cell (\(\lambda_3=1\))
+  \draw (0,-2) rectangle (1,-1);
+  
+  \node at (2,-3) {Ferrers Diagram for \((4,2,1)\)};
+\end{tikzpicture}
+\end{center}
+
+Removing the leftmost column yields:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6]
+  % Diagram after removing the leftmost column from (4,2,1)
+  % Top row now has 3 cells
+  \draw (0,0) rectangle (1,1);
+  \draw (1,0) rectangle (2,1);
+  \draw (2,0) rectangle (3,1);
+  % Second row now has 1 cell
+  \draw (0,-1) rectangle (1,0);
+  % Third row now has 0 cells (and is omitted)
+  
+  \node at (1.5,-2) {Diagram after removing leftmost column};
+\end{tikzpicture}
+\end{center}
+
+The new diagram represents the partition \((3,1)\), which is a partition of \(7-3=4\) (since there were \(k=3\) rows, and we removed one cell per row). Note that \((3,1)\) is an element of \(P(4,\le 3)\).
+
+\medskip
+
+\textbf{Justification of Bijectivity.}  
+The mapping
+\[
+\Phi\colon (\lambda_1,\lambda_2,\dots,\lambda_k) \mapsto (\lambda_1-1,\lambda_2-1,\dots,\lambda_k-1)
+\]
+is invertible. Given any partition \(\mu\) in \(P(n-k,\le k)\) (which has at most \(k\) parts), we can reconstruct a unique partition in \(P(n,k)\) by adding \(1\) to each part and, if necessary, appending enough parts equal to \(1\) so that the total number of parts becomes exactly \(k\). In other words, the inverse mapping \(\Phi^{-1}\) is defined by:
+\[
+\Phi^{-1}\colon \mu = (\mu_1,\mu_2,\dots,\mu_r) \mapsto (\mu_1+1,\mu_2+1,\dots,\mu_r+1,\underbrace{1,1,\dots,1}_{k-r \text{ times}}),
+\]
+with \(r\le k\). It is straightforward to check that \(\Phi\) and \(\Phi^{-1}\) are mutual inverses. Thus, the mapping \(\Phi\) is a bijection, and we have the relation:
+\[
+p(n,k)=|P(n,k)| = |P(n-k,\le k)| = p(n-k,\le k).
+\]
+
+\medskip
+
+This bijective correspondence is the key step in obtaining a recursive formula for \(p(n,k)\).
+
+\begin{corollary}
+For all integers \(n\ge k\ge 1\), we have
+\[
+p(n,k) = p(n-k,\le k)
+      = p(n-k,1) + p(n-k,2) + \cdots + p(n-k,k-1) + p(n-k,k).
+\]
+That is, the total number of \(k\)-partitions of \(n\) can be split into partitions of \(n-k\) with at most \(k\) parts:
+\[
+p(n,k) = p(n-k,\le k-1) + p(n-k,k).
+\]
+Moreover, since
+\[
+p(n-k,\le k-1)=p((n-k)+(k-1),k-1)=p(n-1,k-1),
+\]
+we obtain the recurrence relation
+\[
+p(n,k)=p(n-1,k-1)+p(n-k,k).
+\]
+\end{corollary}
 
 
 
