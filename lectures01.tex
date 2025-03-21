@@ -1,10 +1,11 @@
 \documentclass{article}
-\usepackage{amsmath, amssymb, amsthm, enumitem, amsmath,amssymb}
+\usepackage{amsmath, amssymb, amsthm, enumitem}
 \usepackage{fullpage}
 \usepackage{tikz}
-\usepackage{amsthm}
 \newtheorem{corollary}{Corollary}
+\usepackage{amsthm}
 \newtheorem{lemma}{Lemma}
+\usepackage{microtype}
 
 \title{Discrete Mathematics 1 Lectures, Part 1}
 \author{Tomasz Brengos}
@@ -621,7 +622,9 @@ For any collection of finite sets \(A_1, A_2, \ldots, A_n\), we have
 \left|\bigcap_{i \in I} A_i\right|.
 \]
 Equivalently,
+
 \[
+\resizebox{\textwidth}{!}{$
 |A_1 \cup A_2 \cup \cdots \cup A_n|
 \;=\;
 \sum_{i=1}^n |A_i|
@@ -632,11 +635,17 @@ Equivalently,
 \;-\;\cdots\;
 +\;
 (-1)^{n-1}\,\bigl|A_1 \cap A_2 \cap \cdots \cap A_n\bigr|.
+$}
 \]
-\end{lemma}
 
-\noindent
-\textbf{Proof Outline (informal):} Each element that belongs to exactly \(t\) of the sets \(A_i\) is counted \(\binom{t}{1}\) times in the first summation, then subtracted \(\binom{t}{2}\) times in the second, and so on. This alternating sum ensures that each element is ultimately counted \emph{exactly once}. In other words, we add up the sizes of the sets, subtract intersections of pairs, add intersections of triples, and so forth, to correct for overcounting.
+
+\noindent \textbf{Proof Outline (informal):} Each element that belongs to exactly \(t\) of the sets \(A_i\) is counted \(\binom{t}{1}\) times in the first summation, then subtracted \(\binom{t}{2}\) times in the second summation, added \(\binom{t}{3}\) times in the third, and so on. In other words, its total contribution is
+\[
+\binom{t}{1} - \binom{t}{2} + \binom{t}{3} - \cdots + (-1)^{t-1}\binom{t}{t},
+\]
+which equals 1. This alternating sum ensures that each element is ultimately counted exactly once, thereby correcting for any overcounting.
+
+\end{lemma}
 
 \section{Permutations and Derangements}
 
@@ -1075,3 +1084,4 @@ D(n) = n! \left[ 1 - \frac{1}{1!} + \frac{1}{2!} - \cdots + (-1)^n \frac{1}{n!} 
 \]
 
 \end{document}
+
