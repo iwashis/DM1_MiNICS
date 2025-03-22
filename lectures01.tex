@@ -6,6 +6,9 @@
 \usepackage{amsthm}
 \newtheorem{lemma}{Lemma}
 \usepackage{microtype}
+\usepackage{polynom}
+\usepackage{placeins}
+
 
 \title{Discrete Mathematics 1 Lectures, Part 1}
 \author{Tomasz Brengos}
@@ -730,6 +733,27 @@ which matches the number of surjective functions we listed.
 \end{itemize}
 
 \section{Generating functions}
+\subsection*{Generating Series}
+
+Instead of viewing a sequence as a function that returns its \(n\)th term, a \emph{generating series} packages all of its terms into a single power series whose coefficients are exactly the sequence entries.  Concretely, the sequence
+\[
+2,\;3,\;5,\;8,\;12,\;\dots
+\]
+is encoded by the generating series
+\[
+2 + 3x + 5x^2 + 8x^3 + 12x^4 + \cdots.
+\]
+
+In general, given any sequence \(\{c_n\}_{n\ge0}\), its generating series is the formal power series
+
+\[
+G(x) \;=\; \sum_{n=0}^\infty c_n x^n 
+\;=\;
+c_0 + c_1 x + c_2 x^2 + c_3 x^3 + \cdots.
+\]
+
+We say that \(G(x)\) “generates” the sequence \(\{c_n\}\) because each coefficient of \(x^n\) in \(G(x)\) is precisely \(c_n\).  Generating series turn sequence‑based problems into algebraic manipulations of power series, a technique we will exploit heavily in what follows.
+
 \subsection*{Recall of the Basic Series}
 \paragraph{A Geometric View of the Binary Series}
 \begin{figure}[ht]
@@ -763,11 +787,222 @@ which matches the number of surjective functions we listed.
 \caption{A geometric interpretation of the binary series, showing how 
 \(\sum_{n=0}^{\infty} \tfrac{1}{2^n} = 2\).}
 \end{figure}
-For \(|x| < 1\), the infinite geometric series is given by
+For \(|x| < 1\), we have the infinite geometric series
 \[
-\sum_{n=0}^{\infty} x^n = \frac{1}{1 - x}.
+\frac{1}{1-x} = 1 + x + x^2 + x^3 + \cdots = \sum_{n=0}^{\infty} x^n.
 \]
-We will use this fact in further examples throughout the notes.
+We now present a quick proof of this result by performing long division of \(1\) by \(1-x\).
+
+\[
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{r|l}
+ & 1 + x + x^2 + x^3 + \cdots \\ % quotient
+1 - x & 1  \\ % divisor | dividend
+\hline
+ & \underline{1 - x} \\
+ & x \\
+ & \underline{x - x^2} \\
+ & x^2 \\
+ & \underline{x^2 - x^3} \\
+ & x^3 \\
+ & \vdots
+\end{array}
+\]
+
+
+The process works as follows:
+The long‑division proceeds by repeatedly dividing the current remainder by the leading term of the divisor, producing one new power of \(x\) at each step:
+
+\begin{enumerate}
+  \item Divide \(1\) by \(1-x\). The multiplier needed to eliminate the constant term is \(1\), so 
+  \[
+    1 - 1\cdot(1-x) = x.
+  \]
+  Thus the first summand is \(1\), leaving a remainder of \(x\).
+
+  \item Divide the remainder \(x\) by \(1-x\). The multiplier is \(x\), so
+  \[
+    x - x\cdot(1-x) = x^2.
+  \]
+  Hence the second summand is \(x\), leaving a remainder of \(x^2\).
+
+  \item Divide \(x^2\) by \(1-x\). The multiplier is \(x^2\), giving
+  \[
+    x^2 - x^2\cdot(1-x) = x^3.
+  \]
+  Therefore the third summand is \(x^2\), with remainder \(x^3\).
+
+  \item Continuing in this fashion produces the infinite series
+  \[
+    \frac{1}{1-x} = 1 + x + x^2 + x^3 + \cdots.
+  \]
+\end{enumerate}
+
+
+Continuing indefinitely produces
+\[
+\frac{1}{1-x} = 1 + x + x^2 + x^3 + \cdots = \sum_{n=0}^\infty x^n,
+\]
+as claimed. \par
+\noindent We will use this fact in further examples throughout the notes.
+
+\subsection*{Building Generating Functions}
+
+The simplest (or “basic”) generating function is
+\[
+\frac{1}{1-x} = 1 + x + x^2 + x^3 + \cdots,
+\]
+which generates the constant sequence \(1,1,1,\dots\).
+
+\medskip
+\noindent
+\textbf{Replacing \(x\) with \(-x\):}
+\[
+\frac{1}{1-(-x)} = \frac{1}{1+x} = 1 - x + x^2 - x^3 + \cdots,
+\]
+generating \(1,-1,1,-1,\dots\).
+
+\medskip
+\noindent
+\textbf{Replacing \(x\) with \(3x\):}
+\[
+\frac{1}{1-3x} = 1 + 3x + 9x^2 + 27x^3 + \cdots,
+\]
+generating \(1,3,9,27,\dots\).
+
+\medskip
+\noindent
+\textbf{Scaling a sequence by 3:}
+\[
+\frac{3}{1-3x} = 3 + 9x + 27x^2 + 81x^3 + \cdots,
+\]
+generating \(3,9,27,81,\dots\).
+
+\medskip
+\noindent
+\textbf{Termwise addition of sequences:}\\
+Adding the generating functions for \(1,1,1,\dots\) and \(1,3,9,\dots\) gives
+\[
+\frac{1}{1-x} + \frac{1}{1-3x}
+= 2 + 4x + 10x^2 + 28x^3 + \cdots,
+\]
+which generates \(2,4,10,28,\dots\).
+
+\medskip
+\noindent
+\textbf{Replacing \(x\) with \(x^2\):}
+\[
+\frac{1}{1-x^2} = 1 + x^2 + x^4 + x^6 + \cdots,
+\]
+generating \(1,0,1,0,1,0,\dots\).
+
+\medskip
+\noindent
+\textbf{Shifting a sequence:}\\
+Multiplying by \(x\) shifts all coefficients right by one:
+\[
+\frac{x}{1-3x} = 0 + x + 3x^2 + 9x^3 + \cdots,
+\]
+generating \(0,1,3,9,\dots\), and
+\[
+\frac{x}{1-x^2} = 0 + x + 0x^2 + x^3 + \cdots,
+\]
+generating \(0,1,0,1,\dots\).
+
+\medskip
+\noindent
+\textbf{Combining shifted sequences:}\\
+Adding the two “even‑odd” generating functions recovers
+\[
+\frac{1}{1-x^2} + \frac{x}{1-x^2} = \frac{1+x}{1-x^2} = \frac{1}{1-x},
+\]
+which generates \(1,1,1,1,\dots\).
+
+\medskip
+\noindent
+\textbf{Differentiation:}\\
+Differentiating the basic Generating Function
+\[
+\frac{d}{dx}\!\Bigl(\frac{1}{1-x}\Bigr)
+= \frac{1}{(1-x)^2}
+= 1 + 2x + 3x^2 + 4x^3 + \cdots,
+\]
+yields the generating function for \(1,2,3,4,\dots\).
+
+
+\medskip
+
+\FloatBarrier            % ensure the Differentiation figure/text finishes here
+
+\subsection*{Recurrence Relations \& Generating Functions}
+
+We conclude with an example of one of the many reasons studying generating functions is helpful: solving recurrence relations via algebraic manipulation of power series.
+
+\paragraph{Example: Tower of Hanoi}  
+The minimum number of moves required to transfer \(n\) disks satisfies
+\[
+a_0 = 0,\quad
+a_1 = 1,\quad
+a_n = 2\,a_{n-1} + 1 \quad(n\ge1),
+\]
+giving the sequence
+\[
+0,\;1,\;3,\;7,\;15,\;31,\dots
+\]
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}[scale=1]
+    % Draw three pegs
+    \foreach \x in {0,2,4} {
+      \draw[line width=1pt] (\x,0) -- (\x,2);
+    }
+    % Draw disks on left peg
+    \foreach \i/\w in {0.2/1.6,0.5/1.2,0.8/0.8} {
+      \draw[fill=gray!30] (0-\w/2,\i) rectangle (0+\w/2,\i+0.2);
+    }
+    \node at (0,-0.2) {A};
+    \node at (2,-0.2) {B};
+    \node at (4,-0.2) {C};
+  \end{tikzpicture}
+  \caption{Initial configuration for Tower of Hanoi (3 disks).}
+\end{figure}
+
+Define the generating function
+\[
+f(x) = \sum_{n=0}^\infty a_n x^n.
+\]
+Using the recurrence for \(n\ge1\):
+\[
+\sum_{n=1}^\infty a_n x^n 
+= \sum_{n=1}^\infty \bigl(2a_{n-1}+1\bigr)x^n
+= 2x\sum_{n=0}^\infty a_n x^n + \sum_{n=1}^\infty x^n,
+\]
+so
+\[
+f(x) - a_0 = 2x\,f(x) + \frac{x}{1-x},
+\]
+and since \(a_0=0\),
+\[
+f(x) = \frac{x}{(1-x)(1-2x)}.
+\]
+
+Performing partial fractions:
+\[
+\frac{x}{(1-x)(1-2x)}
+= \frac{-1}{1-x} + \frac{1}{1-2x},
+\]
+hence
+\[
+f(x) = -\frac{1}{1-x} + \frac{1}{1-2x}.
+\]
+
+Extracting coefficients yields the closed‑form solution
+\[
+a_n = 2^n - 1,
+\]
+confirming the well‑known formula for the Tower of Hanoi moves.
+\FloatBarrier
 
 \subsection{Introduction to the Fibonacci Sequence}
 The Fibonacci sequence famously arises from a puzzle involving rabbit populations.
