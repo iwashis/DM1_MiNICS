@@ -653,29 +653,119 @@ which equals 1. This alternating sum ensures that each element is ultimately cou
 \section{Permutations and Derangements}
 
 \subsection{Permutations}
-A permutation of an $n$-set is an arrangement of its elements. There are
+A \emph{permutation} of $n$ elements is an arrangement (ordering) of those elements.
+For example, there are $6$ permutations of the set $\{a,b,c\}$:
 \[
-n!
+(a,b,c), \quad (a,c,b), \quad (b,a,c), \quad (b,c,a), \quad (c,a,b), \quad (c,b,a).
 \]
-possible permutations.
+Since there are $3$ choices for the first element, $2$ for the second (once the first is chosen), and $1$ for the last, by the multiplicative principle there are $3 \cdot 2 \cdot 1 = 3! = 6$ permutations in total.
+
+\paragraph{Factorials and counting.}
+In general, the number of permutations of $n$ (distinct) elements is given by
+\[
+n! \;=\; n \cdot (n-1) \cdot (n-2) \cdots 2 \cdot 1.
+\]
+
+
+\paragraph{Partial permutations (k-permutations).}
+Sometimes we only permute $k$ of the $n$ elements, where $1 \le k \le n$. The number of ways to do this is denoted $P(n,k)$ and can be found by thinking:
+\[
+P(n,k) \;=\; n \times (n-1) \times \cdots \times (n-k+1).
+\]
+There are $k$ factors in that product. Using factorial notation, we can write
+\[
+P(n,k) \;=\; \frac{n!}{(n-k)!}.
+\]
+
+\paragraph{Relationship to combinations.}
+An alternate derivation uses combinations: first \emph{choose} which $k$ elements from the $n$ will appear (that can be done in $\binom{n}{k}$ ways), then \emph{arrange} those $k$ in order (which can be done in $k!$ ways). Hence,
+\[
+P(n,k) \;=\; \binom{n}{k} \, k!.
+\]
+Since $\binom{n}{k} = \dfrac{n!}{(n-k)!\,k!}$, multiplying by $k!$ yields exactly $\dfrac{n!}{(n-k)!}$, consistent with the direct counting approach.
 
 \subsection{Derangements}
-A \emph{derangement} is a permutation in which no element appears in its original position.  
-\paragraph{Counting Derangements:}  
-The number of derangements of an $n$-set, denoted $D(n)$, can be computed by:
+
+A \emph{derangement} of $n$ elements is a permutation where no element remains in its original position. More precisely, if we think of a permutation as a bijection $\theta$ on the set $\{1,2,\ldots,n\}$, then $\theta$ is a derangement if and only if 
 \[
-D(n) = n! \sum_{k=0}^{n} \frac{(-1)^k}{k!}.
+\theta(k) \;\neq\; k \quad \text{for all } k \in \{1,2,\dots,n\}.
 \]
-\paragraph{Proof using Inclusion-Exclusion:}  
-Define, for each $i$, the set
+Equivalently, a derangement has no fixed points.
+
+For example, for $n=3$, the permutations of $\{1,2,3\}$ are:
 \[
-A_i = \{\text{permutations in which the } i\text{-th element is fixed}\}.
+(1,2,3), \quad (1,3,2), \quad (2,1,3), \quad (2,3,1), \quad (3,1,2), \quad (3,2,1).
 \]
-Then, the number of derangements is the total number of permutations minus those that have at least one fixed point. Applying the inclusion-exclusion principle yields:
+Among these, the derangements are $(2,3,1)$ and $(3,1,2)$; the other permutations fix at least one of the elements.
+
+\subsubsection*{Counting Derangements via Inclusion-Exclusion}
+
+Let $D(n)$ denote the number of derangements of $n$ elements. We will use the principle of inclusion-exclusion. Suppose we label the elements as $1,2,\dots,n$, and define $A_i$ to be the set of permutations that fix the element~$i$ (i.e.\ $\theta(i)=i$). Then any derangement is a permutation that lies in none of the sets $A_i$ (for $1 \le i \le n$). We have
 \[
-D(n) = n! - \binom{n}{1}(n-1)! + \binom{n}{2}(n-2)! - \cdots + (-1)^n \binom{n}{n}0!.
+\bigl|A_i\bigr| \;=\; (n-1)!,
 \]
-This simplifies to the formula above.
+since if we fix one position $i$, then we permute the remaining $n-1$ elements freely. In general,
+\[
+\bigl|A_{i_1} \cap A_{i_2} \cap \cdots \cap A_{i_k}\bigr| \;=\; (n-k)!.
+\]
+By inclusion-exclusion, the size of the union $A_1 \cup A_2 \cup \dots \cup A_n$ is
+\[
+\sum_{k=1}^{n} (-1)^{k+1} \binom{n}{k} (n-k)!.
+\]
+Hence the number of permutations that do not lie in this union---i.e.\ the number of derangements---is
+\[
+D(n) \;=\; n! \;-\; \binom{n}{1}(n-1)! + \binom{n}{2}(n-2)! - \cdots + (-1)^n \binom{n}{n}(n-n)!.
+\]
+\[
+D(n) \;=\; \sum_{k=0}^{n} (-1)^k \binom{n}{k} (n-k)!
+\;=\; n! \sum_{k=0}^{n} \frac{(-1)^k}{k!}.
+\]
+Thus, a concise closed-form for the number of derangements is
+\[
+D(n) \;=\; n!\,\sum_{k=0}^{n} \frac{(-1)^k}{k!}.
+\]
+
+\begin{center}
+\fbox{%
+\parbox{0.9\textwidth}{%
+\textbf{Note on the series for \(\boldsymbol{e^{-1}}\):} \\
+In Calculus, one learns that the exponential function has a power series expansion
+\[
+e^x \;=\; \sum_{k=0}^{\infty} \frac{x^k}{k!}.
+\]
+Setting \(x = -1\) gives
+\[
+e^{-1} \;=\; \sum_{k=0}^{\infty} \frac{(-1)^k}{k!}.
+\]
+Hence,
+\[
+\sum_{k=0}^{n} \frac{(-1)^k}{k!}
+\;\xrightarrow[n\to\infty]{}
+\; e^{-1}.
+\]
+If you have not taken (or do not recall) a full course in Calculus, think of this as a special case of a well-known infinite series expansion for the exponential function. 
+}%
+}
+\end{center}
+
+Since the finite sum \(\sum_{k=0}^{n} \frac{(-1)^k}{k!}\) converges to \(e^{-1}\) as \(n \to \infty\), we conclude that
+\[
+\lim_{n\to\infty} \frac{D(n)}{n!} 
+\;=\; \lim_{n\to\infty} 
+\sum_{k=0}^{n} \frac{(-1)^k}{k!}
+\;=\;
+e^{-1}.
+\]
+Numerically, this means that for large \(n\), about \(1/e \approx 36.8\%\) of all permutations of \(\{1,\dots,n\}\) are derangements (i.e.\ have no fixed points).
+
+
+\subsubsection*{A Recurrence Relation}
+We can also show that $D(n)$ satisfies the recurrence
+\[
+D(n) \;=\; (n-1)\bigl(D(n-1) + D(n-2)\bigr),
+\quad \text{with } D(1)=0, \,D(2)=1.
+\]
+One way to see this: consider where $1$ goes in a derangement of $\{1,2,\ldots,n\}$. It can go to any of $n-1$ positions. If $1$ goes to position $j$, then either (i)~the element $j$ goes to position $1$ (a swap), which reduces the problem to deranging the remaining $n-2$ elements, or (ii)~the element $j$ does \emph{not} go to position~1, effectively reducing the problem to deranging $n-1$ elements. This yields the above recurrence.
 
 \section{Functions Between Sets}
 
@@ -1319,4 +1409,3 @@ D(n) = n! \left[ 1 - \frac{1}{1!} + \frac{1}{2!} - \cdots + (-1)^n \frac{1}{n!} 
 \]
 
 \end{document}
-
