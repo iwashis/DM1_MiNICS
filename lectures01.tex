@@ -940,7 +940,7 @@ Continuing indefinitely produces
 as claimed. \par
 \noindent We will use this fact in further examples throughout the notes.
 
-\subsection*{Building Generating Functions}
+\subsection{Building Generating Functions}
 
 The simplest (or “basic”) generating function is
 \[
@@ -1028,7 +1028,7 @@ yields the generating function for \(1,2,3,4,\dots\).
 
 \FloatBarrier            % ensure the Differentiation figure/text finishes here
 
-\subsection*{Recurrence Relations \& Generating Functions}
+\subsection{Recurrence Relations \& Generating Functions}
 
 We conclude with an example of one of the many reasons studying generating functions is helpful: solving recurrence relations via algebraic manipulation of power series.
 
@@ -1365,6 +1365,128 @@ Through partial fractions and comparing coefficients, we deduced that
 F_n = \frac{\alpha^n - \beta^n}{\sqrt{5}}.
 \]
 This gives a non-recursive (closed-form) expression for \(F_n\), completing the derivation.
+
+\subsection{More examples}
+
+In earlier sections (see, e.g., \emph{A Geometric View of the Binary Series} on page~14), we explored methods to solve recurrences and introduced generating functions as a tool to transform sequences into functions. In this section, we briefly reiterate these ideas and demonstrate, through several examples, how generating functions serve as a bridge between discrete mathematics and calculus.
+
+\paragraph{Example 1: Constant Sequence.}  
+Consider the sequence defined by
+\[
+a_n=1 \quad \text{for all } n\ge0,
+\]
+so that the sequence is
+\[
+1,\,1,\,1,\dots.
+\]
+By the geometric series formula (proved earlier), its generating function is given by
+\[
+f(x)=\sum_{n=0}^{\infty} x^n=\frac{1}{1-x}, \quad |x|<1.
+\]
+
+\paragraph{Example 2: Exponential Sequence.}  
+Now, let
+\[
+a_n=\frac{1}{n!}.
+\]
+Then the generating function is
+\[
+f(x)=\sum_{n=0}^{\infty} \frac{x^n}{n!}=e^x, \quad x\in\mathbb{R}.
+\]
+A partial justification of this result can be obtained by recalling the Taylor series expansion of the exponential function. Although a complete treatment of Taylor series is a topic in calculus (not yet covered in this course), note that differentiating the power series term-by-term confirms the identity.
+
+\paragraph{Example 3: Binomial Coefficient Sequence.}  
+Consider the sequence defined by
+\[
+a_n=\binom{n+k}{k}.
+\]
+\textbf{Theorem.} The generating function for this sequence is
+\[
+f(x)=\sum_{n=0}^{\infty}\binom{n+k}{k}x^n=\frac{1}{(1-x)^{k+1}}, \quad |x|<1.
+\]
+\newpage
+\textit{Proof.}  
+\begin{itemize}
+    \item For \(k=1\): Note that
+    \[
+    \ a_n = \binom{n+1}{1} = n+1,
+    \]
+    so that
+    \[
+    f(x) = \sum_{n=0}^{\infty} \binom{n+1}{1} x^n = \sum_{n=0}^{\infty} (n+1)x^n.
+    \]
+    Recall the geometric series,
+    \[
+    \frac{1}{1-x} = \sum_{n=0}^{\infty} x^n,
+    \]
+    and observe that by differentiating both sides term-by-term with respect to \(x\), we can derive the generating function for the sequence \((n+1)\). In detail, differentiate the left-hand side:
+    \[
+    \frac{d}{dx}\left(\frac{1}{1-x}\right) = \frac{1}{(1-x)^2}.
+    \]
+    On the right-hand side, notice that since
+    \[
+    \frac{d}{dx}\,x^{n+1} = (n+1)x^n,
+    \]
+    differentiating the series yields
+    \[
+    \frac{d}{dx}\left(\sum_{n=0}^{\infty} x^n\right) = \sum_{n=0}^{\infty} (n+1)x^n.
+    \]
+    Thus, we conclude that
+    \[
+    \frac{1}{(1-x)^2} = \sum_{n=0}^{\infty} (n+1)x^n.
+    \]
+    This recovers the generating function for \(k=1\). A less formal derivation was given in the subsection \emph{Building Generating Functions} on page~16.
+\end{itemize}
+A complete inductive proof follows similar lines but is omitted here for brevity.
+
+\paragraph{Example 4: Alternating Factorial Sequence.}  
+Define the sequence by
+\[
+a_n=
+\begin{cases}
+0, & \text{if } n \text{ is even},\\[1mm]
+\displaystyle \frac{(-1)^{\frac{n-1}{2}}}{n!}, & \text{if } n \text{ is odd}.
+\end{cases}
+\]
+Then the generating function is
+\[
+f(x)=x-\frac{x^3}{3!}+\frac{x^5}{5!}-\frac{x^7}{7!}+\cdots=\sin(x), \quad x\in\mathbb{R}.
+\]
+Even though a full treatment of the Taylor series for trigonometric functions is part of calculus (again, a topic not yet covered here), this example illustrates how generating functions capture nontrivial sequence behavior by connecting discrete structures with analytic functions.
+
+\subsection{Generating Function Applications}
+
+One key application is the multiplication (or convolution) of generating functions, which naturally arises when we combine two distinct combinatorial constructions into a single, more complex structure.
+
+\textbf{Question:} If \(a_k\) counts all objects of type A of size \(k\) and \(b_k\) counts all objects of type B of size \(k\), how many pairs of objects \((A, B)\) have a total size of \(n\)?
+
+\textbf{Answer:} The number of such pairs is given by
+\[
+\sum_{k=0}^{n} a_k\, b_{n-k}.
+\]
+
+\textbf{Observation:} The generating function for the sequence
+\[
+C_n = \sum_{k=0}^{n} a_k\, b_{n-k}
+\]
+is
+\[
+\sum_{n=0}^{\infty} C_n\, x^n = \sum_{n=0}^{\infty} \left(\sum_{k=0}^{n} a_k\, b_{n-k}\right)x^n.
+\]
+It shows that multiplying the generating functions corresponding to \( \{a_n\} \) and \( \{b_n\} \) produces a new generating function whose coefficients are given by the convolution of the two original sequences.
+
+
+\paragraph{Example: Dice Sum Counting.}  
+A classic example of this application is counting the number of ways to obtain a given sum when rolling two standard six-sided dice. For a single die, the generating function is:
+\[
+D(x) = x + x^2 + x^3 + x^4 + x^5 + x^6,
+\]
+where the term \(x^k\) corresponds to rolling a \(k\). Since the two dice are independent, the generating function for the sum of the two dice is:
+\[
+D(x)^2 = \left(x + x^2 + x^3 + x^4 + x^5 + x^6\right)^2.
+\]
+Expanding this product, the coefficient of \(x^n\) in \(D(x)^2\) equals the number of ways to achieve a total sum of \(n\). For instance, one can verify that the coefficient of \(x^7\) is 6, which corresponds to the six possible outcomes that sum to 7 (namely, the pairs \((1,6), (2,5), (3,4), (4,3), (5,2), (6,1)\)).
+
 
 \section{Introduction and Motivating Problem}
 
