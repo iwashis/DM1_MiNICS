@@ -1487,18 +1487,18 @@ D(x)^2 = \left(x + x^2 + x^3 + x^4 + x^5 + x^6\right)^2.
 \]
 Expanding this product, the coefficient of \(x^n\) in \(D(x)^2\) equals the number of ways to achieve a total sum of \(n\). For instance, one can verify that the coefficient of \(x^7\) is 6, which corresponds to the six possible outcomes that sum to 7 (namely, the pairs \((1,6), (2,5), (3,4), (4,3), (5,2), (6,1)\)).
 
-
-\section{Introduction and Motivating Problem}
+\section{Catalan Numbers}
+\subsection{Introduction and Motivating Problem}
 
 How many ways can we correctly place $n$ pairs of parentheses? This is a classic combinatorial question about **valid parentheses combinations**. For example, with $n=1$ pair, there is only one valid arrangement: `()`. With $n=2$ pairs, there are two valid arrangements: `()()` and `(())`. With $n=3$ pairs, there are five valid arrangements (e.g. `()()()`, `()(())`, `(())()`, `(()())`, `((()))`). In general, the number of distinct well-formed parentheses sequences grows quickly with $n$. 
 
-This problem was our motivation to study a famous sequence of numbers. (The lecturer even noted its connection to a similar LeetCode programming problem about generating parentheses.) The numbers counting valid parentheses structures for $n=1,2,3,\dots$ are:
+This problem was our motivation to study a famous sequence of numbers. (It has connection to a similar LeetCode programming problem about generating parentheses.) The numbers counting valid parentheses structures for $n=1,2,3,\dots$ are:
 
 \[1,\; 2,\; 5,\; 14,\; 42,\; 132,\;\dots\]
 
 These are known as the **Catalan numbers**. In these notes, we will explore Catalan numbers, their recursive definition, how they relate to binary tree structures, and a derivation of their formula using generating functions.
 
-\section{Definition of Catalan Numbers}
+\subsection{Definition of Catalan Numbers}
 
 The Catalan numbers $C_n$ can be defined recursively. For $n=0$ (zero pairs of parentheses), we define $C_0 = 1$ by convention (there is exactly one valid arrangement of zero pairs: an empty sequence). For $n\ge 1$, the Catalan number $C_n$ satisfies the recursion:
 
@@ -1522,7 +1522,7 @@ where $S_{\text{inside}}$ is a valid sequence of $k$ pairs, and $S_{\text{outsid
 
 \textit{*(Additional note: The same recurrence will be explained again using binary trees below, which is an equivalent interpretation. The key idea is splitting a structure (parentheses or tree) at a certain point, resulting in two smaller independent structures.)*}
 
-\section{Catalan Numbers and Binary Trees}
+\subsection{Catalan Numbers and Binary Trees}
 
 Catalan numbers also count the number of distinct **binary tree** structures with a given number of nodes. To appreciate this connection, we first review what a binary tree is:
 
@@ -1608,7 +1608,7 @@ Adding these cases: $5 + 5 + 2 + 2 = 14$ total shapes for 4 nodes. (Indeed, 14 i
 
 This pattern is no coincidence. In fact, the recurrence relation for $C_n$ can be understood by considering how a binary tree of $n$ nodes can be formed. Suppose a binary tree has $n$ nodes in total. Pick a number $k$ between $0$ and $n-1$ (inclusive) to be the number of nodes in the left subtree of the root. Then the right subtree will have $n-1-k$ nodes (since one node is the root itself). There are $C_k$ possible shapes for the left subtree (by definition of Catalan numbers for $k$ nodes) and $C_{\,n-1-k}$ possible shapes for the right subtree. These choices are independent, so there are $C_k \cdot C_{\,n-1-k}$ possible trees with that particular split of $k$ and $n-1-k$. Summing over all $k=0,1,2,\dots,n-1$ gives exactly $C_n = \sum_{k=0}^{n-1} C_k\,C_{n-1-k}$. This is the same recursive formula we encountered earlier, now interpreted in terms of binary trees. Thus, the number of valid parentheses arrangements with $n$ pairs is equal to the number of binary tree structures with $n$ nodes, and both are given by the $n$th Catalan number.
 
-\section{Deriving the Formula using Generating Functions}
+\subsection{Deriving the Formula using Generating Functions}
 
 While the recursive definition of Catalan numbers is useful, we can go further and derive a closed-form formula for $C_n$. A powerful method to solve such recurrences is to use a **generating function**. Define the generating function $C(x)$ for the Catalan sequence as:
 
@@ -1681,50 +1681,6 @@ for $n \ge 0$. This elegant formula gives the $n$th Catalan number directly. For
 \textit{*(Additional note: The closed-form formula above was not explicitly given in the lecture, but it is a well-known result for Catalan numbers. It can be proven by induction or other methods as well. Catalan numbers appear in numerous other combinatorial problems, such as counting paths in a grid, polygon triangulations, full binary trees with $n+1$ leaves, and many more.)*}
 
 
-
-\section*{Additional Examples and Proofs from the Notes}
-
-\subsection*{Example on Counting Words}
-Let $S$ be the set of all words of length $n$ over the alphabet $\{0,1\}$. By the rule of product, each letter has 2 choices, and hence
-\[
-|S| = 2^n.
-\]
-Furthermore, if one wants to count the number of words with a given number of zeros and ones, one uses the binomial coefficient.
-
-\subsection*{Example on Bijections for Power Sets}
-Consider a set $X = \{x_1, x_2, \dots, x_n\}$. Each subset of $X$ can be represented by an $n$-tuple of 0's and 1's. The mapping that sends each subset to its corresponding binary vector is a bijection. This proves that
-\[
-|\mathcal{P}(X)| = 2^n.
-\]
-
-\subsection*{Proof of the Recurrence for Stirling Numbers}
-Given an $n$-set, consider the addition of a new element $x$. When partitioning the set into $k$ blocks, either:
-\begin{itemize}[nosep]
-    \item $x$ forms a block by itself (which gives $S(n-1,k-1)$ partitions), or
-    \item $x$ is added to one of the $k$ blocks of a partition of the remaining $n-1$ elements (which gives $k\, S(n-1,k)$ partitions).
-\end{itemize}
-Thus, we obtain
-\[
-S(n,k) = S(n-1,k-1) + k\, S(n-1,k).
-\]
-
-\subsection*{Proof of Derangements using Inclusion-Exclusion}
-For the set $N=\{1,2,\ldots,n\}$, define
-\[
-A_i = \{\sigma \in S_n \mid \sigma(i) = i\}.
-\]
-Then, by the inclusion-exclusion principle,
-\[
-D(n) = n! - \sum_{i} |A_i| + \sum_{i<j} |A_i \cap A_j| - \cdots + (-1)^n |A_1 \cap \cdots \cap A_n|.
-\]
-Since $|A_i| = (n-1)!$, $|A_i \cap A_j| = (n-2)!$, and in general
-\[
-|A_{i_1} \cap \cdots \cap A_{i_k}| = (n-k)!,
-\]
-we have:
-\[
-D(n) = n! \left[ 1 - \frac{1}{1!} + \frac{1}{2!} - \cdots + (-1)^n \frac{1}{n!} \right].
-\]
 
 
 \end{document}
