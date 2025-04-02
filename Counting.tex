@@ -1,0 +1,285 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}   % for UTF-8 support
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{enumitem}
+
+
+\title{Counting (Combinatorics)}
+\author{Tomasz Brengos \\  
+Committers : Mykhailo Moroz}
+\begin{document}
+\maketitle
+
+\section{Rule of Sum (Addition Principle)}
+If a set $S$ is partitioned into disjoint subsets,
+\[
+S = S_1 \cup S_2 \cup \cdots \cup S_k,
+\]
+then the total number of elements in $S$ is the sum of the number of elements in each subset:
+\[
+|S| = |S_1| + |S_2| + \cdots + |S_k|.
+\]
+
+\paragraph{Example:}  
+Suppose we wish to count the number of ways to choose a subset of a set $X$ of size $u$, but we only consider subsets of a fixed size $k$. If we let $S$ be the family of all such subsets, then using the rule of sum by dividing the choices according to a distinguished element (say, whether a chosen element is included or not) we can count the subsets by summing over the possibilities. (This idea is used later in proofs for binomial coefficients and the power set.)
+
+\paragraph{Theorem:}
+\[
+\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}
+\]
+
+\paragraph{Proof:}
+Consider \( S = \binom{X}{k} \), the set of all subsets of \( X \) of size \( k \).  
+Take any element \( a \in X \). Define:  
+ \( S_1 \) as the subsets in \( S \) that contain \( a \) and  
+ \( S_2 \) as the subsets in \( S \) that do not contain \( a \).  
+
+Since every subset of \( S \) either contains \( a \) or does not, we see that \( S_1 \) and \( S_2 \) are disjoint and their union forms \( S \), i.e.,  
+\[
+S_1 \cup S_2 = S.
+\]
+
+By the rule of sum, we get:  
+\[
+|S| = |S_1| + |S_2|.
+\]
+
+Now,  
+each subset in \( S_1 \) must contain \( a \), so we choose the remaining \( k-1 \) elements from \( X \setminus \{a\} \), which has \( n-1 \) elements. Thus, \( |S_1| = \binom{n-1}{k-1} \).  
+Each subset in \( S_2 \) does not contain \( a \), so we choose all \( k \) elements from \( X \setminus \{a\} \). Thus, \( |S_2| = \binom{n-1}{k} \).  
+
+Therefore,  
+\[
+\binom{n}{k} = |S| = |S_1| + |S_2| = \binom{n-1}{k-1} + \binom{n-1}{k}.
+\]
+
+\paragraph{Example:}  
+Let \( S = \{ \triangle, \square, \circ \} \) and \( k = 2 \), choosing \( a = \circ \).  
+Fixing \( \circ \) as one of the elements in the subset of size \( k \), we get:  
+  \[
+  S_1 = \{\{\circ, \triangle\}, \{\circ, \square\}\}.
+  \]
+Taking all subsets of size \( k \) without \( \circ \):  
+  \[
+  S_2 = \{\{\triangle, \square\}\}.
+  \]
+We have \( |S_1| = 2 \) and \( |S_2| = 1 \), so \( |S_1| + |S_2| = 3 \).  
+
+\noindent On the other hand,  
+\begin{align*}
+\binom{3}{2} &= \frac{3!}{2!(3-2)!} = 3.
+\end{align*}
+Thus, \( |S| = |S_1| + |S_2| = 3 \), verifying the identity.  
+
+
+\paragraph{}
+
+\section{Rule of Product (Multiplication Principle)}
+When an object is constructed by a sequence of choices, where:
+\begin{itemize}[nosep]
+    \item The first choice can be made in $a$ ways,
+    \item The second in $b$ ways,
+    \item $\ldots$
+\end{itemize}
+the total number of objects is the product:
+\[
+a \times b \times \cdots.
+\]
+
+\paragraph{Example:}  
+A word of length $n$ over the binary alphabet $\{0,1\}$ is formed by choosing one of $2$ possibilities for each position. Hence, there are
+\[
+2^n
+\]
+possible words.
+
+\section{Rule of Bijection}
+If there exists a bijection (a one-to-one and onto mapping) between two sets $S$ and $T$, then they have the same number of elements:
+\[
+|S| = |T|.
+\]
+
+\paragraph{Example:}  
+Consider the power set of a set $X$, denoted by $\mathcal{P}(X)$. There is a natural bijection between $\mathcal{P}(X)$ and the set of binary sequences of length $|X|$: for each subset $A \subseteq X$, assign the sequence $(a_1,a_2,\dots,a_n)$ where 
+\[
+a_i = \begin{cases} 
+1, & \text{if } x_i \in A, \\
+0, & \text{if } x_i \notin A.
+\end{cases}
+\]
+This shows that 
+\[
+|\mathcal{P}(X)| = 2^{|X|}.
+\]
+
+\section{Counting in Two Ways}  
+
+\paragraph{Rule of Counting in Two Ways}  
+When two formulae enumerate the same quantity, they must be equal.  
+
+\paragraph{Example:}  
+\[
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+\]
+
+\paragraph{Proof:}  
+Consider a lattice grid of size \( (n+1) \times (n+1) \), defined as:  
+\[
+X = \{(i, j) \mid i, j \in \{1, 2, \dots, n+1\} \}.
+\]  
+Clearly, \( |X| = (n+1)^2 \).  
+
+Now, partition \( X \) into three subsets:  
+- \( X_1 \), the points strictly below the secondary diagonal.  
+- \( X_2 \), the points strictly above the secondary diagonal.  
+- \( X_3 \), the points on the secondary diagonal itself.  
+
+Since these three sets form a partition, we have:  
+\[
+|X| = |X_1| + |X_2| + |X_3|.
+\]  
+Observing their sizes:  
+\[
+|X_1| = |X_2| = 1 + 2 + \dots + n, \quad |X_3| = n+1.
+\]  
+Thus,  
+\[
+(n+1)^2 = 2(1 + 2 + \dots + n) + (n+1).
+\]  
+Rearranging, we get:  
+\[
+1 + 2 + \dots + n = \frac{(n+1)^2 - (n+1)}{2} = \frac{n(n+1)}{2}.
+\]
+
+Hence, we have proven the formula:  
+\[
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}.
+\]
+
+
+\section{Binomial Coefficients and Permutations}
+Let $X$ be a set with $|X| = n$.
+
+\paragraph{Subsets:}  
+The number of ways to choose a $k$-subset of $X$ is given by the binomial coefficient
+\[
+\binom{n}{k}.
+\]
+
+\paragraph{Permutations:}  
+A \( k \)-permutation of a set \( X \) of size \( n \) is a \( k \)-word over the alphabet \( X \) whose entries are distinct.  
+
+\paragraph{Theorem:}  
+There are exactly  
+\[
+n (n-1) (n-2) \dots (n-k+1)
+\]  
+\( k \)-permutations of an \( n \)-set.  
+
+\paragraph{Question:}  
+How are \( k \)-permutations of an \( n \)-set related to \( k \)-subsets of an \( n \)-set?  
+
+\paragraph{Answer:}  
+The difference between a \( k \)-permutation and a \( k \)-subset is that a permutation is ordered, while a subset is not.  
+To express a \( k \)-permutation in terms of a \( k \)-subset, we need to account for all possible arrangements of the elements, which is \( k! \).  
+Thus,  
+\[
+\text{\( k \)-permutation} = \binom{n}{k} \cdot k!
+\]
+Expressing \( \binom{n}{k} \) as  
+\[
+\binom{n}{k} = \frac{n!}{k!(n-k)!}
+\]  
+we obtain:  
+\[
+\text{\( k \)-permutation} = \frac{n!}{(n-k)!}.
+\]
+
+
+\paragraph{Proof by Counting in Two Ways:}  
+Count the number of $k$-permutations of an $n$-set in two ways:
+\begin{enumerate}[label=(\arabic*)]
+    \item Directly, by applying the rule of product:
+    \[
+    n \times (n-1) \times \cdots \times (n-k+1) = \frac{n!}{(n-k)!}.
+    \]
+    \item First choose a $k$-subset (in $\binom{n}{k}$ ways) and then arrange it (in $k!$ ways), giving
+    \[
+    \binom{n}{k} \cdot k!.
+    \]
+\end{enumerate}
+Equate these two counts to obtain the relation.
+
+\section{Binomial Theorem}
+For any $x,y$ in a field and nonnegative integer $n$, the binomial theorem states:
+\[
+(x+y)^n = \sum_{k=0}^{n} \binom{n}{k} x^k y^{n-k}.
+\]
+\paragraph{Explanation:}  
+This theorem is a direct consequence of counting the number of ways to choose $k$ copies of $x$ (and the remaining $n-k$ copies of $y$) when expanding the product.
+
+\section{Multisets}  
+
+\paragraph{Definition:}  
+A multiset of a set \( X \) of size \( n \) is a function  
+\[
+m: X \to \mathbb{N}
+\]
+that assigns a non-negative integer to each element of \( X \), representing its multiplicity in the multiset.  
+
+\paragraph{Example:}  
+Let \( X = \{a, b, c\} \), and consider the multiset \( \{a, a, b\} \). Then, the function \( m \) is given by:  
+\[
+m(a) = 2, \quad m(b) = 1, \quad m(c) = 0.
+\]  
+
+\paragraph{Question:}  
+What is the number of \( k \)-multisets of a set of size \( n \)?  
+
+\paragraph{Theorem:}  
+The number of all \( k \)-multisets of an \( n \)-set is  
+\[
+\binom{n+k-1}{k}.
+\]  
+
+\paragraph{Proof:}  
+Let \( X \) be the set of all \( k \)-multisets of an \( n \)-set.  
+Let \( Y \) be the set of all distributions of \( k \) identical objects into \( n \) buckets.  
+
+\paragraph{Claim 1:}  
+There is a bijection from \( X \) to \( Y \).  
+Thus, by the rule of bijection, we have  
+\[
+|X| = |Y|.
+\]  
+
+\paragraph{Claim 2:}  
+Let \( Z \) be the set of all binary sequences of length \( n+k-1 \) with exactly \( n-1 \) ones (or equivalently, \( k \) zeros).  
+There is a bijection from \( Y \) to \( Z \).  
+Hence,  
+\[
+|Y| = |Z| \Rightarrow |X| = |Z|.
+\]  
+Since the number of such binary sequences is given by  
+\[
+\binom{n+k-1}{k},
+\]  
+we conclude that  
+\[
+|X| = \binom{n+k-1}{k}.
+\]
+
+
+\section{Lattice Paths}
+Consider an $m \times n$ grid with lattice points at the intersections.  
+\paragraph{Problem:}  
+How many paths are there from $(0,0)$ to $(m,n)$ if one may only move right or up?
+\paragraph{Solution:}  
+Every path consists of exactly $m$ right moves and $n$ up moves. Thus, a path can be represented as a sequence of $m+n$ moves, where we choose $n$ positions (out of $m+n$) for the up moves. Hence, the number of paths is:
+\[
+\binom{m+n}{n}.
+\]
+
+\paragraph{Bijection Explanation:}  
+There is a bijection between the set of such lattice paths and the set of binary sequences of length $m+n$ with exactly $n$ ones (representing the up moves).
+\end{document}
