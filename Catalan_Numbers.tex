@@ -1,9 +1,4 @@
-\documentclass{article}
-\usepackage{amsmath, amssymb, amsthm, enumitem,fullpage,tikz,microtype,polynom,placeins,forest}
-\usepackage{docmute}
-\newtheorem{corollary}{Corollary}
-\newtheorem{lemma}{Lemma}
-\usetikzlibrary{trees}
+\input{preamble.tex}
 
 \title{Catalan Numbers}
 \author{Tomasz Brengos \\  
@@ -55,13 +50,13 @@ A **binary tree** is a hierarchical structure consisting of nodes, where each no
 For example, with only 1 node, there is exactly one possible binary tree (just the root by itself). With 2 nodes, there are exactly two distinct binary tree shapes:
 
 \begin{center}
-\begin{tikzpicture}[level distance=7mm, sibling distance=10mm, every node/.style={circle, draw, fill=black!10, inner sep=1.2pt}]
+\begin{tikzpicture}[level distance= 7mm, sibling distance= 10mm, every node/.style={circle, draw, fill=black!10, inner sep=1.2pt}]
 \node {} 
   child { node {} }
   child[missing] {};
 \end{tikzpicture}
 \hspace{1cm}
-\begin{tikzpicture}[level distance=7mm, sibling distance=10mm, every node/.style={circle, draw, fill=black!10, inner sep=1.2pt}]
+\begin{tikzpicture}[level distance= 7mm, sibling distance= 10mm, every node/.style={circle, draw, fill=black!10, inner sep=1.2pt}]
 \node {}
   child[missing] {} 
   child { node {} };
