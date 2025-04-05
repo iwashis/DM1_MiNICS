@@ -1,0 +1,62 @@
+\input{preamble.tex}
+
+\title{Functions between sets}
+\author{Tomasz Brengos \\  
+Committers : Mykhailo Moroz}
+\date{}
+
+\begin{document}
+\maketitle
+Let $N$ and $R$ be sets with $|N| = n$ and $|R| = r$.
+
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Total Functions:}  
+    The number of functions from \( N \) to \( R \) is  
+    \[
+    r^n.
+    \]  
+    Explanation: For every element in \( N \), there are \( |R| = r \) possible values in \( R \). Thus, for the first element, there are \( r \) choices, for the second element, there are \( r \) choices, and so on.  
+    Applying the rule of product, the total number of functions is \( r^n \).
+
+    \item \textbf{Injective Functions:}  
+    When \( r \geq n \), an injective function (one-to-one) from \( N \) to \( R \) can be chosen by assigning distinct images to the \( n \) elements.  
+
+    If a function is injective, then for each value in the range there is only one corresponding argument. This means that function values cannot repeat, ensuring that \( x_1 \neq x_2 \) implies \( f(x_1) \neq f(x_2) \).  
+
+    Since there are \( |R| = r \) choices for the first argument, \( r-1 \) choices for the second, \( r-2 \) for the third, and so on, applying the rule of product, the number of injective functions from \( N \) to \( R \) is:  
+    \[
+    r \cdot (r-1) \cdots (r-n+1) = \frac{r!}{(r-n)!}.
+    \]
+    \item \textbf{Surjective Functions:}  
+    A function is surjective (onto) if every element in \( R \) has a pre-image in \( N \), meaning every element in \( R \) is an image of some element in \( N \).  
+    Consider a surjection \( f: N \to R = \{y_1, y_2, \dots, y_r\} \). We observe that the preimages \( f^{-1}(y_1), f^{-1}(y_2), \dots, f^{-1}(y_r) \) form a partition of \( N \) into \( r \) non-empty subsets, as each element \( y_i \) in \( R \) corresponds to one or more elements from \( N \).  
+    The number of ways to partition \( N \) into \( r \) parts is given by the Stirling number \( S(n, r) \), and since we can permute the \( r \) elements in \( R \) in \( r! \) ways, the total number of surjective functions from \( N \) to \( R \) is:  
+    \[
+    r! \, S(n, r),
+    \]
+    where \( S(n, r) \) is the Stirling number of the second kind, counting the ways to partition \( N \) into \( r \) non-empty subsets.
+
+\end{enumerate}
+
+\paragraph{Example:}  
+For \( N = \{1, 2, 3\} \) and \( R = \{y_1, y_2\} \):
+\begin{itemize}[nosep]
+    \item[] Here \( |N| = 3 \) and \( |R| = 2 \).
+    \item Total functions: $2^3 = 8$.
+    \item Injective functions: Not possible since $|R|<|N|$.
+    \item Surjective functions: Consider all possible surjective functions:
+
+ \( f_1: \{1, 2\} \mapsto y_1, 3 \mapsto y_2 \)
+- Another possible permutation for this partition: \( f_2: \{1, 2\} \mapsto y_2, 3 \mapsto y_1 \)
+ \( f_3: \{2, 3\} \mapsto y_1, 1 \mapsto y_2 \)
+- Another possible permutation for this partition: \( f_4: 1 \mapsto y_1, \{2, 3\} \mapsto y_2 \)
+ \( f_5: \{1, 3\} \mapsto y_1, 2 \mapsto y_2 \)
+- Another possible permutation for this partition: \( f_6: 2 \mapsto y_1, \{1, 3\} \mapsto y_2 \)
+
+So, we have 6 surjective functions. Using the formula for surjective functions, we first find the Stirling number \( S(3, 2) = 3 \), which corresponds to the number of partitions without considering permutations. Then, accounting for the permutations of the \( r = 2 \) elements in \( R \), we compute:
+\[
+2! \cdot S(3, 2) = 2! \cdot 3 = 6,
+\]
+which matches the number of surjective functions we listed.
+\end{itemize}
+\end{document}

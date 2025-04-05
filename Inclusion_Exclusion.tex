@@ -1,0 +1,58 @@
+\input{preamble.tex}
+
+\title{Inclusion-Exclusion Principle}
+\author{Tomasz Brengos \\  
+Committers : Aliaksei Kudzelka}
+\date{}
+
+\begin{document}
+\maketitle 
+\noindent
+\textbf{Very often, we need to calculate the number of elements in the union of certain sets.}
+Assuming that we know the sizes of these sets, and their mutual intersections, the principle of
+inclusion and exclusion allows us to do exactly that.
+
+\medskip
+
+Suppose you have two sets \(A\) and \(B\). The size of the union is certainly at most \(\lvert A\rvert + \lvert B\rvert\). However, in doing so we count each element of \(A \cap B\) twice. To correct for this, we subtract \(\lvert A \cap B\rvert\) to obtain
+\[
+|A \cup B| \;=\; |A| + |B| \;-\; |A \cap B|.
+\]
+In general, the formula gets more complicated because we must take into account intersections of multiple sets. The following statement is what we call the \emph{principle of inclusion and exclusion}:
+
+\begin{lemma}
+\label{lem:PIE}
+For any collection of finite sets \(A_1, A_2, \ldots, A_n\), we have
+\[
+\left|\bigcup_{i=1}^{n} A_i\right|
+\;=\;
+\sum_{\substack{I \subseteq [n] \\ I \neq \emptyset}}
+(-1)^{\lvert I\rvert + 1}
+\left|\bigcap_{i \in I} A_i\right|.
+\]
+Equivalently,
+
+\[
+\resizebox{\textwidth}{!}{$
+|A_1 \cup A_2 \cup \cdots \cup A_n|
+\;=\;
+\sum_{i=1}^n |A_i|
+\;-\;
+\sum_{1 \le i < j \le n} |A_i \cap A_j|
+\;+\;
+\sum_{1 \le i < j < k \le n} |A_i \cap A_j \cap A_k|
+\;-\;\cdots\;
++\;
+(-1)^{n-1}\,\bigl|A_1 \cap A_2 \cap \cdots \cap A_n\bigr|.
+$}
+\]
+
+
+\noindent \textbf{Proof Outline (informal):} Each element that belongs to exactly \(t\) of the sets \(A_i\) is counted \(\binom{t}{1}\) times in the first summation, then subtracted \(\binom{t}{2}\) times in the second summation, added \(\binom{t}{3}\) times in the third, and so on. In other words, its total contribution is
+\[
+\binom{t}{1} - \binom{t}{2} + \binom{t}{3} - \cdots + (-1)^{t-1}\binom{t}{t},
+\]
+which equals 1. This alternating sum ensures that each element is ultimately counted exactly once, thereby correcting for any overcounting.
+
+\end{lemma}
+\end{document}
