@@ -4,15 +4,17 @@
 \input{watermark.tex}
 
 \usepackage{fancyhdr}
-\setlength{\headheight}{25pt}  
-\setlength{\headsep}{25pt}     
+\setlength{\headheight}{30pt} % Increase header height for more space
+\setlength{\headsep}{20pt}    % Space between header and text
 \pagestyle{fancy}
-\fancyhf{}                   
-\fancyhead[C]{\nouppercase{\rightmark}} 
-\fancyfoot[C]{\thepage}      
+\fancyhf{}  % Clear default header/footer
+\fancyhead[C]{\textbf{\nouppercase{\rightmark}}} % Centered bold section title
+\fancyfoot[C]{\thepage}  % Centered page number in footer
 
+% Update the header mark only when a \section is used.
 \renewcommand{\sectionmark}[1]{\markright{#1}}
-\renewcommand{\subsectionmark}[1]{}  
+% Disable update from subsections so they don't override the header.
+\renewcommand{\subsectionmark}[1]{}
 
 
 \title{Discrete Mathematics 1 Lectures, Part 1}
@@ -22,6 +24,7 @@ Committers : Aliaksei Kudzelka, Mykhailo Moroz, Mihail Orlov}
 
 \begin{document}
 \maketitle
+\cleardoublepage % space for name of book and name of author and commiters
 
 \section{Counting (Combinatorics)}
 
