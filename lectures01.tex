@@ -1,6 +1,20 @@
 \documentclass{article}
 \input{preamble.tex}
 
+\input{watermark.tex}
+
+\usepackage{fancyhdr}
+\setlength{\headheight}{25pt}  % adjust as needed
+\setlength{\headsep}{25pt}     % adjust as needed
+\pagestyle{fancy}
+\fancyhf{}                   % clear default header/footer
+\fancyhead[C]{\nouppercase{\rightmark}} % center header shows the current section title
+\fancyfoot[C]{\thepage}      % page number in the footer
+
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+\renewcommand{\subsectionmark}[1]{}  % do nothing on subsection marks
+
+
 \title{Discrete Mathematics 1 Lectures, Part 1}
 \author{Tomasz Brengos \\  
 Committers : Aliaksei Kudzelka, Mykhailo Moroz, Mihail Orlov}
@@ -66,4 +80,9 @@ Counting forms the basis of combinatorics. In these lectures we explore several 
   \input{Catalan_Numbers.tex}
 \endgroup
 
+\newpage             % Forces a new page
+\tableofcontents
+\clearpage 
+
 \end{document}
+

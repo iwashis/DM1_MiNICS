@@ -1,0 +1,18 @@
+% watermark.tex
+\usepackage{everypage}  % For running code on every page
+\usepackage{tikz}       % For drawing the watermark overlay
+\usepackage{xcolor}     % For color options
+\usepackage{graphicx}   % For including graphics
+
+\AddEverypageHook{%
+  \ifodd\value{page}
+    % Do nothing on odd pages
+  \else
+    % On even pages, add the watermark image:
+    \begin{tikzpicture}[remember picture, overlay]
+      \node[rotate=0, opacity=0.1] at (current page.center) {%
+        \includegraphics[width=0.6\paperwidth]{watermark.png}%
+      };
+    \end{tikzpicture}%
+  \fi
+}
