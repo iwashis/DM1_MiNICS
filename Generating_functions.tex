@@ -662,7 +662,7 @@ It shows that multiplying the generating functions corresponding to \( \{a_n\} \
 
 \bigskip
   
-\textbf{Example 1: Dice Sum Counting.} \\
+\paragraph{Example 1: Dice Sum Counting.}
 A classic example of this application is counting the number of ways to obtain a given sum when rolling two standard six-sided dice. For a single die, the generating function is:
 \[
 D(x) = x + x^2 + x^3 + x^4 + x^5 + x^6,
@@ -676,7 +676,7 @@ Expanding this product, the coefficient of \(x^n\) in \(D(x)^2\) equals the numb
 
 \bigskip
 
-\textbf{Example 2: Candy Selection Problem.} \\
+\paragraph{Example 2: Candy Selection Problem.}
 Selecting 30 candies from 20 large types (each type can be picked at most once) and 40 small types (each type can be picked in any quantity) can be modeled with generating functions. For a single large candy type (available at most once), the generating function is 
 \[
 1+x,
@@ -712,7 +712,7 @@ Using a Vandermonde’s convolution argument, one can show that
 
 \bigskip
 
-\textbf{Example 3: Selection with Limited Green Items.} \\
+\paragraph{Example 3: Selection with Limited Green Items.}
 Consider selecting 20 objects from three categories:
 \begin{enumerate}
     \item An infinite pile of red objects,
@@ -750,7 +750,7 @@ The coefficient from the first term is \(\binom{22}{2}=231\) (since \([x^{20}](1
 
 \bigskip
 
-\textbf{Example 4: Coin Change with Limited Denominations.} \\
+\paragraph{Example 4: Coin Change with Limited Denominations.}
 Determine the number of ways to make 10 (units) using coins of value 1, 2, and 5, where 1- and 2-unit coins are available in unlimited supply but 5-unit coins are limited to at most 2. The generating functions are:
 \[
 G_1(x)=\frac{1}{1-x} \quad \text{(for 1-unit coins)},
@@ -776,7 +776,7 @@ The first term contributes the number of ways to form 10 with 1- and 2-unit coin
 
 \bigskip
 
-\textbf{Example 5: Composition with Constrained Part Sizes.} \\
+\paragraph{Example 5: Composition with Constrained Part Sizes.}
 Count the number of compositions of 7 into exactly 3 positive parts, where each part is at most 4. The generating function for a single part that can take values 1 through 4 is:
 \[
 F(x)=x+x^2+x^3+x^4.
