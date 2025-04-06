@@ -9,7 +9,8 @@ OUTPUTCHAPTERSDIR = $(OUTPUTDIR)/chapters
 # Chapter files
 CHAPTERFILES = Catalan_Numbers.tex Counting.tex Functions_between_sets.tex \
                Generating_functions.tex Inclusion_Exclusion.tex \
-               Partitions_StirlingNumbers.tex Permutations_Derangements.tex
+               Partitions_StirlingNumbers.tex Permutations_Derangements.tex \
+			   Preparation_tasks1.tex
 
 # Full paths for chapter files
 CHAPTERS = $(addprefix $(CHAPTERSDIR)/, $(CHAPTERFILES))

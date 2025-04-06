@@ -1,0 +1,195 @@
+\documentclass[docmute]{article}
+\input{preamble.tex}
+
+\input{watermark.tex}
+
+\title{Preparation Tasks 1}
+\author{Tomasz Brengos \\  
+Committers : Mykhailo Moroz, Mihail Orlov}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Task 1}
+
+\textbf{Problem Statement:}
+
+There are 20 students and 5 trips. In each of the following scenarios, count the number of ways the students can be assigned to trips.
+
+\begin{enumerate}
+  \item[(a)] \emph{Students are different, trips are different.} (I.e., we do care exactly which student goes to which distinct trip.)
+  \item[(b)] \emph{Trips are different, but we only care about how many students go to each trip.} (Not which specific students, only the counts per trip.)
+  \item[(c)] \emph{Trips are not distinguished, and we only care about the number of students in each trip.} (All trips are identical, so only the final ``multiset of group sizes'' matters.)
+  \item[(d)] \emph{We do not care who goes where, but only with whom they go.} (We only care about the partition of the 20 students into some grouping, ignoring which trip is which.)
+  \item[(e)] \emph{Students are different, trips are different, and each trip has the same number of students.}
+\end{enumerate}
+
+\subsection*{Solutions and Explanations}
+
+\paragraph{(a)} 
+Each of the 20 \textbf{distinct} students independently chooses one of 5 \textbf{distinct} trips. This gives
+\[
+5^{20}
+\]
+total ways (each student has 5 choices).
+
+\paragraph{(b)} 
+Now the students’ individual identities no longer matter; we only care that, for example, “Trip 1 has 7 students, Trip 2 has 3 students,” etc. Since there are 5 \textbf{distinct} trips, we want the number of 5-tuples \((n_1, n_2, n_3, n_4, n_5)\) of nonnegative integers summing to 20:
+\[
+n_1 + n_2 + n_3 + n_4 + n_5 = 20.
+\]
+By the stars-and-bars formula, the count is
+\[
+\binom{20 + 5 - 1}{5 - 1} \;=\; \binom{24}{4}.
+\]
+
+\paragraph{(c)}
+Now the 5 trips themselves are \textbf{indistinguishable}, and we only care about how many students end up in each group (not which trip is which). Conceptually, this is the number of ways to partition 20 (distinct) students into up to 5 unlabeled subsets.
+
+Interpreted as integer partitions, we want the number of partitions of the integer 20 into at most 5 parts. Denote by \(p(n, i)\) the number of ways to partition \(n\) into exactly \(i\) (positive) parts. Then the total number of partitions of 20 into at most 5 parts is
+
+\[
+p_{\le 5}(20) \;=\; \sum_{i=1}^{5} p(20, i).
+\]
+
+
+\paragraph{(d)}
+We do not care who goes where, but only with whom they go. That is, we only care about how to group the 20 students, disregarding which trip label is attached to each group.
+
+In terms of set partitions, the total number of ways to partition \(20\) distinct students into any number of unlabeled subsets is the Bell number \(B_{20}\). The Bell number can be expressed as a sum of Stirling numbers of the second kind:
+\[
+B_{20} 
+\;=\; 
+\sum_{k=0}^{20} S(20, k),
+\]
+where \(S(n, k)\) (with \(S(n, 0) = 0\) for \(n>0\)) counts the number of ways to partition \(n\) distinct elements into exactly \(k\) nonempty unlabeled subsets. Equivalently, one can start the sum at \(k=1\) since there are no partitions of 20 elements into 0 subsets:
+\[
+B_{20} 
+\;=\; 
+\sum_{k=1}^{20} S(20, k).
+\]
+
+\paragraph{(e)} 
+Students are different, trips are different, and each trip has the \emph{same} number of students. Since \(20\) is divisible by \(5\), that means exactly 4 students must go on each trip. Count the ways to split 20 distinct students into 5 distinct groups of 4 each. One way to see this is:
+
+\[
+\underbrace{\binom{20}{4}}_{\text{Trip 1}} \;
+\underbrace{\binom{16}{4}}_{\text{Trip 2}} \; 
+\cdots 
+\underbrace{\binom{4}{4}}_{\text{Trip 5}}.
+\]
+Equivalently, the multinomial coefficient
+\[
+\frac{20!}{4!\,4!\,4!\,4!\,4!}.
+\]
+
+\bigskip
+
+\section*{Task 2}
+
+\textbf{Problem Statement:}
+
+We have 6 toy cars and 4 dolls (total 10 toys), and 10 boxes. In each scenario, count how many ways there are to place the 10 toys into the 10 boxes, under various assumptions of distinctness or identicalness:
+
+\begin{enumerate}
+  \item[(a)] Everything (cars, dolls, boxes) is different.
+  \item[(b)] Everything is different and every toy goes into a separate box.
+  \item[(c)] All toys are different, but boxes are identical.
+  \item[(d)] Cars are different, but all dolls are identical; boxes are different.
+  \item[(e)] All cars are identical, all dolls are identical; boxes are different.
+  \item[(f)] Cars are different, but all dolls are identical; boxes are identical.
+  \item[(g)] We don’t care which toy is which, but only how many toys are in each box; boxes are different.
+  \item[(h)] We don’t care which toy is which, but only how many toys are in each box; boxes are identical.
+\end{enumerate}
+
+\subsection*{Solutions and Explanations}
+
+Let us denote our toys as follows:
+\[
+\text{Cars}: C_1, C_2, C_3, C_4, C_5, C_6; 
+\quad
+\text{Dolls}: D_1, D_2, D_3, D_4.
+\]
+We have 10 boxes, say \(B_1, B_2, \dots, B_{10}\).
+
+\paragraph{(a) Everything is different.}
+Each of the 10 distinct toys can go into any of 10 distinct boxes. Hence there are 
+\[
+10^{10}
+\]
+ways (each toy has 10 choices independently).
+
+\paragraph{(b) Everything is different and every toy goes into a separate box.}
+We must place exactly one of the 10 distinct toys in each of the 10 distinct boxes (no box is left empty, no box has more than one toy). This is simply a permutation of 10 objects into 10 boxes:
+\[
+10! 
+\]
+ways.
+
+\paragraph{(c) All toys are different, but boxes are identical.}
+We have 10 \emph{distinct} toys (labeled objects) to be placed into up to 10 \emph{indistinguishable} boxes. Equivalently, this is the number of ways to partition a set of 10 labeled elements into any number of unlabeled subsets (possibly fewer than 10 if some boxes are empty).
+
+The total count is the Bell number \(B_{10}\). It can be expressed as a sum of Stirling numbers of the second kind:
+\[
+B_{10}
+\;=\;
+\sum_{k=0}^{10} S(10,k)
+\;=\;
+\sum_{k=1}^{10} S(10,k),
+\]
+where \(S(n,k)\) is the number of ways to partition \(n\) distinct objects into \(k\) nonempty subsets. There is no simple closed form for \(B_{10}\), so we typically leave the answer in this summation form or as \(B_{10}\) itself.
+
+\paragraph{(d) Cars are different, but dolls are identical; boxes are different.}
+- We have 6 distinct cars \(C_1,\ldots,C_6\). Each can go into any of 10 distinct boxes: \(10^6\) ways.
+- We have 4 \emph{identical} dolls. Distributing 4 indistinguishable objects into 10 distinct boxes is given by the ``stars-and-bars'' formula:
+  \[
+  \binom{4 + 10 - 1}{4} \;=\;\binom{13}{4}.
+  \]
+Multiply these independent choices:
+\[
+10^6 \;\times\; \binom{13}{4}.
+\]
+
+\paragraph{(e) All cars are identical, all dolls are identical; boxes are different.}
+- Distribute 6 identical cars into 10 distinct boxes: \(\displaystyle \binom{6 + 10 - 1}{6} = \binom{15}{6}.\)
+- Distribute 4 identical dolls into 10 distinct boxes: \(\displaystyle \binom{4 + 10 - 1}{4} = \binom{13}{4}.\)
+Multiply for the total:
+\[
+\binom{15}{6} \;\times\; \binom{13}{4}.
+\]
+
+
+\paragraph{(g) We don’t care which toy is which, only about how many toys are in each box; boxes are different.}
+Now all 10 toys are treated as identical. With 10 \emph{distinct} boxes, we only need the distribution of 10 identical items into 10 distinct bins, i.e.\ the number of solutions to
+\[
+n_1 + n_2 + \dots + n_{10} = 10
+\]
+where \(n_i \ge 0\). By stars-and-bars, that is
+\[
+\binom{10 + 10 - 1}{10} \;=\;\binom{19}{10}.
+\]
+
+\paragraph{(h) We don’t care which toy is which, only about how many toys are in each box; boxes are identical.}
+Now both the toys and the boxes are considered identical. We want the number of ways to partition 10 identical objects among up to 10 identical boxes. Equivalently, this is the number of ways to express the integer 10 as a sum of positive integers, ignoring order. 
+
+We denote by \(p(n)\) the total number of partitions of \(n\). This can also be expressed in terms of \(p(n,k)\), which is the number of ways to partition \(n\) into exactly \(k\) positive parts:
+\[
+p(n) \;=\; \sum_{k=1}^{n} p(n,k).
+\]
+Since we can’t have more than 10 parts if each part is positive, for \(n=10\) we write
+\[
+p(10) 
+\;=\;
+\sum_{k=1}^{10} p(10,k).
+\]
+It is known (by direct enumeration or from tables) that
+\[
+p(10) \;=\; 42.
+\]
+Hence, there are 42 ways to distribute 10 indistinguishable toys among 10 indistinguishable boxes.
+
+\bigskip
+\noindent
+\textbf{Remark.} Parts like (f) are more intricate when combining “partially identical” toys with “identical boxes.” Typically, such problems require detailed case analysis or generating functions.
+\end{document}
