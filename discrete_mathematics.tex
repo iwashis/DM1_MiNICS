@@ -1,7 +1,7 @@
 \documentclass{article}
 \input{preamble.tex}
 
-\input{watermark.tex}
+\input{watermark/watermark.tex}
 
 \usepackage{fancyhdr}
 \setlength{\headheight}{30pt} % Increase header height for more space
@@ -32,21 +32,21 @@ Counting forms the basis of combinatorics. In these lectures we explore several 
 \begingroup
   % Redefine \section to produce a \subsection instead
   \renewcommand{\section}{\subsection}
-  \input{Counting.tex}
+  \input{chapters/Counting.tex}
 \endgroup
 
 \section{Partitions and Stirling Numbers}
 \begingroup
   % Redefine \section to produce a \subsection instead
   \renewcommand{\section}{\subsection}
-  \input{Partitions_StirlingNumbers.tex}
+  \input{chapters/Partitions_StirlingNumbers.tex}
 \endgroup
 
 \section{Inclusion-Exclusion Principle}
 \begingroup
   % Disable header commands from the included file:
   \let\maketitle\relax
-  \input{Inclusion_Exclusion.tex}
+  \input{chapters/Inclusion_Exclusion.tex}
 \endgroup
 
 
@@ -54,7 +54,7 @@ Counting forms the basis of combinatorics. In these lectures we explore several 
 \begingroup
   % Disable header commands from the included file:
   \renewcommand{\section}{\subsection}
-  \input{Permutations_Derangements.tex}
+  \input{chapters/Permutations_Derangements.tex}
 \endgroup
 
 
@@ -62,14 +62,14 @@ Counting forms the basis of combinatorics. In these lectures we explore several 
 \begingroup
   % Disable header commands from the included file:
   \let\maketitle\relax
-  \input{Functions_between_sets.tex}
+  \input{chapters/Functions_between_sets.tex}
 \endgroup
 
 \section{Generating functions}
 \begingroup
   % Disable header commands from the included file:
   \renewcommand{\section}{\subsection}
-  \input{Generating_functions.tex}
+  \input{chapters/Generating_functions.tex}
 \endgroup
 
 
@@ -80,7 +80,7 @@ Counting forms the basis of combinatorics. In these lectures we explore several 
 \begingroup
   % Disable header commands from the included file:
   \renewcommand{\section}{\subsection}
-  \input{Catalan_Numbers.tex}
+  \input{chapters/Catalan_Numbers.tex}
 \endgroup
 
 \newpage             % Forces a new page
