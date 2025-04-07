@@ -1,6 +1,5 @@
 \documentclass{article}
 \input{preamble.tex}
-
 \input{watermark/watermark.tex}
 
 \usepackage{fancyhdr}
@@ -11,77 +10,60 @@
 \fancyhead[C]{\textbf{\nouppercase{\rightmark}}} % Centered bold section title
 \fancyfoot[C]{\thepage}  % Centered page number in footer
 
-% Update the header mark only when a \section is used.
+% Update header marks so that only \section updates the header.
 \renewcommand{\sectionmark}[1]{\markright{#1}}
-% Disable update from subsections so they don't override the header.
 \renewcommand{\subsectionmark}[1]{}
-
 
 \title{Discrete Mathematics 1 Lectures, Part 1}
 \author{Tomasz Brengos \\  
 Committers : Aliaksei Kudzelka, Mykhailo Moroz, Mihail Orlov}
 \date{}
 
+% Define custom commands for including lecture chapters:
+% 1. For lectures that has sections:
+\newcommand{\includelectureSub}[1]{%
+  \begingroup
+    \renewcommand{\section}{\subsection}%
+    \input{chapters/#1.tex}%
+  \endgroup
+}
+
+% 2. For lectures that does not have sections:
+\newcommand{\includelectureNoHeader}[1]{%
+  \begingroup
+    \let\maketitle\relax%
+    \input{chapters/#1.tex}%
+  \endgroup
+}
+
 \begin{document}
 \maketitle
-\cleardoublepage % space for name of book and name of author and commiters
+\cleardoublepage % Space for book title and committers
 
 \section{Counting (Combinatorics)}
-
 Counting forms the basis of combinatorics. In these lectures we explore several counting rules, examples, and proofs.
-\begingroup
-  % Redefine \section to produce a \subsection instead
-  \renewcommand{\section}{\subsection}
-  \input{chapters/Counting.tex}
-\endgroup
+\includelectureSub{Counting}
 
 \section{Partitions and Stirling Numbers}
-\begingroup
-  % Redefine \section to produce a \subsection instead
-  \renewcommand{\section}{\subsection}
-  \input{chapters/Partitions_StirlingNumbers.tex}
-\endgroup
+\includelectureSub{Partitions_StirlingNumbers}
 
 \section{Inclusion-Exclusion Principle}
-\begingroup
-  % Disable header commands from the included file:
-  \let\maketitle\relax
-  \input{chapters/Inclusion_Exclusion.tex}
-\endgroup
-
+\includelectureNoHeader{Inclusion_Exclusion}
 
 \section{Permutations and Derangements}
-\begingroup
-  % Disable header commands from the included file:
-  \renewcommand{\section}{\subsection}
-  \input{chapters/Permutations_Derangements.tex}
-\endgroup
+\includelectureSub{Permutations_Derangements}
 
+\section{Preparation Tasks 1}
+\includelectureSub{Preparation_tasks1}
 
 \section{Functions Between Sets}
-\begingroup
-  % Disable header commands from the included file:
-  \let\maketitle\relax
-  \input{chapters/Functions_between_sets.tex}
-\endgroup
+\includelectureNoHeader{Functions_between_sets}
 
 \section{Generating functions}
-\begingroup
-  % Disable header commands from the included file:
-  \renewcommand{\section}{\subsection}
-  \input{chapters/Generating_functions.tex}
-\endgroup
-
-
-
-
+\includelectureSub{Generating_functions}
 
 \section{Catalan Numbers}
-\begingroup
-  % Disable header commands from the included file:
-  \renewcommand{\section}{\subsection}
-  \input{chapters/Catalan_Numbers.tex}
-\endgroup
+\includelectureSub{Catalan_Numbers}
 
 \newpage             % Forces a new page
 \tableofcontents
