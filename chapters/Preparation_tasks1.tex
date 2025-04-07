@@ -192,4 +192,183 @@ Hence, there are 42 ways to distribute 10 indistinguishable toys among 10 indist
 \bigskip
 \noindent
 \textbf{Remark.} Parts like (f) are more intricate when combining “partially identical” toys with “identical boxes.” Typically, such problems require detailed case analysis or generating functions.
+
+\section*{Task 3}
+
+There are \(n\) rows with \(n\) chairs in each row (so \(n^2\) chairs in total), and we have \(k\) students (where \(k \le n\)) who are all distinct unless otherwise noted. We want to count the number of ways they can sit subject to various conditions. In each part, “at most one person in each chair” is always assumed.
+
+\begin{enumerate}
+  \item[\textbf{(a)}]
+    \textbf{No extra assumptions.}
+
+    We are simply placing \(k\) \emph{distinct} students into \(n^2\) distinct seats. First choose which \(k\) seats will be occupied, then permute the \(k\) students among those chosen seats. The number of ways is:
+    \[
+      \binom{n^2}{k}\,k!
+      \quad=\quad \frac{n^2!}{(n^2 - k)!}.
+    \]
+
+  \item[\textbf{(b)}]
+    \textbf{Everyone sits in the first row.}
+
+    The first row has \(n\) chairs and \(k \le n\) students. We must pick which \(k\) of the \(n\) seats are used, and then assign the \(k\) distinct students to those seats. Hence
+    \[
+      \binom{n}{k}\,k!.
+    \]
+
+  \item[\textbf{(c)}]
+    \textbf{We only care about the \emph{numbers} of students sitting in each row.}
+
+    Now we ignore which particular seats in each row are used \emph{and} which particular students go to a given row.  We only record the integer vector \((x_1, x_2,\dots, x_n)\) of row‐occupancies, where \(x_i\) is the number of students in row~\(i\), and
+    \[
+      x_1 + x_2 + \cdots + x_n \;=\; k,
+      \quad 0 \,\le\, x_i \,\le\, n.
+    \]
+    Since \(k \le n\), the constraint \(x_i \le n\) is automatically satisfied.  The number of nonnegative solutions to \(x_1 + \dots + x_n = k\) is
+    \[
+      \binom{k + n - 1}{n - 1}.
+    \]
+    (Here the students themselves are no longer distinguished, nor are seats in the same row.)
+
+  \item[\textbf{(d)}]
+    \textbf{We only care about \emph{which chairs} are taken, not who sits in them.}
+
+    In this scenario, we ignore the identity of students and only note \emph{the set of occupied seats} (of size~\(k\)).  Hence we need to choose exactly \(k\) chairs out of \(n^2\), with no regard to which student goes where.  The count is
+    \[
+      \binom{n^2}{k}.
+    \]
+
+    \item[\textbf{(e)}]
+    \textbf{We only care about the numbers of students in each row, with each row having at most as many students as the previous row.}
+    
+    Let \(x_i\) be the number of students in row~\(i\). Then we record
+    \[
+      (x_1,x_2,\ldots,x_n)
+      \quad\text{such that}\quad
+      x_1 \ge x_2 \ge \cdots \ge x_n \ge 0
+      \quad\text{and}\quad
+      x_1 + x_2 + \cdots + x_n = k.
+    \]
+    Equivalently, we are looking for a partition of \(k\) into at most \(n\) parts. Let
+    \[
+      p(k,j)
+    \]
+    be the number of partitions of \(k\) into exactly \(j\) positive parts. Then the number of partitions of \(k\) into \emph{at most} \(n\) parts is
+    \[
+      p_{\le n}(k)
+      \;=\;
+      \sum_{j=0}^n p(k,j).
+    \]
+    (Of course, \(p(k,0)=0\) unless \(k=0\), but we often include \(j=0\) for completeness.)
+    
+    Hence the number of ways to seat \(k\) students under these conditions is
+    \[
+      \boxed{
+        p_{\le n}(k) \;=\;\sum_{j=0}^n p(k,j).
+      }
+    \]
+    There is no simpler closed‐form expression for these partition numbers, but tables and generating functions can be used to compute them for specific \(k\) and \(n\). 
+    
+
+    \item[\textbf{(f)}]
+    \textbf{We do not care who sits where, only which students sit \emph{together in the same row} (no matter which row).}
+    
+    In this case, the arrangement is determined solely by partitioning the set of \(k\) distinct students into nonempty subsets, where each subset corresponds to a group sitting together in one row (and the rows themselves are unlabeled). The number of ways to partition a \(k\)-element set into \(j\) nonempty subsets is given by the Stirling number of the second kind, denoted \(S(k,j)\). Therefore, if we allow any number \(j\) of groups (with \(1 \le j \le k\)), the total number of ways is:
+    \[
+    \sum_{j=1}^{k} S(k,j).
+    \]
+    This sum is known as the Bell number \(B_k\); that is,
+    \[
+    B_k = \sum_{j=1}^{k} S(k,j).
+    \]
+    Thus, the number of ways is:
+    \[
+    \boxed{B_k.}
+    \]
+    
+
+  \item[\textbf{(g)}]
+    \textbf{Everyone sits in the first 5 rows, and each of these 5 rows has the \emph{same} number of students (assume $5\mid k$).}
+
+    Let \(k=5m\).  We have 5 labeled rows (rows~1 through~5), and each must have exactly \(m\) students.  We do care about \emph{which} students go to each row, and also which seats they occupy (and the students are distinct).  The counting proceeds in two stages:
+
+    \begin{enumerate}
+      \item Distribute the $k$ students into 5 labeled groups of size $m$ each:
+        \[
+          \binom{k}{m}\,\binom{k-m}{m}\,\cdots = \frac{k!}{(m!)^5}.
+        \]
+      \item For each group of $m$ destined for row~$i$, choose which $m$ seats (out of $n$ in that row) they occupy, and permute the $m$ distinct students among those $m$ seats:
+        \[
+          \binom{n}{m}\,m! \quad\text{ways per row}.
+        \]
+      Hence, for 5 rows, multiply $\bigl(\binom{n}{m} m!\bigr)^5$.
+
+    \end{enumerate}
+
+    Overall, the number of ways is:
+    \[
+      \frac{k!}{(m!)^5} \times \Bigl(\binom{n}{m}\,m!\Bigr)^5
+      \;=\;
+      k!\,\biggl[\binom{n}{m}\biggr]^5,
+      \quad\text{where }m=\frac{k}{5}.
+    \]
+
+  \item[\textbf{(h)}]
+    \textbf{Everyone sits in the first 3 rows; we do not care which physical seats are used, but we \emph{do} care about left‐right adjacency (ignoring empty chairs).}
+
+    Here each row is treated as a consecutive \emph{line} of however many students it has.  We do care which student is to the left or right of which other student in that row, but we ignore the actual seat numbers and any gaps.  Thus, for row~\(i\) having \(x_i\) students, the $x_i$ chosen students can be arranged in \((x_i)!\) ways (linear order).  Then we sum over all ways to split $k$ distinct students into 3 labeled groups (for the 3 rows) and order each group:
+
+    \begin{enumerate}
+      \item Choose a triple \((x_1,x_2,x_3)\) with $x_1+x_2+x_3 = k$.
+      \item Choose which $x_1$ students go to row~1, $x_2$ to row~2, etc.  That is a multinomial factor $\frac{k!}{x_1!\,x_2!\,x_3!}$.
+      \item Permute each group internally in $(x_i)!$ ways.
+
+      But multiplying $\frac{k!}{x_1!\,x_2!\,x_3!}\times (x_1)!(x_2)!(x_3)! = k!.$
+    \end{enumerate}
+
+    Finally, we sum over all nonnegative $(x_1,x_2,x_3)$ summing to $k$.  The number of such triples is $\binom{k+3-1}{3-1} = \binom{k+2}{2}.$  Thus total seatings:
+    \[
+      k!\,\binom{k+2}{2}.
+    \]
+
+  \item[\textbf{(i)}]
+    \textbf{If a row is not empty, it contains \emph{at least two} people; we do not distinguish students \emph{and} we do not distinguish chairs in the same row.}
+
+    So we only care how many students are in each row, with $x_i=0$ or $x_i\ge2$.  Since $k\le n$, it is possible that many rows are empty.  We want nonnegative $x_1,\dots,x_n$ with $x_1+\dots+x_n = k$ and each nonempty $x_i\ge2$.  Since we do \emph{not} distinguish which particular students go to row~$i$, nor which seats they occupy, we are effectively counting the integer solutions:
+
+    \[
+      x_i \in \{0\}\cup \{2,3,\dots\}, 
+      \quad x_1+\dots+x_n = k.
+    \]
+    Let $m$ be the number of nonempty rows.  Then $m$ satisfies $1 \le m \le \lfloor k/2 \rfloor$, and we choose which $m$ rows are nonempty in $\binom{n}{m}$ ways.  In each of those $m$ chosen rows, let $x_i \ge2$.  Set $y_i = x_i - 2 \ge 0$, so $\sum_{i=1}^m y_i = k - 2m.$  The number of nonnegative solutions to that is $\binom{(k-2m) + m -1}{m-1} = \binom{k - m -1}{m-1}$, valid as long as $k \ge 2m.$  
+
+    Summing over all $m$ gives
+    \[
+      \sum_{m=1}^{\lfloor k/2 \rfloor}
+        \binom{n}{m}\,\binom{k - m - 1}{m-1},
+      \quad
+      \text{(assuming $k>0$).}
+    \]
+
+  \item[\textbf{(j)}]
+    \textbf{If a row is not empty, it has at least two people; we do not distinguish students, \emph{but} we do care which specific seats are occupied.}
+
+
+
+  \item[\textbf{(k)}]
+    \textbf{If a chair is empty, then all chairs \emph{to its left in the same row} are empty as well.}
+
+    Equivalently, in each row that has $x_i>0$ seats occupied, those must be the leftmost $x_i$ chairs of that row, with no gaps.  If we do \emph{not} distinguish students and only care about which seats are occupied, then row~$i$ is either completely empty ($x_i=0$) or we occupy seats 1 through $x_i$.  Summing over all rows, we must choose a total of $k$ occupied chairs:
+
+    \[
+      x_1 + x_2 + \cdots + x_n = k,
+      \quad 0 \le x_i \le n.
+    \]
+    Since $k \le n$, the row capacity $x_i \le n$ is never an issue.  The number of nonnegative integer solutions is the standard stars‐and‐bars count:
+    \[
+      \binom{k + n - 1}{n - 1}.
+    \]
+    Thus there are $\binom{k + n - 1}{n - 1}$ ways to pick exactly which seats are occupied (each row’s occupied block starts at seat~1).
+
+\end{enumerate}
+
 \end{document}
