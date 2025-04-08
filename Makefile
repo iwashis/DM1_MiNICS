@@ -1,4 +1,4 @@
-# Main file
+# Main file (adjust to match your file’s actual name)
 MAIN = discrete_mathematics
 
 # Directories
@@ -6,53 +6,57 @@ CHAPTERSDIR = chapters
 OUTPUTDIR = output
 OUTPUTCHAPTERSDIR = $(OUTPUTDIR)/chapters
 
-# Chapter files
+export TEXINPUTS = ../:.:../watermark:
+
+# List of chapter files (exact filenames)
 CHAPTERFILES = Catalan_Numbers.tex Counting.tex Functions_between_sets.tex \
                Generating_functions.tex Inclusion_Exclusion.tex \
                Partitions_StirlingNumbers.tex Permutations_Derangements.tex \
-			   Preparation_tasks1.tex
+               Preparation_tasks1.tex
 
-# Full paths for chapter files
-CHAPTERS = $(addprefix $(CHAPTERSDIR)/, $(CHAPTERFILES))
+.PHONY: all main chapters clean cleanall
 
-# All targets
+# The "all" target builds both the main document and chapters
 all: main chapters
 
-# Main target compiles just the main document
-main: $(OUTPUTDIR)/$(MAIN).pdf
-
-# Chapters target compiles all individual chapter PDFs
-chapters: $(OUTPUTCHAPTERPDFS)
-
-# Chapter PDFs with output paths
-OUTPUTCHAPTERPDFS = $(addprefix $(OUTPUTCHAPTERSDIR)/, $(CHAPTERPDFS))
-CHAPTERPDFS = $(CHAPTERFILES:.tex=.pdf)
-
+# ---------------------------------------
 # Main document compilation
-$(OUTPUTDIR)/$(MAIN).pdf: $(MAIN).tex $(CHAPTERS) preamble.tex
+# ---------------------------------------
+# Main document compilation
+main: $(MAIN).tex preamble.tex watermark/watermark.tex $(addprefix $(CHAPTERSDIR)/, $(CHAPTERFILES))
 	latexmk -pdf $(MAIN).tex
 	mkdir -p $(OUTPUTDIR)
 	cp $(MAIN).pdf $(OUTPUTDIR)/
 
-# Compile each chapter individually
-define compile_chapter
-$(OUTPUTCHAPTERSDIR)/$(1:.tex=.pdf): $(CHAPTERSDIR)/$(1)
+
+# ---------------------------------------
+# Chapters compilation target (phony)
+# This compiles every chapter file and copies the PDF to output/chapters/
+# ---------------------------------------
+chapters:
 	mkdir -p $(OUTPUTCHAPTERSDIR)
-	TEXINPUTS=.:./$(CHAPTERSDIR): latexmk -pdf $(CHAPTERSDIR)/$(1)
-	cp $(CHAPTERSDIR)/$(1:.tex=.pdf) $(OUTPUTCHAPTERSDIR)/
-endef
+	@for file in $(CHAPTERFILES); do \
+	  echo "Compiling $$file"; \
+	  latexmk -cd -pdf $(CHAPTERSDIR)/$$file; \
+	  pdfname=`echo $$file | sed 's/\.tex$$/.pdf/'`; \
+	  cp $(CHAPTERSDIR)/$$pdfname $(OUTPUTCHAPTERSDIR)/; \
+	done
 
-# Generate rules for each chapter
-$(foreach ch,$(CHAPTERFILES),$(eval $(call compile_chapter,$(ch))))
-
-# Clean up auxiliary files
+# ---------------------------------------
+# Clean auxiliary files (from latexmk and chapter directory)
+# ---------------------------------------
 clean:
 	latexmk -C
 	rm -f $(CHAPTERSDIR)/*.aux $(CHAPTERSDIR)/*.log $(CHAPTERSDIR)/*.fls $(CHAPTERSDIR)/*.fdb_latexmk
-
-# Clean everything including PDFs
+	rm -f *.log
+	rm -f *.fls
+	rm -f *.fdb_latexmk
+# ---------------------------------------
+# Clean everything including generated PDFs and output directory
+# ---------------------------------------
 cleanall: clean
-	rm -f *.pdf $(CHAPTERSDIR)/*.pdf
+	rm -f $(MAIN).pdf $(CHAPTERSDIR)/*.pdf
 	rm -rf $(OUTPUTDIR)
-
-.PHONY: all main chapters clean cleanall
+		rm -f *.log
+	rm -f *.fls
+	rm -f *.fdb_latexmk
