@@ -1,4 +1,4 @@
-# Main file (adjust to match your file’s actual name)
+# Main file 
 MAIN = discrete_mathematics
 
 # Directories
@@ -8,7 +8,7 @@ OUTPUTCHAPTERSDIR = $(OUTPUTDIR)/chapters
 
 export TEXINPUTS = ../:.:../watermark:
 
-# List of chapter files (exact filenames)
+# List of chapter files 
 CHAPTERFILES = Catalan_Numbers.tex Counting.tex Functions_between_sets.tex \
                Generating_functions.tex Inclusion_Exclusion.tex \
                Partitions_StirlingNumbers.tex Permutations_Derangements.tex \
@@ -22,11 +22,11 @@ all: main chapters
 # ---------------------------------------
 # Main document compilation
 # ---------------------------------------
-# Main document compilation
+
 main: $(MAIN).tex preamble.tex watermark/watermark.tex $(addprefix $(CHAPTERSDIR)/, $(CHAPTERFILES))
 	latexmk -pdf $(MAIN).tex
 	mkdir -p $(OUTPUTDIR)
-	cp $(MAIN).pdf $(OUTPUTDIR)/
+	mv $(MAIN).pdf $(OUTPUTDIR)/
 
 
 # ---------------------------------------
@@ -39,7 +39,7 @@ chapters:
 	  echo "Compiling $$file"; \
 	  latexmk -cd -pdf $(CHAPTERSDIR)/$$file; \
 	  pdfname=`echo $$file | sed 's/\.tex$$/.pdf/'`; \
-	  cp $(CHAPTERSDIR)/$$pdfname $(OUTPUTCHAPTERSDIR)/; \
+	  mv $(CHAPTERSDIR)/$$pdfname $(OUTPUTCHAPTERSDIR)/; \
 	done
 
 # ---------------------------------------
@@ -57,6 +57,6 @@ clean:
 cleanall: clean
 	rm -f $(MAIN).pdf $(CHAPTERSDIR)/*.pdf
 	rm -rf $(OUTPUTDIR)
-		rm -f *.log
+	rm -f *.log
 	rm -f *.fls
 	rm -f *.fdb_latexmk
