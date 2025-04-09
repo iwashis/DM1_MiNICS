@@ -29,6 +29,7 @@ main: $(MAIN).tex preamble.tex watermark/watermark.tex $(addprefix $(CHAPTERSDIR
 	mv $(MAIN).pdf $(OUTPUTDIR)/
 
 
+
 # ---------------------------------------
 # Chapters compilation target (phony)
 # This compiles every chapter file and copies the PDF to output/chapters/
@@ -45,6 +46,11 @@ chapters:
 # ---------------------------------------
 # Clean auxiliary files (from latexmk and chapter directory)
 # ---------------------------------------
+
+delete: all
+	@echo "Build complete. Now deleting auxiliary files recursively..."
+	@bash -c 'find . -type f \( -name "*.log" -o -name "*.fls" -o -name "*.fdb_latexmk" -o -name "*.toc" -o -name "*.aux" \) -delete'
+
 clean:
 	latexmk -C
 	rm -f $(CHAPTERSDIR)/*.aux $(CHAPTERSDIR)/*.log $(CHAPTERSDIR)/*.fls $(CHAPTERSDIR)/*.fdb_latexmk

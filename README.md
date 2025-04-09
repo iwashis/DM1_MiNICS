@@ -11,3 +11,28 @@ If you notice any mistakes or have suggestions for additional content, please fe
 - Open an issue to discuss potential enhancements.
 
 Your contributions help making these notes a better resource for everyone studying Discrete Mathematics.
+
+### How to Create a Fork of Our Repository
+
+1. **Fork the Repository:**  
+   Click the **Fork** button in the upper right corner on the repository page on GitHub. This will create a copy of the repository under your GitHub account.
+
+2. **Clone Your Fork Locally:**  
+   Open your terminal and run the following command (replace `<your-username>` with your GitHub username):
+
+   ```bash
+   git clone https://github.com/<your-username>/DM1_MiNICS.git
+
+### How to Run
+
+Use:
+```bash
+make
+```
+to compile the project and retain auxiliary files.
+
+Use:
+```bash
+make delete
+```
+to compile the project and then remove all auxiliary files.
