@@ -12,7 +12,7 @@ export TEXINPUTS = ../:.:../watermark:
 CHAPTERFILES = Catalan_Numbers.tex Counting.tex Functions_between_sets.tex \
                Generating_functions.tex Inclusion_Exclusion.tex \
                Partitions_StirlingNumbers.tex Permutations_Derangements.tex \
-               Preparation_tasks1.tex
+               Preparation_tasks1.tex Preparation_tasks2.tex
 
 .PHONY: all main chapters clean cleanall
 
