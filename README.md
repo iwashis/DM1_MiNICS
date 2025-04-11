@@ -22,7 +22,7 @@ Your contributions help making these notes a better resource for everyone studyi
 
    ```bash
    git clone https://github.com/<your-username>/DM1_MiNICS.git
-
+    ```
 ### How to Run
 
 Use:
