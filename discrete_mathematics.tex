@@ -2,7 +2,11 @@
 \input{preamble.tex}
 \input{watermark/watermark.tex}
 
+% Packages for header/footer, clickable links, and epigraphs
 \usepackage{fancyhdr}
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+\usepackage{epigraph}
+
 \setlength{\headheight}{30pt} % Increase header height for more space
 \setlength{\headsep}{20pt}    % Space between header and text
 \pagestyle{fancy}
@@ -16,11 +20,11 @@
 
 \title{Discrete Mathematics 1 Lectures, Part 1}
 \author{Tomasz Brengos \\  
-Committers : Aliaksei Kudzelka, Mykhailo Moroz, Mihail Orlov}
+Committers: Aliaksei Kudzelka, Mykhailo Moroz, Mihail Orlov}
 \date{}
 
 % Define custom commands for including lecture chapters:
-% 1. For lectures that has sections:
+% 1. For lectures that have sections:
 \newcommand{\includelectureSub}[1]{%
   \begingroup
     \renewcommand{\section}{\subsection}%
@@ -28,7 +32,7 @@ Committers : Aliaksei Kudzelka, Mykhailo Moroz, Mihail Orlov}
   \endgroup
 }
 
-% 2. For lectures that does not have sections:
+% 2. For lectures that do not have sections:
 \newcommand{\includelectureNoHeader}[1]{%
   \begingroup
     \let\maketitle\relax%
@@ -38,8 +42,29 @@ Committers : Aliaksei Kudzelka, Mykhailo Moroz, Mihail Orlov}
 
 \begin{document}
 \maketitle
-\cleardoublepage % Space for book title and committers
 
+% --- Epigraph Page ---
+\epigraph{\textit{``There's no such thing as a lousy job --- only lousy men who don't care to do it.''}}{\textsc{Ayn Rand}}
+
+\vspace{6cm}
+
+% --- Front Matter ---
+\section*{Preface}
+These lecture notes have been compiled from official course materials and supplemented with contributions from students and educators. They aim to provide a clear and comprehensive introduction to Discrete Mathematics. Although every effort has been made to ensure accuracy, some errors may remain. Your feedback and contributions are highly valued.
+
+\section*{License}
+This work is licensed under the \href{https://creativecommons.org/licenses/by-nc/4.0/}{Creative Commons Attribution-NonCommercial 4.0 International License}. See the LICENSE file for details.
+
+
+\section*{Acknowledgments}
+We gratefully acknowledge all the contributors whose efforts have enriched these notes.
+
+\cleardoublepage
+
+\tableofcontents
+\clearpage
+
+% --- Main Content ---
 \section{Counting (Combinatorics)}
 Counting forms the basis of combinatorics. In these lectures we explore several counting rules, examples, and proofs.
 \includelectureSub{Counting}
@@ -68,9 +93,4 @@ Counting forms the basis of combinatorics. In these lectures we explore several 
 \section{Catalan Numbers}
 \includelectureSub{Catalan_Numbers}
 
-\newpage             % Forces a new page
-\tableofcontents
-\clearpage 
-
 \end{document}
-
