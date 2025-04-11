@@ -56,9 +56,6 @@ delete: all
 clean:
 	latexmk -C
 	rm -f $(CHAPTERSDIR)/*.aux $(CHAPTERSDIR)/*.log $(CHAPTERSDIR)/*.fls $(CHAPTERSDIR)/*.fdb_latexmk
-	rm -f *.log
-	rm -f *.fls
-	rm -f *.fdb_latexmk
 
 # ---------------------------------------
 # Clean everything including generated PDFs and output directory
@@ -66,6 +63,4 @@ clean:
 cleanall: clean
 	rm -f $(MAIN).pdf $(CHAPTERSDIR)/*.pdf
 	rm -rf $(OUTPUTDIR)
-	rm -f *.log
-	rm -f *.fls
-	rm -f *.fdb_latexmk
+

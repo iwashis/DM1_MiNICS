@@ -12,7 +12,11 @@ If you notice any mistakes or have suggestions for additional content, please fe
 
 Your contributions help making these notes a better resource for everyone studying Discrete Mathematics.
 
-### How to Create a Fork of Our Repository
+## License
+
+This work is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/). See the [LICENSE](LICENSE) file for details.
+
+## How to Create a Fork of Our Repository
 
 1. **Fork the Repository:**  
    Click the **Fork** button in the upper right corner on the repository page on GitHub. This will create a copy of the repository under your GitHub account.
