@@ -12,7 +12,7 @@ export TEXINPUTS = ../:.:../watermark:
 CHAPTERFILES = Catalan_Numbers.tex Counting.tex Functions_between_sets.tex \
                Generating_functions.tex Inclusion_Exclusion.tex \
                Partitions_StirlingNumbers.tex Permutations_Derangements.tex \
-               Preparation_tasks1.tex
+               Preparation_tasks1.tex Preparation_tasks2.tex
 
 .PHONY: all main chapters clean cleanall
 
@@ -27,6 +27,7 @@ main: $(MAIN).tex preamble.tex watermark/watermark.tex $(addprefix $(CHAPTERSDIR
 	latexmk -pdf $(MAIN).tex
 	mkdir -p $(OUTPUTDIR)
 	mv $(MAIN).pdf $(OUTPUTDIR)/
+
 
 
 # ---------------------------------------
@@ -45,6 +46,11 @@ chapters:
 # ---------------------------------------
 # Clean auxiliary files (from latexmk and chapter directory)
 # ---------------------------------------
+
+delete: all
+	@echo "Build complete. Now deleting auxiliary files recursively..."
+	@bash -c 'find . -type f \( -name "*.log" -o -name "*.fls" -o -name "*.fdb_latexmk" -o -name "*.toc" -o -name "*.aux" \) -delete'
+
 clean:
 	latexmk -C
 	rm -f $(CHAPTERSDIR)/*.aux $(CHAPTERSDIR)/*.log $(CHAPTERSDIR)/*.fls $(CHAPTERSDIR)/*.fdb_latexmk

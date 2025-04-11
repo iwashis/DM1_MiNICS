@@ -1,0 +1,102 @@
+\documentclass[docmute]{article}
+\input{preamble.tex}
+
+\input{watermark/watermark.tex}
+
+
+\title{Preparation Tasks 2}
+\author{Tomasz Brengos \\  
+Committers : Aliaksei Kudzelka}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Problem 1} Prove that the num. of partitions of a positive int $n$ into $k$ \textit{even} parts % Blue arrow in notes labeled "even" correcting "equal" to "even" parts
+is eq. to the num. of partitions of $n$ into $k$ odd parts.
+
+\begin{itemize}
+  \item \textbf{Idea:} First, express $n$ in two ways by decomposing it into $k$ even parts and into $k$ odd parts. We can write 
+  \begin{align*}
+    n &= 2a_1 + 2a_2 + \cdots + 2a_k,\\
+    n - k &= 2a_1 + 2a_2 + \cdots + 2a_k - k,\\
+    n - k &= (2a_1 - 1) + (2a_2 - 1) + \cdots + (2a_k - 1)\,.
+  \end{align*}
+  The first line expresses $n$ as a sum of $k$ even numbers (each $2a_i$). Subtracting $k$ from both sides shows that $n-k$ can be expressed as a sum of $k$ odd numbers (each $2a_i - 1$). % The above shows $n$ (even) as the sum of $k$ evens and $n-k$ as the sum of $k$ odds.
+  
+  From this idea, we expect a correspondence between partitions of $n$ into $k$ even parts and partitions of $n-k$ into $k$ odd parts.
+  
+  \item \textbf{Formal proof:} Define the sets 
+  \[
+    P_e(n,k) := \{\text{partitions of $n$ into $k$ even parts}\}, 
+  \] 
+  and 
+  \[
+    P_o(n,k) := \{\text{partitions of $n$ into $k$ odd parts}\}. 
+  \] 
+  % Orange arrow in notes linking the above two definitions, indicating analogous definitions for even/odd parts.
+  
+  For $n$ even, it turns out these two sets have the same size: 
+  \[
+    |P_e(n,k)| = |P_o(n-k,k)|\,.
+  \] 
+  To show this, we construct an explicit bijection. Define a function 
+  \[
+    f: P_e(n,k) \to P_o(n-k,k)\,,
+  \] 
+  by 
+  \[
+    f(b_1,b_2,\ldots,b_k) = (\,b_1 - 1,\; b_2 - 1,\; \ldots,\; b_k - 1\,)\,. 
+  \] 
+  Here $(b_1,\ldots,b_k) \in P_e(n,k)$ means $b_1 + \cdots + b_k = n$ with each $b_i$ even, so $b_i \ge 2$ for all $i$. Thus, each $b_i - 1 \ge 1$ and is odd, which ensures $f(b_1,\ldots,b_k) \in P_o(n-k,k)$ is a partition of $n-k$ into $k$ odd parts. % Blue arrow in notes points out $b_i = 2a_i$ (from the idea step) so that $b_i-1 = 2a_i-1$ are odd parts.
+  
+  The function $f$ is well-defined. Moreover, it is invertible by simply adding 1 to each part. In fact, define 
+  \[
+    g: P_o(n-k,k) \to P_e(n,k)
+  \] 
+  as 
+  \[
+    g(c_1,c_2,\ldots,c_k) = (\,c_1 + 1,\; c_2 + 1,\; \ldots,\; c_k + 1\,)\,. 
+  \] 
+  If $(c_1,\ldots,c_k)$ is a partition of $n-k$ into odd parts, then each $c_i$ is odd and $c_i \ge 1$, so $c_i + 1$ is even and $\ge 2$, and $\sum_{i=1}^k (c_i + 1) = (n-k) + k = n$. Thus $g(c_1,\ldots,c_k) \in P_e(n,k)$. It is easy to check that $g$ is indeed the inverse of $f$: we have $f(g(c_1,\ldots,c_k)) = (c_1,\ldots,c_k)$ and $g(f(b_1,\ldots,b_k)) = (b_1,\ldots,b_k)$. Therefore, $f$ is bijective. $\hfill\blacksquare$ % Hence, $f$ is bijective. (A solid square was drawn in the notes to indicate the end of the proof.)
+\end{itemize}
+
+\vspace{1em} % a little vertical space between tasks for clarity
+
+\section{Problem 2} Show that the number of partitions of a positive int $n$ with at most $k$ components is eq. to the num. of partitions of $2n$ with at most $k$ even components.
+
+\begin{itemize}
+  \item \textbf{Idea:} We consider partitions of $n$ that have at most $k$ parts. Let 
+  \[
+    n = a_1 + a_2 + \cdots + a_L,
+  \] 
+  where $L \le k$ and $a_1 \ge a_2 \ge \cdots \ge a_L > 0$. (In other words, $a_1,\ldots,a_L$ are the parts of a partition of $n$, listed in non-increasing order, with at most $k$ parts.) For example, if $n=5$ and $k=3$, the partitions of 5 with at most 3 parts can be represented (padding with zeros up to 3 parts) as:
+  \[
+    (2,2,1), \qquad (3,2,0), \qquad (5,0,0)\,,
+  \] 
+  where we use $0$ to indicate an empty part (no number in that position). % Red annotation in notes: "0 instead of 1" to emphasize using 0 as filler instead of 1, so the sum remains unchanged when padding partitions to length $k$.
+  
+  Notice that doubling each part in these examples produces a partition of $2n=10$ with only even parts (and still at most 3 components). For instance, $(2,2,1)$ doubles to $(4,4,2)$, $(3,2,0)$ doubles to $(6,4,0)$, and $(5,0,0)$ doubles to $(10,0,0)$. This suggests a direct correspondence between partitions of $n$ (up to $k$ parts) and partitions of $2n$ into even parts (up to $k$ parts).
+  
+  \item \textbf{Formal proof:} Let us define the relevant sets in words (as suggested in the notes): % Orange annotation in notes: "write in words these sets"
+  \begin{itemize}
+    \item $P(n,\le k)$ — the set of all partitions of $n$ with \emph{at most} $k$ components (parts).
+    \item $P_e(2n,\le k)$ — the set of all partitions of $2n$ with at most $k$ \emph{even} components.
+  \end{itemize}
+  We aim to show that 
+  \[
+    |P(n,\le k)| = |P_e(2n,\le k)|\,,
+  \] 
+  i.e. the two sets have equal cardinality. To prove this, we construct a bijection $f: P(n,\le k) \to P_e(2n,\le k)$. Given any partition $(a_1,a_2,\dots,a_L)$ of $n$ (with $L \le k$), map it to 
+  \[
+    f(a_1,a_2,\ldots,a_L) = (\,2a_1,\; 2a_2,\; \ldots,\; 2a_L\,)\,. 
+  \] 
+  In other words, $f$ doubles each part of the partition of $n$. If the partition of $n$ has fewer than $k$ parts, we may imagine that it is padded with zeros (as above) which double to zeros, so the resulting partition of $2n$ still has at most $k$ parts. By construction, $f(a_1,\ldots,a_L)$ is a partition of $2n$ in which every part is even, so indeed $f(a_1,\ldots,a_L) \in P_e(2n,\le k)$. The function $f$ is invertible by halving each even part: for any partition $(b_1,b_2,\ldots,b_M) \in P_e(2n,\le k)$ (each $b_i$ even), the inverse map $f^{-1}$ gives 
+  \[
+    f^{-1}(b_1,b_2,\ldots,b_M) = \Big(\frac{b_1}{2},\; \frac{b_2}{2},\; \ldots,\; \frac{b_M}{2}\Big)\,,
+  \] 
+  which is a partition of $2n/2 = n$ with at most $k$ parts. Thus $f$ is a bijection between $P(n,\le k)$ and $P_e(2n,\le k)$, and consequently $|P(n,\le k)| = |P_e(2n,\le k)|$. $\hfill\blacksquare$
+\end{itemize}
+
+\end{document}
+
