@@ -27,8 +27,9 @@ This work is licensed under the [Creative Commons Attribution-NonCommercial 4.0 
    ```bash
    git clone https://github.com/<your-username>/DM1_MiNICS.git
     ```
-### How to Run
+## How to Run
 
+### How to Run on Macos/Linux:
 Use:
 ```bash
 make
@@ -68,3 +69,11 @@ Use:
 make chapters
 ```
 Full cleanup: runs make clean, deletes the main PDF, chapter PDFs, and the entire `./output` directory.
+
+### How to Run on Windows:
+
+Use:
+```bash
+make -f Makefile.win
+```
+Picks up all the right commands and path separators.
