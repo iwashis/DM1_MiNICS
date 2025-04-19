@@ -1,0 +1,56 @@
+# Makefile.win – Windows‐specific build rules
+
+# Detect platform (Windows_NT is set by cmd.exe/GNU Make on Windows)
+ifeq ($(OS),Windows_NT)
+  MKDIR = if not exist "$(1)" mkdir "$(1)"
+  RM    = del /Q
+  RMDIR = rmdir /S /Q
+  CLEAR = cls
+  LATEXMK = latexmk
+  PATH_SEP = \\
+else
+  $(error This Makefile is for Windows only – use the cross‐platform Makefile on macOS/Linux)
+endif
+
+# Project configuration
+MAIN := discrete_mathematics
+CHAPTERSDIR := chapters
+OUTPUTDIR := output
+OUTPUTCHAPTERSDIR := $(OUTPUTDIR)$(PATH_SEP)chapters
+CHAPTERFILES := $(notdir $(wildcard $(CHAPTERSDIR)$(PATH_SEP)*.tex))
+CHAPTERPDFS := $(addprefix $(OUTPUTCHAPTERSDIR)$(PATH_SEP),$(CHAPTERFILES:.tex=.pdf))
+
+.PHONY: all main chapters clean cleanall delete
+
+all: main chapters
+
+# Main document
+main: $(OUTPUTDIR)$(PATH_SEP)$(MAIN).pdf
+
+$(OUTPUTDIR):
+	$(call MKDIR,$@)
+
+$(OUTPUTDIR)$(PATH_SEP)$(MAIN).pdf: $(MAIN).tex preamble.tex watermark$(PATH_SEP)watermark.tex \
+                                   $(addprefix $(CHAPTERSDIR)$(PATH_SEP),$(CHAPTERFILES)) | $(OUTPUTDIR)
+	$(LATEXMK) -pdf -output-directory=$(OUTPUTDIR) $<
+
+# Chapters
+chapters: $(OUTPUTCHAPTERSDIR) $(CHAPTERPDFS)
+
+$(OUTPUTCHAPTERSDIR):
+	$(call MKDIR,$@)
+
+$(OUTPUTCHAPTERSDIR)$(PATH_SEP)%.pdf: $(CHAPTERSDIR)$(PATH_SEP)%.tex preamble.tex watermark$(PATH_SEP)watermark.tex | $(OUTPUTCHAPTERSDIR)
+	$(LATEXMK) -pdf -output-directory=$(OUTPUTCHAPTERSDIR) $<
+
+# Cleaning
+clean:
+	$(RM) *.aux *.log *.fls *.fdb_latexmk *.out *.toc
+	@$(CLEAR)
+
+cleanall: clean
+	$(RM) *.pdf
+	$(RMDIR) $(OUTPUTDIR)
+
+delete: all clean
+	@echo Build complete; auxiliary files removed.
