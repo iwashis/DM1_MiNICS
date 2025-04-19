@@ -14,7 +14,7 @@ CHAPTERFILES := $(notdir $(wildcard $(CHAPTERSDIR)/*.tex))
 # List of chapter PDFs that will be created (in OUTPUTCHAPTERSDIR)
 CHAPTERPDFS := $(addprefix $(OUTPUTCHAPTERSDIR)/, $(CHAPTERFILES:.tex=.pdf))
 
-.PHONY: all delete clean cleanall
+.PHONY: all main chapters delete clean cleanall
 
 # The "all" target builds both the main document and chapters
 all: main chapters
