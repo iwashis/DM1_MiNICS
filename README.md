@@ -29,7 +29,7 @@ This work is licensed under the [Creative Commons Attribution-NonCommercial 4.0 
     ```
 ## How to Run
 
-### How to Run on Macos/Linux:
+### How to Run on macOS/Linux:
 Use:
 ```bash
 make
