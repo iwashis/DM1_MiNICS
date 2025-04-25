@@ -14,7 +14,7 @@
 
 \title{Permutations and Derangements}
 \author{Tomasz Brengos \\  
-Committers : Aliaksei Kudzelka}
+Committers : Aliaksei Kudzelka, Mykhailo Moroz}
 \date{}
 
 \begin{document}
@@ -27,9 +27,9 @@ Let $p$ be a prime number. We work over the finite field $\mathbb{Z}_p$ (the int
 
 \medskip
 
-\noindent \textbf{Encoding function:} A map $\xi: \mathbb{Z}_p^k \to \mathbb{Z}_p^n$ is called an \emph{encoding function} (or \emph{coding function}) if it is one-to-one. In other words, $\xi$ takes each possible message (an element of $\mathbb{Z}_p^k$) and encodes it as a longer string (an element of $\mathbb{Z}_p^n$). The image of $\xi$, denoted 
+\noindent \textbf{Encoding function:} A map $\xi: \mathbb{Z}_p^k \to \mathbb{Z}_p^n$ is called an \emph{encoding function} (or \emph{coding function}) if it is one-to-one (distinct messages have distinct codewords). In other words, $\xi$ takes each possible message (an element of $\mathbb{Z}_p^k$) and encodes it as a longer string (an element of $\mathbb{Z}_p^n$). The image of $\xi$, denoted 
 \[ \mathcal{C} = \xi(\mathbb{Z}_p^k) \subseteq \mathbb{Z}_p^n, \] 
-is the set of all possible encoded messages and is called the \emph{code}. The elements of $\mathcal{C}$ are called \emph{codewords}.We usually require $\xi$ to be injective (distinct messages have distinct codewords). Often $\xi$ is a linear transformation (i.e. $\xi(\mathbf{u}+\mathbf{v})=\xi(\mathbf{u})+\xi(\mathbf{v})$ and $\xi(a\mathbf{u})=a\,\xi(\mathbf{u})$ for $a\in \mathbb{Z}_p$), in which case $\mathcal{C}$ is a linear subspace of $\mathbb{Z}_p^n$ of dimension $k$ (such codes are called \emph{linear codes}). Working over the field $\mathbb{Z}_p$ is crucial here, because it ensures we can use the tools of linear algebra and arithmetic modulo $p$ when designing and analyzing codes.
+is the set of all possible encoded messages and is called the \emph{code}. The elements of $\mathcal{C}$ are called \emph{codewords}. Working over the field $\mathbb{Z}_p$ is crucial here, because it ensures we can use the tools of linear algebra and arithmetic modulo $p$ when designing and analyzing codes.
 
 \medskip
 
@@ -81,7 +81,7 @@ The resulting code is
 \[ \mathcal{C}_2 = \{(a_1,\ldots,a_{k-1},a_k) \in \mathbb{Z}_p^k : a_1 + \cdots + a_{k-1} + a_k = 0\}. \] 
 In the special case $p=2$ (binary), this encoding is the standard single-parity-bit code: the last bit $a_k$ is 0 or 1 chosen to make the total number of 1's in the codeword even. For example, if the message is $(1,0,1,1)$ in $\mathbb{Z}_2^4$ (so $k-1=4$), then the parity bit $a_5$ is chosen so that $1+0+1+1+a_5 \equiv 0 \pmod{2}$. Here $1+0+1+1 = 3 \equiv 1 \pmod{2}$, so we must take $a_5 = 1$ to make the sum even. The encoded 5-bit codeword is $(1,0,1,1,1)$, which has an even number of 1's (four 1's in this case).
 
-This parity check code allows detection of any single-error in transmission: if one bit of a codeword is flipped, the parity (sum mod $p$) will no longer be zero, so the received word will violate the code constraint and thus be recognized as invalid. For instance, if $(1,0,1,1,1)$ is sent and one bit flips, the sum of bits will be odd, alerting us to the error. In fact, more generally, if an odd number of bits are in error, the parity check will detect it (sum becomes nonzero mod 2). However, if an even number of bits are corrupted in the binary case, the parity check could fail to detect it (since an even number of flips can restore the sum to even). We will quantify the error-detecting capability of codes like this in Section 4.
+This parity check code allows detection of any single-error in transmission: if one bit of a codeword is flipped, the parity (sum mod $p$) will no longer be zero, so the received word will violate the code constraint and thus be recognized as invalid. For instance, if $(1,0,1,1,1)$ is sent and one bit flips, the sum of bits will be odd, alerting us to the error. In fact, more generally, if an odd number of bits are in error, the parity check will detect it (sum becomes nonzero mod 2). However, if an even number of bits are corrupted in the binary case, the parity check could fail to detect it (since an even number of flips can restore the sum to even).
 
 \subsection*{Example 3: \textsc{PESEL} Check Digit}
 The Polish national identification number, \textsc{PESEL}, consists of 11 decimal digits $p_1p_2\dots p_{11}$.  Its structure is
@@ -121,31 +121,58 @@ For concreteness, take the birth date $\text{15 April 1997}$, which encodes as $
 \]
 Hence $p_{11}\equiv -6\equiv4\pmod{10}$, so the full PESEL number is \texttt{15049714784}.  If any single digit is altered (or two adjacent digits are swapped), the weighted sum is almost certain to be non--zero mod 10, flagging an error.  The PESEL checksum therefore detects \emph{all} single--digit errors and the vast majority of simple transpositions.
 
+\section{Hamming Distance}
+
+We need a way to quantify how “different” two vectors (e.g. the transmitted and received words) are. The appropriate notion is the \emph{Hamming distance}. For vectors $\mathbf{x}, \mathbf{y} \in \mathbb{Z}_p^n$, the \textbf{Hamming distance} $d_H(\mathbf{x}, \mathbf{y})$ is defined as the number of coordinates in which $\mathbf{x}$ and $\mathbf{y}$ differ. Equivalently, 
+\[ d_H(\mathbf{x}, \mathbf{y}) = |\{\,i : 1 \le i \le n,\; x_i \neq y_i\,\}|.\] 
+For example, in binary, $d_H(01011, 01101) = 2$ (they differ in two bit positions).
+
+It is easy to check that Hamming distance satisfies the properties of a distance metric on $\mathbb{Z}_p^n$. In particular, for any $\mathbf{x}, \mathbf{y}, \mathbf{z} \in \mathbb{Z}_p^n$:
+
+\begin{enumerate}
+  \item $d_H(\mathbf{x}, \mathbf{y}) \ge 0$, and $d_H(\mathbf{x}, \mathbf{y}) = 0$ if and only if $\mathbf{x} = \mathbf{y}$.
+  \item $d_H(\mathbf{x}, \mathbf{y}) = d_H(\mathbf{y}, \mathbf{x})$ \quad (symmetry).
+  \item $d_H(\mathbf{x}, \mathbf{z}) \le d_H(\mathbf{x}, \mathbf{y}) + d_H(\mathbf{y}, \mathbf{z})$ \quad (triangle inequality).
+\end{enumerate}
+
+Property (3) means that for any two vectors $\mathbf{x}$ and $\mathbf{z}$, any differences between $\mathbf{x}$ and $\mathbf{z}$ must show up when comparing $\mathbf{x}$ to some intermediate $\mathbf{y}$ or $\mathbf{y}$ to $\mathbf{z}$. In other words, any coordinate where $\mathbf{x}$ and $\mathbf{z}$ differ is either a coordinate where $\mathbf{x}$ differs from $\mathbf{y}$ or $\mathbf{y}$ differs from $\mathbf{z}$ (or both). This ensures no “shortcut” can make $d_H$ violate the triangle inequality. Thus, $d_H$ is a valid distance function.
+
+The Hamming distance gives us a natural way to describe the effect of errors: if a codeword $\mathbf{c}$ is transmitted and a word $\mathbf{r}$ is received, then $d_H(\mathbf{c}, \mathbf{r}) = w(\mathbf{e})$, the weight of the error vector (the number of errors that occurred). For a given code $C \subseteq \mathbb{Z}_p^n$, we often speak of the distance \emph{between codewords} measured by $d_H$. The \textbf{minimum distance} of code $C$, denoted $d(C)$ or $d_C$, is the smallest Hamming distance between any two distinct codewords in $C$:
+\[ d_C := \min\{\,d_H(\mathbf{c}_1,\mathbf{c}_2) : \mathbf{c}_1, \mathbf{c}_2 \in C,\; \mathbf{c}_1 \neq \mathbf{c}_2\,\}.\]
+
 
 \section{Metric Spaces and Other Distance Metrics}
 
-The pair $(\mathbb{Z}_p^n, d_H)$ is an example of a \emph{metric space}. In general, a \textbf{metric space} is a set $X$ equipped with a distance function $d: X \times X \to \mathbb{R}$ (called a \emph{metric}) satisfying the three properties listed above (non-negativity and identity of indiscernibles, symmetry, and triangle inequality). The metric $d(x,y)$ represents the “distance” between points $x$ and $y$ in the space.
+The pair \((\mathbb{Z}_p^n, d_H)\) is an example of a \emph{metric space}. In general, a \textbf{metric space} is a tuple \((X, d)\), where \(X\) is a set and
+\[
+  d: X \times X \;\longrightarrow\; \mathbb{R}
+\]
+is a function (called a \emph{metric}) satisfying the three properties listed above (non-negativity and identity of indiscernibles, symmetry, and the triangle inequality). The value \(d(x,y)\) represents the “distance” between points \(x\) and \(y\) in the space.
 
 There are many examples of metrics aside from the Hamming distance. A few common metrics are:
 
-- \textbf{Euclidean distance:} For $X = \mathbb{R}^n$, the usual Euclidean metric is 
+\begin{itemize}
+  \item \textbf{Euclidean distance.}  On \(\mathbb{R}^n\),
   \[
-  d_E((x_1,\ldots,x_n), (y_1,\ldots,y_n)) = \sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + \cdots + (x_n - y_n)^2}\,,
-  \] 
-  the standard distance formula derived from the Pythagorean theorem. This metric defines the ordinary geometry of $n$-dimensional Euclidean space.
-
-- \textbf{Maximum (Chebyshev) distance:} For $X = \mathbb{R}^n$ (or $\mathbb{Z}^n$), the maximum metric is defined by 
+    d_E(\mathbf{x},\mathbf{y})
+    = \sqrt{\sum_{i=1}^n (x_i - y_i)^2},
+  \]
+  the usual “straight–line” distance from geometry derived from the Pythagorean theorem.
+  
+  \item \textbf{Maximum (Chebyshev) distance.}  Also on \(\mathbb{R}^n\) or \(\mathbb{Z}^n\),
   \[
-  d_\infty((x_1,\ldots,x_n), (y_1,\ldots,y_n)) = \max_{1 \le i \le n} |x_i - y_i|\,.
-  \] 
-  This distance is sometimes called the $\ell_\infty$ norm or Chebyshev distance. Intuitively, it measures distance in terms of the largest single-coordinate difference. For example, in the plane $\mathbb{R}^2$, the distance between $(x_1,y_1)$ and $(x_2,y_2)$ is $\max(|x_2-x_1|,\;|y_2-y_1|)$, which in effect produces a square-shaped notion of distance (all points with $d_\infty$ distance $\le r$ from a center form a square of side length $2r$).
+    d_\infty(\mathbf{x},\mathbf{y})
+    = \max_{1\le i\le n}\bigl|x_i - y_i\bigr|.
+  \]
+  Here distance is determined by the single largest coordinate‐difference.Intuitively, the distance is measured in terms of the largest single-coordinate difference. For example, in the plane $\mathbb{R}^2$, the distance between $(x_1,y_1)$ and $(x_2,y_2)$ is $\max(|x_2-x_1|,\;|y_2-y_1|)$, which in effect produces a square-shaped notion of distance (all points with $d_\infty$ distance $\le r$ from a center form a square of side length $2r$).
+\end{itemize}
 
-Many other metrics exist (Manhattan distance, discrete metric, etc.), but the Hamming distance is particularly useful for analyzing codes. 
+\noindent Many other metrics exist (Manhattan distance, discrete metric, etc.), but the Hamming distance is particularly useful for analyzing codes. We will now focus on metric properties in the context of coding theory.
 
 
-\section{Metric Balls and Error Correction}
+\section{Balls and Error Correction}
 
-Given a metric space $(X,d)$, a \textbf{metric ball} (or \emph{distance ball}) of radius $r$ centered at a point $x \in X$ is the set 
+Given a metric space $(X,d)$, a \textbf{ball} (or \emph{distance ball}) of radius $r$ centered at a point $x \in X$ is the set 
 \[ B_r(x) = \{\,y \in X : d(x,y) \le r\,\}. \] 
 It contains all points that are at distance at most $r$ from $x$. In the Hamming metric space $(\mathbb{Z}_p^n, d_H)$, the ball of radius $r$ around a vector $\mathbf{x}$ consists of all vectors that differ from $\mathbf{x}$ in at most $r$ coordinate positions. For example, in $(\mathbb{Z}_2)^3$ (3-bit binary space), 
 \[ B_1(000) = \{000,\,001,\,010,\,100\}, \] 
