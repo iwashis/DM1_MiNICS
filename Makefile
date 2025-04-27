@@ -28,7 +28,8 @@ $(OUTPUTDIR):
 	mkdir -p $(OUTPUTDIR)
 
 $(OUTPUTDIR)/$(MAIN).pdf: $(MAIN).tex preamble.tex watermark/watermark.tex $(addprefix $(CHAPTERSDIR)/, $(CHAPTERFILES)) | $(OUTPUTDIR)
-	latexmk -pdf -output-directory=$(OUTPUTDIR) $<
+	latexmk -pdf -output-directory=$(OUTPUTDIR) $< \
+	|| { echo "BUILD OF MAIN FILE FAILED—open log files to see the issue"; rm -f $@; exit 1; }
 
 # ---------------------------------------
 # Chapters compilation target (phony)
@@ -40,7 +41,8 @@ $(OUTPUTCHAPTERSDIR):
 	mkdir -p $(OUTPUTCHAPTERSDIR)
 
 $(OUTPUTCHAPTERSDIR)/%.pdf: $(CHAPTERSDIR)/%.tex preamble.tex watermark/watermark.tex | $(OUTPUTCHAPTERSDIR)
-	latexmk -pdf -output-directory=$(OUTPUTCHAPTERSDIR) $<
+	latexmk -pdf -output-directory=$(OUTPUTCHAPTERSDIR) $< \
+	|| { echo "BUILD OF CHAPTER FILE FAILED—open log files to see the issue"; rm -f $@; exit 1; }
 # ---------------------------------------
 # Delete auxiliary files recursively after building
 # ---------------------------------------
