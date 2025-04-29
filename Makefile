@@ -18,6 +18,7 @@ CHAPTERPDFS := $(addprefix $(OUTPUTCHAPTERSDIR)/, $(CHAPTERFILES:.tex=.pdf))
 
 # The "all" target builds both the main document and chapters
 all: main chapters
+	@say Build is complete
 
 # ---------------------------------------
 # Main document compilation
