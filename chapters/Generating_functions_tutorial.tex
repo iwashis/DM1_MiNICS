@@ -1,0 +1,326 @@
+\documentclass[docmute]{article}
+\input{preamble.tex}
+
+\input{watermark/watermark.tex}
+
+
+\title{Generating functions tutorial tasks}
+\author{Tomasz Brengos \\  
+Committers : Aliaksei Kudzelka}
+\date{}
+
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%-------Useful formulas------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Preliminaries: two work-horse identities}
+
+Throughout the solutions we repeatedly invoke the following elementary—but
+indispensable—summation formulas. Which have already been discussed on the lecture.
+They are stated once here for quick reference and are *not* re-derived every time
+we use them.
+
+\begin{description}[leftmargin=1.4cm,labelsep=0.5cm]
+  \item[Infinite geometric series] 
+  \begin{equation}\label{eq:geom-inf}
+       \sum_{n=0}^{\infty} r^{n}= \frac{1}{1-r},
+       \qquad |r|<1.
+  \end{equation}
+
+  \item[Finite geometric series] 
+  \begin{equation}\label{eq:geom-fin}
+       \sum_{n=0}^{N} r^{n}= \frac{1-r^{N+1}}{1-r},
+       \qquad r\neq 1,\; N\in\mathbb N.
+  \end{equation}
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1.  The tasks as originally stated
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Tasks:}
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+  \item Find generating functions $G(x)=\sum_{n=0}^{\infty} a_{n}x^{n}$ for each
+        of the following sequences:
+        \begin{enumerate}[label=(\alph*)]
+          \item $a_n=\alpha^{n}$,  \quad $n=0,1,2,\dots,\; \alpha\in\mathbb R$.
+          \item $\displaystyle   a_n =
+            \begin{cases}
+              1, & n=0,1,\dots,N,\\
+              0, & n>N.
+            \end{cases}$
+          \item $\displaystyle   a_n =
+            \begin{cases}
+              n+1, & n=0,1,\dots,N,\\
+              0,   & n>N.
+            \end{cases}$
+          \item $a_n=\alpha n$, \quad $n=0,1,2,\dots,\; \alpha\in\mathbb R$.
+          \item $a_n=n^{2}$, \quad $n=0,1,2,\dots$.
+          \item $a_n=n\,\alpha^{n}$, \quad $n=0,1,2,\dots,\; \alpha\in\mathbb R$.
+        \end{enumerate}
+
+  \item Let $f(x)=\sum_{n=0}^{\infty} a_{n}x^{n}$ be the ordinary generating
+        function of the sequence $(a_{n})_{n\ge0}$.  For each definition of
+        $A_{n}$ below, determine the generating function
+        $F(x)=\sum_{n=0}^{\infty} A_{n}x^{n}$.
+        \begin{enumerate}[label=(\alph*)]
+          \item $A_n=a_{n+1}$.
+          \item $A_n=a_{n+k}$, \;fixed $k\in\mathbb N$.
+          \item $A_n=a_{n+1}-a_n$.
+          \item $A_n=n\,a_n$.
+          \item $\displaystyle A_n=
+            \begin{cases}
+              a_{n-1}, & n\ge1,\\
+              0, & n=0.
+            \end{cases}$
+        \end{enumerate}
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2.----------Solutions----------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Solution \& Derivations}
+
+\subsection*{1. Generating functions of the given sequences}%
+We always write $G(x)=\sum_{n\ge0}a_{n}x^{n}$.
+
+\begin{enumerate}[label=\textbf{1(\alph*)}\quad]
+
+%-----------------------------------------------------------
+\item \textbf{$a_n=\alpha^{n}$.}
+
+Start by writing the series explicitly:
+\[
+f(x)=1+\alpha x+(\alpha x)^2+(\alpha x)^3+\dots
+\]
+
+Now compress the same string of terms into $\sum$-notation:
+\[
+f(x)=\sum_{n=0}^{\infty}(\alpha x)^{n}, \qquad |\alpha x|<1.
+\]
+
+Since this is a geometric series with ratio \(r=\alpha x\) (and \(|r|<1\) for convergence), we invoke the closed form
+\[
+\sum_{n=0}^{\infty}r^{n}=\frac{1}{1-r}.
+\]
+
+Substituting \(r=\alpha x\) gives
+\[
+\boxed{G(x)=\frac{1}{1-\alpha x}}.
+\]
+
+
+\medskip
+%-----------------------------------------------------------
+\item \textbf{Truncated arithmetic sequence \(a_n = n+1\).}
+
+\[
+\begin{aligned}
+f(x)
+  &=\sum_{n=0}^{N}(n+1)x^{n}=                              \\
+  &=\sum_{n=0}^{N}\frac{d}{dx}x^{\,n+1}=                   \\
+  &=\frac{d}{dx}\sum_{n=0}^{N}x^{\,n+1}=                   \\
+  &=\frac{d}{dx}\!\left(x\frac{1-x^{N+1}}{1-x}\right)=     \\
+  &=\frac{1-(N+2)x^{N+1}+(N+1)x^{N+2}}{(1-x)^{2}}.
+\end{aligned}
+\]
+
+
+
+\medskip
+%-----------------------------------------------------------
+\item \textbf{$a_n=\alpha n$.}
+
+\[
+f(x)=0+\alpha x+2\alpha x^{2}+3\alpha x^{3}+\dots
+\]
+
+\[
+f(x)=\sum_{n=0}^{\infty}\alpha n\,x^{n},\qquad |x|<1.
+\]
+
+\[
+\begin{aligned}
+\sum_{n=0}^{\infty}n\,x^{n}
+      &=x\frac{d}{dx}\sum_{n=0}^{\infty}x^{n}
+       =x\frac{d}{dx}\!\Bigl(\frac{1}{1-x}\Bigr)
+       =\frac{x}{(1-x)^{2}},\\[4pt]
+f(x)  &=\alpha\frac{x}{(1-x)^{2}}.
+\end{aligned}
+\]
+
+\medskip
+%-----------------------------------------------------------
+\item \textbf{$a_{n}=n^{2}$.}
+
+Define the basic geometric generating function
+\[
+F(x)=\sum_{n=0}^\infty x^n=\frac1{1-x}.
+\]
+Then view each higher‐order sum as a simple transformation of \(F\):
+
+\[
+\begin{aligned}
+F_1(x)&=x\,F'(x)
+        =\sum_{n=0}^\infty n\,x^n
+        =\frac{x}{(1-x)^2},\\[6pt]
+F_2(x)&=x\,\frac{d}{dx}F_1(x)
+        =\sum_{n=0}^\infty n^2\,x^n
+        =x\,\frac{d}{dx}\!\Bigl(\frac{x}{(1-x)^2}\Bigr)
+        =\frac{x(1+x)}{(1-x)^3}.
+\end{aligned}
+\]
+
+Thus
+\[
+\boxed{\,\sum_{n=0}^\infty n^2 x^n
+    =F_2(x)
+    =\frac{x(1+x)}{(1-x)^3},\quad |x|<1.}
+\]
+
+\medskip
+%-----------------------------------------------------------
+\item \textbf{$a_{n}=n\,\alpha^{n}$.}
+
+\[
+G(x)=0+\alpha x+2\alpha^{2}x^{2}+3\alpha^{3}x^{3}+\dots
+\]
+
+\[
+G(x)=\sum_{n=0}^{\infty}n\,\alpha^{n}x^{n}
+      =\sum_{n=0}^{\infty}n\,(\alpha x)^{n},\qquad |\alpha x|<1.
+\]
+
+\[
+\begin{aligned}
+G(x)
+  &=x\frac{d}{dx}\sum_{n=0}^{\infty}(\alpha x)^{n}
+   =x\frac{d}{dx}\!\Bigl(\frac{1}{1-\alpha x}\Bigr)\\
+  &=x\cdot\frac{\alpha}{(1-\alpha x)^{2}}
+   =\frac{\alpha x}{(1-\alpha x)^{2}}.
+\end{aligned}
+\]
+
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{2. From $f(x)$ to $F(x)$: shifts, differences, multipliers}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Let $f(x)=\sum_{n\ge0} a_{n}x^{n}$ be \emph{given}.  Each transformation of the
+indices has a mechanical counterpart on the generating function—think of these
+as “operator moves” on $f(x)$.  No magic, just algebra.
+
+\begin{enumerate}[label=\textbf{2(\alph*)}\quad]
+
+%-----------------------------------------------------------
+\item \textbf{Shift forward by one index: $A_{n}=a_{n+1}$.}
+
+\[
+F(x) = \sum_{n \geq 0} a_{n+1} x^n
+\]
+
+\textbf{Rewriting the sum as:}
+
+\[
+\sum_{n=1}^{\infty} a_n x^{n-1} = x \cdot \left( \sum_{n=1}^{\infty} a_n x^n \right) = x \cdot \left( \sum_{n=0}^{\infty} a_n x^n - a_0 \right)= \frac{1}{x} \left( f(x) - a_0 \right)
+\]
+
+%-----------------------------------------------------------
+\medskip\item \textbf{Shift forward by $k$: $A_{n}=a_{n+k}$.}
+
+\[
+F(x) = \sum_{n=0}^{\infty} a_{n+k} x^n
+\]
+
+\textbf{Step 1: Rewriting the sum with a change in the index:}
+
+\[
+F(x) = \sum_{n=k}^{\infty} a_n x^{n-k}
+\]
+
+\textbf{Step 2: Factor out \(x^k\):}
+
+\[
+F(x) = x^{-k} \sum_{n=k}^{\infty} a_n x^n
+\]
+
+\textbf{Step 3: Final expression using \(f(x)\):}
+
+Recall that:
+
+\[
+f(x) = \sum_{n=0}^{\infty} a_n x^n
+\]
+
+Thus, we can express \(F(x)\) as:
+
+\[
+F(x) = x^{-k} \left( f(x) - \sum_{n=0}^{k-1} a_n x^n \right)
+\]
+
+%-----------------------------------------------------------
+\medskip\item \textbf{First difference: $A_{n}=a_{n+1}-a_{n}$.}
+
+
+\[
+F(x) = \sum_{n \geq 0} (a_{n+1} - a_n) x^n
+\]
+
+\textbf{Step 1: Express \(f(x)\) and subtract off \(a_0\):}
+
+\[
+f(x) = \sum_{n=0}^{\infty} a_n x^n
+\]
+
+\[
+f(x) - a_0 = \sum_{n=1}^{\infty} a_n x^n
+\]
+
+Thus, we can rewrite the sum as:
+
+\[
+F(x) = \left[ f(x) - a_0 \right] \frac{1}{x} - f(x)
+\]
+
+\textbf{Step 2: Factor and simplify:}
+
+\[
+F(x) = \frac{f(x)(1 - x) - a_0}{x}
+\]
+
+%-----------------------------------------------------------
+\medskip\item \textbf{Index-multiplier: $A_{n}=n\,a_{n}$.}
+
+\[
+F(x) = \sum_{n \geq 0} n \cdot a_n x^n = \sum_{n=1}^{\infty} n \cdot a_n x^{n-1} \cdot x = x f'(x)
+\]
+
+
+%-----------------------------------------------------------
+\medskip\item \textbf{Lag operator: $A_{n}=a_{n-1}$ for $n\ge1$, $A_{0}=0$.}
+
+Here we simply \emph{multiply} by $x$:
+
+\[
+   F(x)=x\sum_{m\ge0}a_{m}x^{m}=x\,f(x).
+\]
+
+
+\end{enumerate}
+
+\bigskip
+\hrule
+\bigskip
+
+\noindent
+\emph{Bottom line.}  Generating functions live and die by
+\eqref{eq:geom-inf}–\eqref{eq:sum-n2} plus elementary calculus.  Once you stop
+being sentimental about the indices and treat $x$ as an operator knob,
+everything else collapses to high-school algebra.  Don’t over-complicate it.
+
+\end{document}
