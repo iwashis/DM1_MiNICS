@@ -513,4 +513,92 @@ Therefore
 \boxed{a_n=\frac{4-(-2)^n}{3}\,.}
 \]
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Tasks: Coefficient Extraction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Use generating‐function techniques to find the coefficient of \(x^{12}\) in each of the following:
+\begin{enumerate}[label=\textbf{(\alph*)}]
+  \item \(\displaystyle\bigl(1 + x^3 + x^6 + x^9 + \cdots\bigr)^7\).
+  \item \(\displaystyle\bigl(x + x^2 + x^3 + x^4\bigr)^5\).
+  \item \(\displaystyle x^2\,(1 - x)^{12}\).
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Solutions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{(a) \(\bigl(1 + x^3 + x^6 + x^9 + \cdots\bigr)^7\)}
+We use the identity
+\[
+1 + x^3 + x^6 + \cdots = \frac1{1 - x^3},
+\]
+so
+\[
+\bigl(1 + x^3 + x^6 + \cdots\bigr)^7
+= (1 - x^3)^{-7}
+= \sum_{m=0}^\infty \binom{7 + m - 1}{m}\,(x^3)^m
+= \sum_{m=0}^\infty \binom{6 + m}{m}\,x^{3m}.
+\]
+To pick out the coefficient of \(x^{12}\), set \(3m=12\), so \(m=4\). Hence
+\[
+\boxed{
+[x^{12}]\,(1 + x^3 + x^6 + \cdots)^7
+= \binom{6+4}{4}
+= \binom{10}{4}
+=210.
+}
+\]
+
+\subsection*{(b) \(\bigl(x + x^2 + x^3 + x^4\bigr)^5\)}  
+Factor out \(x\):
+\[
+(x + x^2 + x^3 + x^4)^5
+= x^5\,(1 + x + x^2 + x^3)^5
+= x^5\,\bigl(\tfrac{1 - x^4}{1 - x}\bigr)^5
+= x^5\,(1 - x^4)^5\,(1 - x)^{-5}.
+\]
+Expand \((1 - x^4)^5=\sum_{j=0}^5(-1)^j\binom{5}{j}x^{4j}\) and \((1 - x)^{-5}=\sum_{k=0}^\infty\binom{4 + k}{4}x^k\).  The coefficient of \(x^{12}\) in the product is the coefficient of \(x^7\) in \((1 - x^4)^5(1 - x)^{-5}\):
+\[
+[x^{12}]
+= [x^7]\;\sum_{j=0}^5(-1)^j\binom{5}{j}x^{4j}
+           \;\sum_{k=0}^\infty\binom{4+k}{4}x^k
+= \sum_{j=0}^{\lfloor7/4\rfloor}(-1)^j\binom{5}{j}\,
+  \binom{4+(7-4j)}{4}.
+\]
+Only \(j=0,1\) contribute:
+\[
+\begin{aligned}
+j=0:&\quad \binom{5}{0}\binom{11}{4} = 330,\\
+j=1:&\quad -\binom{5}{1}\binom{7}{4} = -175.
+\end{aligned}
+\]
+Therefore
+\[
+\boxed{
+[x^{12}]\,(x + x^2 + x^3 + x^4)^5 = 330 - 175 = 155.
+}
+\]
+
+\subsection*{(c) \(x^2\,(1 - x)^{12}\)}  
+Write out the binomial expansion:
+\[
+x^2\,(1 - x)^{12}
+= x^2\sum_{n=0}^{12} \binom{12}{n}(-1)^n\,x^n
+= \sum_{n=0}^{12} \binom{12}{n}(-1)^n\,x^{n+2}.
+\]
+The coefficient of \(x^{12}\) comes from \(n+2=12\), i.e.\ \(n=10\):
+\[
+[x^{12}] = \binom{12}{10}(-1)^{10}
+= \binom{12}{2}
+= 66.
+\]
+Hence
+\[
+\boxed{
+[x^{12}]\;x^2\,(1 - x)^{12} = 66.
+}
+\]
+
 \end{document}
