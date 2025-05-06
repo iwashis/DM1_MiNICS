@@ -319,8 +319,286 @@ Here we simply \emph{multiply} by $x$:
 
 \noindent
 \emph{Bottom line.}  Generating functions live and die by
-\eqref{eq:geom-inf}–\eqref{eq:sum-n2} plus elementary calculus.  Once you stop
+\eqref{eq:geom-inf}–\eqref{eq:geom-fin} plus elementary calculus.  Once you stop
 being sentimental about the indices and treat $x$ as an operator knob,
 everything else collapses to high-school algebra.  Don’t over-complicate it.
+
+
+\section*{Recurrence‐Relation Exercises}
+
+Use generating functions to find a closed form for each of the following sequences:
+\begin{enumerate}[label=\textbf{(\alph*)}]
+  \item $a_n = 6\,n + a_{n-1},\quad n\ge1,\quad a_0=0.$
+  \item $a_{n+2} = 2\,a_{n+1} + 3\,a_n,\quad n\ge0,\quad a_0=1,\;a_1=2.$
+  \item $a_n = -\,a_{n-1} + 2\,a_{n-2},\quad n\ge2,\quad a_0=1,\;a_1=2.$
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Solution to (a)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Define the ordinary generating function
+\[
+f(x)=\sum_{n=0}^\infty a_n\,x^n.
+\]
+Multiply the recurrence \(a_n = 6n + a_{n-1}\) by \(x^n\) and sum for \(n\ge1\):
+\[
+\sum_{n=1}^\infty a_n\,x^n
+= \sum_{n=1}^\infty a_{n-1}\,x^n
+  + 6\sum_{n=1}^\infty n\,x^n
+\;\Longrightarrow\;
+f(x)-a_0 = x\,f(x) + 6\sum_{n=1}^\infty n\,x^n.
+\]
+We compute the weighted sum by differentiation:
+\[
+\sum_{n=1}^\infty n\,x^n
+= x\,\frac{d}{dx}\Bigl(\sum_{n=0}^\infty x^n\Bigr)
+= x\,\frac{d}{dx}\!\Bigl(\frac1{1-x}\Bigr)
+= \frac{x}{(1-x)^2}.
+\]
+Since \(a_0=0\), the functional equation becomes
+\[
+f(x)\,(1 - x)
+= 6\,\frac{x}{(1-x)^2}
+\quad\Longrightarrow\quad
+f(x) = \frac{6x}{(1-x)^3}.
+\]
+
+\[
+\boxed{
+(1 - x)^{-\alpha}
+= \sum_{k=0}^\infty \binom{\alpha + k - 1}{k}\,x^k
+\quad(\alpha\in\mathbb{N},\text{ as covered in lectures and tutorials})
+}
+\]
+\noindent
+In particular, for \(\alpha=3\) this gives \((1-x)^{-3}=\sum_{k=0}^\infty\binom{k+2}{2}x^k\).
+
+Finally, substituting into \(f(x)\) yields
+\[
+f(x)
+= 6x\sum_{k=0}^\infty\binom{k+2}{2}x^k
+= 6\sum_{n=1}^\infty\binom{n+1}{2}x^n
+\;\Longrightarrow\;
+a_n = 6\binom{n+1}{2} = 3\,n(n+1).
+\]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Solution to (b)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Define the ordinary generating function
+\[
+f(x)=\sum_{n=0}^\infty a_n\,x^n.
+\]
+Multiply the recurrence \(a_{n+2}=2a_{n+1}+3a_n\) by \(x^n\) and sum for \(n\ge0\):
+\begin{align*}
+\sum_{n=0}^\infty a_{n+2}x^n
+&= \sum_{m=2}^\infty a_m\,x^{m-2}
+ &&(\text{set }m=n+2)\\
+& x^{-2}\sum_{m=2}^\infty a_m\,x^m
+ = x^{-2}\bigl(f(x)-a_0 - a_1x\bigr),\\
+\sum_{n=0}^\infty a_{n+1}x^n
+&= \sum_{m=1}^\infty a_m\,x^{m-1}
+ = x^{-1}\bigl(f(x)-a_0\bigr),\\
+\sum_{n=0}^\infty a_n\,x^n
+&= f(x).
+\end{align*}
+Putting these into 
+\(\sum a_{n+2}x^n = 2\sum a_{n+1}x^n + 3\sum a_n x^n\)
+gives
+\[
+x^{-2}\bigl(f(x)-a_0 - a_1x\bigr)
+=2\,x^{-1}\bigl(f(x)-a_0\bigr)
++3\,f(x).
+\]
+
+
+Substitute \(a_0=1\), \(a_1=2\) and clear denominators:
+\[
+f(x)-1-2x
+=2x\bigl(f(x)-1\bigr)+3x^2f(x)
+\;\Longrightarrow\;
+f(x)\,(1-2x-3x^2)=1
+\;\Longrightarrow\;
+f(x)=\frac{1}{(1+x)(1-3x)}.
+\]
+
+\[
+\boxed{
+(1 - r)^{-1}
+= \sum_{n=0}^\infty r^n
+\quad\text{(as covered in lectures and tutorials)}
+}
+\]
+
+Use partial fractions:
+\[
+\frac{1}{(1+x)(1-3x)}
+=\frac{\tfrac14}{1+x}+\frac{\tfrac34}{1-3x},
+\]
+and expand each by the boxed identity with \(r=-x\) and \(r=3x\):
+\[
+f(x)
+=\tfrac14\sum_{n=0}^\infty(-x)^n
++\tfrac34\sum_{n=0}^\infty(3x)^n
+=\sum_{n=0}^\infty\Bigl(\tfrac14(-1)^n+\tfrac34\,3^n\Bigr)x^n.
+\]
+Hence
+\[
+\boxed{a_n = \tfrac14(-1)^n + \tfrac34\,3^n.}
+\]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Solution to (c)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Define the ordinary generating function
+\[
+f(x)=\sum_{n=0}^\infty a_n\,x^n.
+\]
+Multiply the recurrence \(a_n=-a_{n-1}+2a_{n-2}\) by \(x^n\) and sum for \(n\ge2\):
+\begin{align*}
+\sum_{n=2}^\infty a_n\,x^n
+&=-\sum_{n=2}^\infty a_{n-1}\,x^n
++2\sum_{n=2}^\infty a_{n-2}\,x^n\\
+&=-x\sum_{m=1}^\infty a_m\,x^m
++2x^2\sum_{m=0}^\infty a_m\,x^m\\
+&=-x\bigl(f(x)-a_0\bigr)+2x^2f(x),
+\end{align*}
+while
+\[
+\sum_{n=2}^\infty a_n\,x^n=f(x)-a_0-a_1x.
+\]
+Substituting \(a_0=1,\;a_1=2\) yields
+\[
+f(x)-1-2x
+=-x\bigl(f(x)-1\bigr)+2x^2f(x)
+\;\Longrightarrow\;
+f(x)\,(1+x-2x^2)=1+3x
+\;\Longrightarrow\;
+f(x)=\frac{1+3x}{(1-x)(1+2x)}.
+\]
+
+Decompose into partial fractions:
+\[
+\frac{1+3x}{(1-x)(1+2x)}
+=\frac{A}{1-x}+\frac{B}{1+2x}
+\quad\Longrightarrow\quad
+A=\tfrac{4}{3},\;B=-\tfrac{1}{3},
+\]
+so
+\[
+f(x)
+=\frac{4/3}{1-x}-\frac{1/3}{1+2x}.
+\]
+
+Use the geometric‐series identity
+\[
+\boxed{
+\frac{1}{1-r}
+=\sum_{n=0}^\infty r^n
+\quad\text{(as in lectures and tutorials)}
+}
+\]
+with \(r=x\) and \(r=-2x\) to get
+\[
+f(x)
+=\frac{4}{3}\sum_{n=0}^\infty x^n
+-\frac{1}{3}\sum_{n=0}^\infty(-2x)^n
+=\sum_{n=0}^\infty\Bigl(\tfrac{4}{3}-\tfrac{(-2)^n}{3}\Bigr)x^n.
+\]
+Therefore
+\[
+\boxed{a_n=\frac{4-(-2)^n}{3}\,.}
+\]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Tasks: Coefficient Extraction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Use generating‐function techniques to find the coefficient of \(x^{12}\) in each of the following:
+\begin{enumerate}[label=\textbf{(\alph*)}]
+  \item \(\displaystyle\bigl(1 + x^3 + x^6 + x^9 + \cdots\bigr)^7\).
+  \item \(\displaystyle\bigl(x + x^2 + x^3 + x^4\bigr)^5\).
+  \item \(\displaystyle x^2\,(1 - x)^{12}\).
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Solutions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{(a) \(\bigl(1 + x^3 + x^6 + x^9 + \cdots\bigr)^7\)}
+We use the identity
+\[
+1 + x^3 + x^6 + \cdots = \frac1{1 - x^3},
+\]
+so
+\[
+\bigl(1 + x^3 + x^6 + \cdots\bigr)^7
+= (1 - x^3)^{-7}
+= \sum_{m=0}^\infty \binom{7 + m - 1}{m}\,(x^3)^m
+= \sum_{m=0}^\infty \binom{6 + m}{m}\,x^{3m}.
+\]
+To pick out the coefficient of \(x^{12}\), set \(3m=12\), so \(m=4\). Hence
+\[
+\boxed{
+[x^{12}]\,(1 + x^3 + x^6 + \cdots)^7
+= \binom{6+4}{4}
+= \binom{10}{4}
+=210.
+}
+\]
+
+\subsection*{(b) \(\bigl(x + x^2 + x^3 + x^4\bigr)^5\)}  
+Factor out \(x\):
+\[
+(x + x^2 + x^3 + x^4)^5
+= x^5\,(1 + x + x^2 + x^3)^5
+= x^5\,\bigl(\tfrac{1 - x^4}{1 - x}\bigr)^5
+= x^5\,(1 - x^4)^5\,(1 - x)^{-5}.
+\]
+Expand \((1 - x^4)^5=\sum_{j=0}^5(-1)^j\binom{5}{j}x^{4j}\) and \((1 - x)^{-5}=\sum_{k=0}^\infty\binom{4 + k}{4}x^k\).  The coefficient of \(x^{12}\) in the product is the coefficient of \(x^7\) in \((1 - x^4)^5(1 - x)^{-5}\):
+\[
+[x^{12}]
+= [x^7]\;\sum_{j=0}^5(-1)^j\binom{5}{j}x^{4j}
+           \;\sum_{k=0}^\infty\binom{4+k}{4}x^k
+= \sum_{j=0}^{\lfloor7/4\rfloor}(-1)^j\binom{5}{j}\,
+  \binom{4+(7-4j)}{4}.
+\]
+Only \(j=0,1\) contribute:
+\[
+\begin{aligned}
+j=0:&\quad \binom{5}{0}\binom{11}{4} = 330,\\
+j=1:&\quad -\binom{5}{1}\binom{7}{4} = -175.
+\end{aligned}
+\]
+Therefore
+\[
+\boxed{
+[x^{12}]\,(x + x^2 + x^3 + x^4)^5 = 330 - 175 = 155.
+}
+\]
+
+\subsection*{(c) \(x^2\,(1 - x)^{12}\)}  
+Write out the binomial expansion:
+\[
+x^2\,(1 - x)^{12}
+= x^2\sum_{n=0}^{12} \binom{12}{n}(-1)^n\,x^n
+= \sum_{n=0}^{12} \binom{12}{n}(-1)^n\,x^{n+2}.
+\]
+The coefficient of \(x^{12}\) comes from \(n+2=12\), i.e.\ \(n=10\):
+\[
+[x^{12}] = \binom{12}{10}(-1)^{10}
+= \binom{12}{2}
+= 66.
+\]
+Hence
+\[
+\boxed{
+[x^{12}]\;x^2\,(1 - x)^{12} = 66.
+}
+\]
 
 \end{document}
