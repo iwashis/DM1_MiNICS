@@ -235,8 +235,131 @@ To visualize these concepts, consider the 3-dimensional binary vector space $(\m
 \caption{Each vertex corresponds to a 3-bit binary vector. Edges connect vertices that differ in one coordinate (Hamming distance $1$). For example, the neighbors of $000$ (connected directly by an edge) are $001$, $010$, and $100$, which illustrates all vectors at Hamming distance $1$ from $000$.}
 \end{figure}
 
-In this cube, one can see how clusters of vectors can be grouped around a given vertex. For instance, as noted, the set $\{000,001,010,100\}$ are all within distance $1$ of $000$ (a Hamming ball of radius $1$ around $000$). If we take a simple code such as $C=\{000,111\}$ (which is the $((3,1))$ repetition code in binary with $n=3$, $k=1$), those codewords correspond to the vertices $000$ and $111$, which are opposite corners of the cube. The minimum distance of this code is $d_C = d_H(000,111) = 3$. The balls of radius $1$ around $000$ and around $111$ (the sets of neighbors each has) do not overlap; in fact, they are separated by at least one bit flip difference. Thus, if at most 1 error occurs during transmission, the received word will remain in the unique “sphere” of radius $1$ around whichever codeword was sent, and decoding can correctly deduce the original codeword. If 2 errors occur, the received word will be distance 2 from the original codeword --- in this case (for $C=\{000,111\}$) a double error could yield a vector like $110$, which is not a codeword but is now only distance 1 away from the \emph{other} codeword $111$. The decoder might misidentify it if it only considers radius $1$ spheres, but it will at least notice an error occurred since $110$ is not itself a codeword. These ideas will be formalized next.
+In this cube, one can see how clusters of vectors can be grouped around a given vertex. For instance, as noted, the set $\{000,001,010,100\}$ are all within distance $1$ of $000$ (a Hamming ball of radius $1$ around $000$). If we take a simple code such as $C=\{000,111\}$ (which is the $((3,1))$ repetition code in binary with $n=3$, $k=1$), those codewords correspond to the vertices $000$ and $111$, which are opposite corners of the cube. The minimum distance of this code is $d_C = d_H(000,111) = 3$. The balls of radius $1$ around $000$ and around $111$ (the sets of neighbors each has) do not overlap; in fact, they are separated by at least one bit flip difference. Thus, if at most 1 error occurs during transmission, the received word will remain in the unique “sphere” of radius $1$ around whichever codeword was sent, and decoding can correctly deduce the original codeword. If 2 errors occur, the received word will be distance 2 from the original codeword --- in this case (for $C=\{000,111\}$) a double error could yield a vector like $110$, which is not a codeword but is now only distance 1 away from the \emph{other} codeword $111$. The decoder might misidentify it if it only considers radius $1$ spheres, but it will at least notice an error occurred since $110$ is not itself a codeword.
 
+
+
+\section{Error Detection and Correction Bounds}
+
+Before looking at concrete codes, it is helpful to understand in general how the minimum distance of a code determines its ability to detect and correct errors.
+
+\bigskip
+
+\noindent\textbf{1. Minimum distance.}  Let \(C\subseteq\mathbb{Z}_p^n\) be a code with minimum Hamming distance
+\[
+  d_{\min}
+  \;=\;
+  \min_{\substack{\mathbf{c}_1,\mathbf{c}_2\in C\\\mathbf{c}_1\neq\mathbf{c}_2}}
+  d_H(\mathbf{c}_1,\mathbf{c}_2).
+\]
+By definition, any two distinct codewords differ in at least \(d_{\min}\) positions.
+
+\medskip
+
+\noindent\textbf{2. Error detection.}  
+If up to \(t\) errors occur, then the received word \(\mathbf{r} = \mathbf{c} + \mathbf{e}\) satisfies
+\[
+  d_H(\mathbf{c},\mathbf{r}) = w(\mathbf{e}) \;\le\; t.
+\]
+To \emph{detect} every such error, \(\mathbf{r}\) must never coincide with a different codeword.  In other words, no two codewords may be within distance \(t\) of one another.  Since the closest pair of distinct codewords are \(d_{\min}\) apart, we need
+\[
+  t < d_{\min}.
+\]
+Hence a code with minimum distance \(d_{\min}\) can detect all error patterns of weight up to
+\[
+  t_{\rm det} = d_{\min}-1.
+\]
+
+\medskip
+
+\noindent\textbf{3. Error correction.}  
+To \emph{correct} up to \(t\) errors, a decoder typically chooses the codeword nearest to the received word \(\mathbf{r}\).  Geometrically, this means the Hamming balls of radius \(t\) around each codeword must be disjoint: if two balls overlap, a received word in the overlap could have come from either center, making correct decoding impossible.
+
+Two balls of radius \(t\) around codewords \(\mathbf{c}_1\) and \(\mathbf{c}_2\) remain disjoint exactly when
+\[
+  2t < d_H(\mathbf{c}_1,\mathbf{c}_2)
+  \quad\text{for all }\mathbf{c}_1\neq\mathbf{c}_2.
+\]
+Since the minimum distance between any two distinct codewords is \(d_{\min}\), the strongest requirement is
+\[
+  2t < d_{\min}.
+\]
+Therefore, the maximum number of errors that can be \emph{corrected} is
+\[
+  t_{\rm corr} = \left\lfloor \frac{d_{\min}-1}{2} \right\rfloor.
+\]
+
+\medskip
+
+\noindent\textbf{Summary.}  If a code \(C\) has minimum Hamming distance \(d_{\min}\), then
+\[
+  t_{\rm det} = d_{\min} - 1,
+  \quad
+  t_{\rm corr} = \Bigl\lfloor \tfrac{d_{\min}-1}{2}\Bigr\rfloor.
+\]
+These simple formulas allow us, once we know \(d_{\min}\), to immediately read off how many errors the code can detect and how many it can correct.
+
+\subsection*{Example 1}
+
+\noindent Consider the 5-bit binary code
+\[
+  C = \bigl\{\texttt{00000},\;\texttt{01011},\;\texttt{10101},\;\texttt{11110}\bigr\}
+  \;\subset\;(\mathbb{Z}_2)^5.
+\]
+Checking pairwise Hamming distances gives
+\[
+  d_H(00000,01011)=3,\quad
+  d_H(00000,10101)=3,\quad
+  d_H(01011,10101)=4,\;\ldots
+\]
+so the minimum distance is
+\[
+  d_{\min}=3.
+\]
+Hence
+\[
+  t_{\rm det}=3-1=2,
+  \quad
+  t_{\rm corr}=\bigl\lfloor(3-1)/2\bigr\rfloor=1.
+\]
+\emph{Conclusion:} this code can detect up to 2 errors and correct up to 1 error.
+
+\subsection*{Example 2}
+
+\noindent Now take the 6-bit code
+\[
+  C = \bigl\{\texttt{000000},\;\texttt{010101},\;\texttt{101010},\;\texttt{111111}\bigr\}
+  \;\subset\;(\mathbb{Z}_2)^6.
+\]
+One finds quickly that every pair of distinct codewords differs in exactly 3 or 6 positions, so
+\[
+  d_{\min}=3.
+\]
+Thus again
+\[
+  t_{\rm det}=2,
+  \quad
+  t_{\rm corr}=1.
+\]
+
+\subsection*{Example 3: Repetition Code of Length 7}
+
+\noindent Finally, the binary repetition code of length~7 is
+\[
+  C = \bigl\{\,\underbrace{0000000}_{7\rm\ times},\;
+                 \underbrace{1111111}_{7\rm\ times}\bigr\}.
+\]
+Clearly any two distinct codewords differ in all 7 positions, so
+\[
+  d_{\min}=7.
+\]
+Therefore
+\[
+  t_{\rm det}=7-1=6,
+  \quad
+  t_{\rm corr}=\bigl\lfloor(7-1)/2\bigr\rfloor=3.
+\]
+\emph{Conclusion:} the 7-fold repetition code can detect up to 6 errors and correct up to 3 errors.
 
 
 \end{document}
