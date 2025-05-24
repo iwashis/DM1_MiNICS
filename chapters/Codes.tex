@@ -362,4 +362,183 @@ Therefore
 \emph{Conclusion:} the 7-fold repetition code can detect up to 6 errors and correct up to 3 errors.
 
 
+
+\section{Detection, Correction, and Perfect Codes}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1.  DETECTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Theorem}
+\textit{A code $C$ is able to detect $t$ errors or fewer \emph{iff}
+the minimum distance satisfies $d_C\ge t+1$,}\\[4pt]
+\centerline{$d_C = \min\{\,d_H(c_1,c_2) : c_1,c_2\in C,\; c_1\neq c_2\,\}$.}\\[10pt]
+
+\subsection*{Proof}
+
+\textbf{($\Rightarrow$)}\;
+Let $c_1\in C$ be the original codeword sent, and let $f$ be the received
+word.  \underline{Assume $d_C\ge t+1$}.  
+If at most $t$ errors occurred, then $d_H(c_1,f)\le t$.  
+For any \emph{other} codeword $c_2\in C$ with $c_2\neq c_1$ we have
+\[
+  d_H(c_2,f)
+  \;\ge\;
+  d_H(c_1,c_2)-d_H(c_1,f)
+  \;\ge\;
+  (t+1)-t
+  \;=\;
+  1.
+\]
+Hence $f\notin C$, so the decoder recognises that an error happened; the
+error is \textit{detectable}.
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+  % circles (intersecting)
+  \draw (0,0)   circle (1.8);
+  \draw (2.8,0) circle (1.8);
+  % centres
+  \fill (0,0)   circle (1.2pt) node[below] {$c_1$};
+  \fill (2.8,0) circle (1.2pt) node[below] {$c_2$};
+  % radius in left circle
+  \draw (0,0) -- (0,1.8);
+  \node at (-0.3,0.9) {$t$};
+  % centre-to-centre segment (plain line, no arrows)
+  \draw (0,0) -- (2.8,0);
+  % extra labels as in the notebook
+  \node at (1.4,1.85) {$t+1$};
+  \node at (1.4,-1.9) {$t+1$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{($\Leftarrow$)}\;
+Suppose the code detects every pattern of at most $t$ errors.
+For any $c\in C$ and word $f$ with $d_H(c,f)\le t$, we must
+have $f\notin C$ unless $f=c$.  
+Thus if $c,c'\in C$ are distinct, $c'$ cannot lie within
+distance $t$ of $c$; otherwise $c'$ would be a second codeword in the ball
+of radius $t$ around $c$.  Therefore $d_H(c,c')>t$ for all $c\neq c'$,
+hence (integer distance) $d_H(c,c')\ge t+1$.  Taking the minimum over all
+pairs gives $d_C\ge t+1$.\hfill$\square$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2.  CORRECTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bigskip
+\subsection*{Definition}
+A code $C$ \textit{corrects $t$ errors or fewer} if, whenever
+$d_H(c,f)\le t$ for some $c\in C$, that $c$ is the \emph{unique} codeword
+within distance $\le t$ of $f$.\\[10pt]
+
+\subsection*{Theorem}
+A code $C$ corrects $t$ or fewer errors \emph{iff}
+\[
+  d_C \;\ge\; 2t+1.
+\]\\[6pt]
+
+\subsection*{Corollary}
+$C$ corrects $t$ errors or fewer \emph{iff}
+\[
+  B(c,t)\cap B(c',t)=\varnothing
+  \quad\text{for all } c\neq c'\in C.
+\]
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+  % two disjoint balls of radius t
+  \draw (0,0)   circle (1.8);
+  \draw (4.2,0) circle (1.8);
+  \fill (0,0)   circle (1.2pt) node[below] {$c$};
+  \fill (4.2,0) circle (1.2pt) node[below] {$c'$};
+  % radius marked in left ball
+  \draw (0,0) -- (0,1.8);
+  \node at (-0.3,0.9) {$t$};
+  % centre-to-centre distance
+  \draw (0,0) -- (4.2,0);
+  \node at (2.1,0.25) {$2t+1$};
+\end{tikzpicture}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3.  EXAMPLE  (single‐parity‐check code)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Example}
+Let
+\[
+  \varphi:\ \mathbb Z_p^{\,n-1}\longrightarrow \mathbb Z_p^{\,n},
+  \qquad
+  \varphi(a_1,\dots,a_{n-1}) \;=\;
+  (a_1,\dots,a_{n-1}, -\sum_{i=1}^{\,n-1}a_i).
+\]
+This is the length-$n$ \emph{single‐parity‐check code}.  
+Its minimum distance is $d_C=2$.
+
+\begin{itemize}
+  \item \textbf{Detection:} $d\ge t+1$ \;($2\ge t+1\Rightarrow t\le1$).  
+        So the code \emph{detects exactly one error}.
+  \item \textbf{Correction:} $d\ge 2t+1$ \;($2\ge 2t+1$ impossible for
+        $t\ge1$).  Hence it \emph{cannot correct a single error}
+        (only $t=0$).
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 4.  REPETITION CODE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Example (repetition code)}
+Define
+\[
+  \xi : \mathbb Z_p \longrightarrow \mathbb Z_p^{\,n},
+  \qquad
+  \xi(a)=(\underbrace{a,\dots,a}_{n\text{ times}}).
+\]
+This $n$‐fold repetition code has
+\[
+  d_C=n,\qquad
+  \text{detection capacity } n-1,\qquad
+  \text{correction capacity }\Bigl\lfloor\frac{n-1}{2}\Bigr\rfloor.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 5.  HAMMING BOUND & PERFECT CODES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Theorem (Hamming bound)}
+If a code $C\subseteq\mathbb Z_p^{\,n}$ with $M$ elements corrects $t$
+errors, then
+\[
+  M\bigl(1 + (p-1)\tbinom{n}{1} + (p-1)\tbinom{n}{2}
+        + \cdots + (p-1)\tbinom{n}{t}\bigr)\;\le\;p^{\,n}.
+\]
+
+\subsubsection*{Proof (sketch)}
+Draw a radius-$t$ Hamming ball around each codeword.  
+Since the balls are disjoint, their union fits inside
+$\mathbb Z_p^{\,n}$, giving the inequality.
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+  % rectangle = ambient space
+  \draw (-2,-1.3) rectangle (4,1.3) node[above right] {$\mathbb Z_p^{n}$};
+  % three disjoint balls
+  \foreach \x/\y in {0.3/0.3,2.4/0.2,1.2/-0.6}{
+    \draw (\x,\y) circle (0.6);
+    \node at (\x,\y) {$c_i$};
+  }
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Definition (perfect code)}
+A code correcting $t$ errors is \emph{perfect} when equality holds, i.e.
+\[
+  M\bigl(1 + (p-1)\tbinom{n}{1} + \cdots + (p-1)\tbinom{n}{t}\bigr)=p^{\,n}.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 6.  LINEAR CODES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Linear codes}
+Let $\xi : \mathbb Z_p^{\,k} \to \mathbb Z_p^{\,n}$ be a coding function
+with image $C$.  
+We call $C$ \emph{linear} if $\xi$ is a linear map of vector spaces over
+$\mathbb Z_p$.
+
 \end{document}
