@@ -535,10 +535,13 @@ A code correcting $t$ errors is \emph{perfect} when equality holds, i.e.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 6.  LINEAR CODES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Linear codes}
-Let $\xi : \mathbb Z_p^{\,k} \to \mathbb Z_p^{\,n}$ be a coding function
-with image $C$.  
-We call $C$ \emph{linear} if $\xi$ is a linear map of vector spaces over
-$\mathbb Z_p$.
+\subsection*{Definition (Linear codes)}
+Let $\zeta: \mathbb{Z}_p^k \to \mathbb{Z}_p^n$ be a coding function that maps a message vector of length $k$ to a codeword of length $n$ (where $k < n$).
+The function $\zeta$ is called a linear code , if it is a linear mapping between the vector spaces $\mathbb{Z}_p^k$ and $\mathbb{Z}_p^n$. 
+That is, for all vectors $\mathbf{u}, \mathbf{v} \in \mathbb{Z}_p^k$ and all scalars $\alpha, \beta \in \mathbb{Z}_p$, the function satisfies:
+$$\zeta(\alpha \mathbf{u} + \beta \mathbf{v}) = \alpha \zeta(\mathbf{u}) + \beta \zeta(\mathbf{v})$$
+The image of $\mathbb{Z}_p^k$ under $\zeta$, denoted as $C = \text{Im}(\zeta)$, is a subspace of $\mathbb{Z}_p^n$.\\\\
+Hence:
+A non-empty subset $C \subseteq \mathbb{Z}_p^n$ is a linear code if and only if it is closed under linear combinations. That is, for all codewords $\mathbf{c}_1, \mathbf{c}_2 \in C$ and all scalars $\alpha, \beta \in \mathbb{Z}_p$:$$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 \in C$$
 
 \end{document}
