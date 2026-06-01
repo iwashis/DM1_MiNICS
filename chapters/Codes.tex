@@ -544,4 +544,54 @@ The image of $\mathbb{Z}_p^k$ under $\zeta$, denoted as $C = \text{Im}(\zeta)$, 
 Hence:
 A non-empty subset $C \subseteq \mathbb{Z}_p^n$ is a linear code if and only if it is closed under linear combinations. That is, for all codewords $\mathbf{c}_1, \mathbf{c}_2 \in C$ and all scalars $\alpha, \beta \in \mathbb{Z}_p$:$$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 \in C$$
 
+\subsection*{Example 1}
+Consider the repetition code 
+$$C = \left\{ (\underbrace{a, a, \dots, a}_{n \text{ times}}) \;\middle|\; a \in \mathbb{Z}_p \right\} \subseteq \mathbb{Z}_p^n$$ 
+It is easy to show that $C$ is a linear code.
+\\\\Proof:\\To prove that $C$ is a linear code, we must demonstrate that it is a subspace of $\mathbb{Z}_p^n$. 
+We will use the combined subspace criterion. 
+Let $\mathbf{c}_1, \mathbf{c}_2$ be any two codewords from $C$, and let $\alpha, \beta$ be any two scalars from the finite field $\mathbb{Z}_p$. 
+By definition of the set $C$, since $\mathbf{c}_1 \in C$ and $\mathbf{c}_2 \in C$, there must exist two scalars $a_1, a_2 \in \mathbb{Z}_p$ such that:
+$$\mathbf{c}_1 = (a_1, a_1, \dots, a_1)$$
+$$\mathbf{c}_2 = (a_2, a_2, \dots, a_2)$$
+Now, let us construct the linear combination $\alpha \mathbf{c}_1 + \beta \mathbf{c}_2$:
+$$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 = \alpha (a_1, a_1, \dots, a_1) + \beta (a_2, a_2, \dots, a_2)
+$$Using component-wise vector addition and scalar multiplication in $\mathbb{Z}_p^n$, we can combine these terms:
+$$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 = (\alpha a_1, \alpha a_1, \dots, \alpha a_1) + (\beta a_2, \beta a_2, \dots, \beta a_2)$$
+$$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 = (\alpha a_1 + \beta a_2, \; \alpha a_1 + \beta a_2, \; \dots, \; \alpha a_1 + \beta a_2)$$
+Let us define a new scalar $a_3 = \alpha a_1 + \beta a_2$. Since $\mathbb{Z}_p$ is a field, it is closed under addition and multiplication, meaning that $a_3 \in \mathbb{Z}_p$.
+Substituting $a_3$ back into our vector, we get:
+$$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 = (\underbrace{a_3, a_3, \dots, a_3}_{n \text{ times}})$$
+Since this resulting vector consists of the same scalar $a_3$ repeated $n$ times, where $a_3 \in \mathbb{Z}_p$, it perfectly matches the definition of the set $C$. 
+Therefore:
+$$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 \in C$$
+Because the linear combination of any two codewords remains within $C$, the set $C$ is a valid subspace of $\mathbb{Z}_p^n$. 
+Hence, $C$ is a linear code. $\square$
+
+\subsection*{Example 2}
+Formally, the general parity-check code $C$ is defined as the following set:
+$$C = \left\{ \left( a_1, a_2, \dots, a_{n-1}, -\sum_{i=1}^{n-1} a_i \right) \;\middle|\; a_i \in \mathbb{Z}_p \right\} \subseteq \mathbb{Z}_p^n$$
+\\\\Proof:\\
+Let $\mathbf{c} = (c_1, c_2, \dots, c_n)$ be an arbitrary vector in $\mathbb{Z}_p^n$. 
+By definition, $\mathbf{c}$ belongs to $C$ if and only if its components satisfy the relation:
+$$c_n = -\sum_{i=1}^{n-1} c_i$$
+By moving the summation to the left-hand side of the equation, we can rewrite this structural constraint as a single homogeneous linear equation:
+$$c_1 + c_2 + \dots + c_{n-1} + c_n = 0$$
+Thus, the code $C$ can be explicitly defined as the set of all vectors that satisfy this homogeneous equation:
+$$C = \left\{ \mathbf{c} \in \mathbb{Z}_p^n \;\middle|\; \sum_{i=1}^{n} c_i = 0 \right\}$$
+
+From fundamental linear algebra, the set of all solutions to any system of homogeneous linear equations over a field always forms a vector subspace of the surrounding vector space. $\square$
+\subsection*{Remark}
+Let 
+\\$\zeta: \mathbb{Z}_p^k \to \mathbb{Z}_p^n$ be a linear encoding function defining a linear code $C$. 
+Then, there exists a $k \times n$ matrix $G$ with entries in $\mathbb{Z}_p$ such that for every message $\mathbf{u} \in \mathbb{Z}_p^k$, the encoding function can be presented as:
+$$\zeta(\mathbf{u}) = \mathbf{u}G$$
+The matrix $G$ is called the \textbf{generator matrix} of the linear code $C$.
+
+\subsection*{Remark}
+Let $C$ be a linear code and let $G$ be its generating matrix. 
+Then, every codeword $\mathbf{c} \in C$ can be expressed as a linear combination of the rows of $G$.
+$$\mathbf{c} \in C \iff \mathbf{c} = \mathbf{u}G \quad \text{for } \mathbf{u} \in \mathbb{Z}_p^k$$
+Rephrased: $$C = \left\{ \mathbf{u}G \;\middle|\; \mathbf{u} \in \mathbb{Z}_p^k \right\}$$
+
 \end{document}
