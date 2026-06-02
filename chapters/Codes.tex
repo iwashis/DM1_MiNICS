@@ -675,10 +675,40 @@ $$\mathbf{c} \in C \iff \mathbf{c} = \mathbf{u}G \text{ for some } \mathbf{u} \i
 Now,
 $$\mathbf{c}H^T = \mathbf{u}GH^T = \mathbf{u}[I_k | P][-P^T | I_{n-k}]^T = \mathbf{u}[I_k | P]\begin{bmatrix} -P \\ I_{n-k} \end{bmatrix} = \mathbf{u}(-P + P) = \mathbf{0}$$
 If the generating matrix $G$ is not in standard form, the parity-check matrix $H$ can be constructed by solving the homogeneous system of linear equations:
-$$G\mathbf{x}^T = \mathbf{0}^T$$
+$$G\mathbf{x} = \mathbf{0}$$
 Since the solution set $V = \{\mathbf{x} \in \mathbb{Z}_p^n : G\mathbf{x}^T = \mathbf{0}^T\}$ forms a subspace of $\mathbb{Z}_p^n$ of dimension $n-k$, it possesses a basis. 
 Let $\{\mathbf{h}_1, \mathbf{h}_2, \dots, \mathbf{h}_{n-k}\}$ be a basis of this solution space.
 The parity-check matrix $H$ is then formed by taking these basis vectors as its rows:
 $$H = \begin{bmatrix} \mathbf{h}_1 \\ \mathbf{h}_2 \\ \vdots \\ \mathbf{h}_{n-k} \end{bmatrix}$$
 By construction, $G H^T = \mathbf{0}$, which ensures that $H$ is a valid parity-check matrix for the code $C$.
-\end{document} 
+\subsection*{Decoding linear codes}
+Assume C is a linear code with parity-check matrix H. Moreover assume $\mathbf{c}$ is the codeword sent, but $\mathbf{r} = \mathbf{c} + \mathbf{e}$ was the received word, where $\mathbf{e}$ is the error vector. 
+Then:
+$$\mathbf{r}H^T = (\mathbf{c} + \mathbf{e})H^T = \mathbf{c}H^T + \mathbf{e}H^T = \mathbf{0} + \mathbf{e}H^T = \mathbf{e}H^T$$
+The product $\mathbf{s} = \mathbf{r}H^T$ is called the syndrome of the received vector $\mathbf{r}$.
+\subsection*{Theorem}
+If C corrects $d$ errors or less and $\mathbf{r} = \mathbf{c} + \mathbf{e}$, where $\mathbf{c} \in C$ is the codeword sent and $\mathbf{e}$ is the error vector, whose weight is at most $d$, then $\mathbf{e}H^T$ is unique and can be determined by finding all solutions to:
+$$\mathbf{r}H^T = \mathbf{x}H^T$$
+and choosing the solution $\mathbf{x}$ with the smallest weight.
+\subsection*{Example}
+Let C = $\{(0,0,0,0), (0,1,0,1), (1,0,1,1), (1,1,1,0)\}$ be a linear code with generating matrix:
+$$ G = 
+\begin{bmatrix}
+  1 & 0 & 1 & 1 \\
+  0 & 1 & 0 & 1 \\
+\end{bmatrix} $$
+and parity-check matrix:
+$$ H =
+\begin{bmatrix}
+  1 & 0 & 1 & 0 \\
+  1 & 1 & 0 & 1 \\
+\end{bmatrix} $$
+Suppose the received word is $\mathbf{r} = (1,1,1,1)$.
+$$rH^T = (1,1,1,1) \begin{bmatrix} 1 & 0 \\ 1 & 1 \\ 1 & 0 \\ 0 & 1 \end{bmatrix} = [0, 1] \text{ in $\mathbb{Z}_2^2$}$$
+The solutions to $\mathbf{r}H^T = \mathbf{x}H^T$ are:
+$$\mathbf{x} = (x_3, 1 + x_3 + x_4, x_3, x_4) \quad \text{for } x_3, x_4 \in \mathbb{Z}_2$$
+Vectors from solution set with the smallest weight are:
+$$\mathbf{e}_1 = (0, 1, 0, 0)$$
+$$\mathbf{e}_2 = (0, 0, 0, 1)$$
+Hence, the decoder can choose either $\mathbf{e}_1$ or $\mathbf{e}_2$ as the error vector, and decode $\mathbf{r}$ to $\mathbf{c} = \mathbf{r} - \mathbf{e}_1 = (1,0,1,1)$ or $\mathbf{c} = \mathbf{r} - \mathbf{e}_2 = (1,1,1,0)$, both of which are valid codewords in $C$.
+\end{document}
