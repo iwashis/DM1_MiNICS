@@ -663,8 +663,22 @@ $$(a_1, a_2, \dots, a_{n-1})G = (a_1, a_2, \dots, a_{n-1}, -\sum_{i=1}^{n-1} a_i
 Notice that if we define H = (1, 1, ..., 1), then:
 $$\mathbf{c}H^T = 0 \iff \mathbf{c} \in C$$
 \subsection*{Definition (parity-check matrix)}
-Let $C$ be a linear code in $\mathbb{Z}_p^n$. with generator matrix $G$ of size $k \times n$.
+Let $C$ be a linear code in $\mathbb{Z}_p^n$. with generating matrix $G$ of size $k \times n$.
 A matrix $H$ of size $(n-k) \times n$ over $\mathbb{Z}_p$
 is called a \textbf{parity-check matrix} for $C$, whenever:
 $$\mathbf{c} \in C \iff \mathbf{c}H^T = 0$$
+\subsection*{How to obtain H from G?}
+If $G$ is in standard form, i.e. $G = [I_k | P]$, then a parity-check matrix for $C$ can be constructed as:
+$$H = [-P^T | I_{n-k}]$$
+H is parity check matrix for $C$ because:
+$$\mathbf{c} \in C \iff \mathbf{c} = \mathbf{u}G \text{ for some } \mathbf{u} \in \mathbb{Z}_p^k$$
+Now,
+$$\mathbf{c}H^T = \mathbf{u}GH^T = \mathbf{u}[I_k | P][-P^T | I_{n-k}]^T = \mathbf{u}[I_k | P]\begin{bmatrix} -P \\ I_{n-k} \end{bmatrix} = \mathbf{u}(-P + P) = \mathbf{0}$$
+If the generating matrix $G$ is not in standard form, the parity-check matrix $H$ can be constructed by solving the homogeneous system of linear equations:
+$$G\mathbf{x}^T = \mathbf{0}^T$$
+Since the solution set $V = \{\mathbf{x} \in \mathbb{Z}_p^n : G\mathbf{x}^T = \mathbf{0}^T\}$ forms a subspace of $\mathbb{Z}_p^n$ of dimension $n-k$, it possesses a basis. 
+Let $\{\mathbf{h}_1, \mathbf{h}_2, \dots, \mathbf{h}_{n-k}\}$ be a basis of this solution space.
+The parity-check matrix $H$ is then formed by taking these basis vectors as its rows:
+$$H = \begin{bmatrix} \mathbf{h}_1 \\ \mathbf{h}_2 \\ \vdots \\ \mathbf{h}_{n-k} \end{bmatrix}$$
+By construction, $G H^T = \mathbf{0}$, which ensures that $H$ is a valid parity-check matrix for the code $C$.
 \end{document} 
