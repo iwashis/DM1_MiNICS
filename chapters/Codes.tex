@@ -532,13 +532,183 @@ A code correcting $t$ errors is \emph{perfect} when equality holds, i.e.
   M\bigl(1 + (p-1)\tbinom{n}{1} + \cdots + (p-1)\tbinom{n}{t}\bigr)=p^{\,n}.
 \]
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 6.  LINEAR CODES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Linear codes}
-Let $\xi : \mathbb Z_p^{\,k} \to \mathbb Z_p^{\,n}$ be a coding function
-with image $C$.  
-We call $C$ \emph{linear} if $\xi$ is a linear map of vector spaces over
-$\mathbb Z_p$.
+\section{Linear Codes}
+\subsection*{Definition (Linear codes)}
+Let $\zeta: \mathbb{Z}_p^k \to \mathbb{Z}_p^n$ be a coding function that maps a message vector of length $k$ to a codeword of length $n$ (where $k < n$).
+The function $\zeta$ is called a linear encoder, if it is a linear mapping between the vector spaces $\mathbb{Z}_p^k$ and $\mathbb{Z}_p^n$. 
+That is, for all vectors $\mathbf{u}, \mathbf{v} \in \mathbb{Z}_p^k$ and all scalars $\alpha, \beta \in \mathbb{Z}_p$, the function satisfies:
+$$\zeta(\alpha \mathbf{u} + \beta \mathbf{v}) = \alpha \zeta(\mathbf{u}) + \beta \zeta(\mathbf{v})$$
+The image of $\mathbb{Z}_p^k$ under $\zeta$, denoted as $C = \text{Im}(\zeta)$, is a subspace of $\mathbb{Z}_p^n$.\\\\
+Hence:
+A non-empty subset $C \subseteq \mathbb{Z}_p^n$ is a linear code if and only if it is closed under linear combinations. That is, for all codewords $\mathbf{c}_1, \mathbf{c}_2 \in C$ and all scalars $\alpha, \beta \in \mathbb{Z}_p$:$$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 \in C$$
 
+\subsection*{Example 1}
+Consider the repetition code 
+$$C = \left\{ (\underbrace{a, a, \dots, a}_{n \text{ times}}) \;\middle|\; a \in \mathbb{Z}_p \right\} \subseteq \mathbb{Z}_p^n$$ 
+It is easy to show that $C$ is a linear code.
+\\\\Proof:\\To prove that $C$ is a linear code, we must demonstrate that it is a subspace of $\mathbb{Z}_p^n$. 
+We will use the combined subspace criterion. 
+Let $\mathbf{c}_1, \mathbf{c}_2$ be any two codewords from $C$, and let $\alpha, \beta$ be any two scalars from the finite field $\mathbb{Z}_p$. 
+By definition of the set $C$, since $\mathbf{c}_1 \in C$ and $\mathbf{c}_2 \in C$, there must exist two scalars $a_1, a_2 \in \mathbb{Z}_p$ such that:
+$$\mathbf{c}_1 = (a_1, a_1, \dots, a_1)$$
+$$\mathbf{c}_2 = (a_2, a_2, \dots, a_2)$$
+Now, let us construct the linear combination $\alpha \mathbf{c}_1 + \beta \mathbf{c}_2$:
+$$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 = \alpha (a_1, a_1, \dots, a_1) + \beta (a_2, a_2, \dots, a_2)
+$$Using component-wise vector addition and scalar multiplication in $\mathbb{Z}_p^n$, we can combine these terms:
+$$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 = (\alpha a_1, \alpha a_1, \dots, \alpha a_1) + (\beta a_2, \beta a_2, \dots, \beta a_2)$$
+$$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 = (\alpha a_1 + \beta a_2, \; \alpha a_1 + \beta a_2, \; \dots, \; \alpha a_1 + \beta a_2)$$
+Let us define a new scalar $a_3 = \alpha a_1 + \beta a_2$. Since $\mathbb{Z}_p$ is a field, it is closed under addition and multiplication, meaning that $a_3 \in \mathbb{Z}_p$.
+Substituting $a_3$ back into our vector, we get:
+$$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 = (\underbrace{a_3, a_3, \dots, a_3}_{n \text{ times}})$$
+Since this resulting vector consists of the same scalar $a_3$ repeated $n$ times, where $a_3 \in \mathbb{Z}_p$, it perfectly matches the definition of the set $C$. 
+Therefore:
+$$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 \in C$$
+Because the linear combination of any two codewords remains within $C$, the set $C$ is a valid subspace of $\mathbb{Z}_p^n$. 
+Hence, $C$ is a linear code. $\square$
+
+\subsection*{Example 2}
+Formally, the general parity-check code $C$ is defined as the following set:
+$$C = \left\{ \left( a_1, a_2, \dots, a_{n-1}, -\sum_{i=1}^{n-1} a_i \right) \;\middle|\; a_i \in \mathbb{Z}_p \right\} \subseteq \mathbb{Z}_p^n$$
+\\\\Proof:\\
+Let $\mathbf{c} = (c_1, c_2, \dots, c_n)$ be an arbitrary vector in $\mathbb{Z}_p^n$. 
+By definition, $\mathbf{c}$ belongs to $C$ if and only if its components satisfy the relation:
+$$c_n = -\sum_{i=1}^{n-1} c_i$$
+By moving the summation to the left-hand side of the equation, we can rewrite this structural constraint as a single homogeneous linear equation:
+$$c_1 + c_2 + \dots + c_{n-1} + c_n = 0$$
+Thus, the code $C$ can be explicitly defined as the set of all vectors that satisfy this homogeneous equation:
+$$C = \left\{ \mathbf{c} \in \mathbb{Z}_p^n \;\middle|\; \sum_{i=1}^{n} c_i = 0 \right\}$$
+
+From fundamental linear algebra, the set of all solutions to any system of homogeneous linear equations over a field always forms a vector subspace of the surrounding vector space. $\square$
+\subsection*{Remark}
+Let 
+\\$\zeta: \mathbb{Z}_p^k \to \mathbb{Z}_p^n$ be a linear encoding function defining a linear code $C$. 
+Then, there exists a $k \times n$ matrix $G$ with entries in $\mathbb{Z}_p$ such that for every message $\mathbf{u} \in \mathbb{Z}_p^k$, the encoding function can be presented as:
+$$\zeta(\mathbf{u}) = \mathbf{u}G$$
+The matrix $G$ is called the \textbf{generator matrix} of the linear code $C$.
+
+\subsection*{Remark}
+Let $C$ be a linear code and let $G$ be its generating matrix. 
+Then, every codeword $\mathbf{c} \in C$ can be expressed as a linear combination of the rows of $G$.
+$$\mathbf{c} \in C \iff \mathbf{c} = \mathbf{u}G \quad \text{for } \mathbf{u} \in \mathbb{Z}_p^k$$
+Rephrased: $$C = \left\{ \mathbf{u}G \;\middle|\; \mathbf{u} \in \mathbb{Z}_p^k \right\}$$
+\subsection*{Example 3}
+$$C = \left\{ (0, 0, 0, 0), (0, 1, 0, 1), (1, 0, 1, 1), (1, 1, 1, 0) \right\} \subseteq \mathbb{Z}_2^4$$
+C is a linear code, since it is closed under linear combinations.
+Encoding function:
+$$\zeta: \mathbb{Z}_2^2 \to \mathbb{Z}_2^4$$
+Generating matrix:
+$$ G = 
+\begin{bmatrix}
+0 & 1 & 0 & 1 \\
+1 & 0 & 1 & 1 \\
+\end{bmatrix} $$
+$$
+(0, 0)G = (0, 0, 0, 0) \in C
+$$
+$$
+(0, 1)G = (1, 0, 1, 1) \in C
+$$
+$$
+(1, 0)G = (0, 1, 0, 1) \in C \\
+$$
+$$
+(1, 1)G = (1, 1, 1, 0) \in C  
+$$
+Notice that G is not unique. For instance, we could also use the following generator matrix:
+$$ G' = 
+\begin{bmatrix}
+1 & 0 & 1 & 1 \\
+1 & 1 & 1 & 0 \\
+\end{bmatrix} $$
+or
+$$ G'' = 
+\begin{bmatrix}
+1 & 0 & 1 & 1 \\
+0 & 1 & 0 & 1 \\
+\end{bmatrix} $$
+The rows of the generator matrix $G$ must be linearly independent.
+\subsection*{Definition (standard form)}
+We say that a generating matrix $G$ is in \textbf{standard form} if is of the form:
+$$G = [I_k | P]$$
+where $I_k$ is the $k \times k$ identity matrix and $P$ is a $k \times (n-k)$ matrix.
+\subsection*{Remark}
+If G is in standard form, then:
+$$\underbrace{(u1, u2, ..., uk)}_{\text{u}} G = (u1, u2, ..., uk,   ...   )$$
+\subsection*{Example}
+$$C = \left\{ \left( a_1, a_2, \dots, a_{n-1}, -\sum_{i=1}^{n-1} a_i \right) \;\middle|\; a_i \in \mathbb{Z}_p \right\}$$
+A generator matrix for this code in standard form is:
+$$G = \left[
+\begin{array}{c|c}
+\underbrace{
+\begin{matrix}
+1 & 0 & 0 & \dots & 0 \\
+0 & 1 & 0 & \dots & 0 \\
+0 & 0 & 1 & \dots & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & \dots & 1
+\end{matrix}
+}_{I_{n-1}}
+&
+\begin{matrix}
+-1 \\ -1 \\ -1 \\ \vdots \\ -1
+\end{matrix}
+\vphantom{\underbrace{\begin{matrix} 1 \\ 0 \\ 0 \\ \vdots \\ 0 \end{matrix}}_{I_{n-1}}}
+\end{array}
+\right]$$
+$$(a_1, a_2, \dots, a_{n-1})G = (a_1, a_2, \dots, a_{n-1}, -\sum_{i=1}^{n-1} a_i)$$
+Notice that if we define H = (1, 1, ..., 1), then:
+$$\mathbf{c}H^T = 0 \iff \mathbf{c} \in C$$
+\subsection*{Definition (parity-check matrix)}
+Let $C$ be a linear code in $\mathbb{Z}_p^n$. with generating matrix $G$ of size $k \times n$.
+A matrix $H$ of size $(n-k) \times n$ over $\mathbb{Z}_p$
+is called a \textbf{parity-check matrix} for $C$, whenever:
+$$\mathbf{c} \in C \iff \mathbf{c}H^T = 0$$
+\subsection*{How to obtain H from G?}
+If $G$ is in standard form, i.e. $G = [I_k | P]$, then a parity-check matrix for $C$ can be constructed as:
+$$H = [-P^T | I_{n-k}]$$
+H is parity check matrix for $C$ because:
+$$\mathbf{c} \in C \iff \mathbf{c} = \mathbf{u}G \text{ for some } \mathbf{u} \in \mathbb{Z}_p^k$$
+Now,
+$$\mathbf{c}H^T = \mathbf{u}GH^T = \mathbf{u}[I_k | P][-P^T | I_{n-k}]^T = \mathbf{u}[I_k | P]\begin{bmatrix} -P \\ I_{n-k} \end{bmatrix} = \mathbf{u}(-P + P) = \mathbf{0}$$
+If the generating matrix $G$ is not in standard form, the parity-check matrix $H$ can be constructed by solving the homogeneous system of linear equations:
+$$G\mathbf{x} = \mathbf{0}$$
+Since the solution set $V = \{\mathbf{x} \in \mathbb{Z}_p^n : G\mathbf{x}^T = \mathbf{0}^T\}$ forms a subspace of $\mathbb{Z}_p^n$ of dimension $n-k$, it possesses a basis. 
+Let $\{\mathbf{h}_1, \mathbf{h}_2, \dots, \mathbf{h}_{n-k}\}$ be a basis of this solution space.
+The parity-check matrix $H$ is then formed by taking these basis vectors as its rows:
+$$H = \begin{bmatrix} \mathbf{h}_1 \\ \mathbf{h}_2 \\ \vdots \\ \mathbf{h}_{n-k} \end{bmatrix}$$
+By construction, $G H^T = \mathbf{0}$, which ensures that $H$ is a valid parity-check matrix for the code $C$.
+\subsection*{Decoding linear codes}
+Assume C is a linear code with parity-check matrix H. Moreover assume $\mathbf{c}$ is the codeword sent, but $\mathbf{r} = \mathbf{c} + \mathbf{e}$ was the received word, where $\mathbf{e}$ is the error vector. 
+Then:
+$$\mathbf{r}H^T = (\mathbf{c} + \mathbf{e})H^T = \mathbf{c}H^T + \mathbf{e}H^T = \mathbf{0} + \mathbf{e}H^T = \mathbf{e}H^T$$
+The product $\mathbf{s} = \mathbf{r}H^T$ is called the syndrome of the received vector $\mathbf{r}$.
+\subsection*{Theorem}
+If C corrects $d$ errors or less and $\mathbf{r} = \mathbf{c} + \mathbf{e}$, where $\mathbf{c} \in C$ is the codeword sent and $\mathbf{e}$ is the error vector, whose weight is at most $d$, then $\mathbf{e}H^T$ is unique and can be determined by finding all solutions to:
+$$\mathbf{r}H^T = \mathbf{x}H^T$$
+and choosing the solution $\mathbf{x}$ with the smallest weight.
+\subsection*{Example}
+Let C = $\{(0,0,0,0), (0,1,0,1), (1,0,1,1), (1,1,1,0)\}$ be a linear code with generating matrix:
+$$ G = 
+\begin{bmatrix}
+  1 & 0 & 1 & 1 \\
+  0 & 1 & 0 & 1 \\
+\end{bmatrix} $$
+and parity-check matrix:
+$$ H =
+\begin{bmatrix}
+  1 & 0 & 1 & 0 \\
+  1 & 1 & 0 & 1 \\
+\end{bmatrix} $$
+Suppose the received word is $\mathbf{r} = (1,1,1,1)$.
+$$rH^T = (1,1,1,1) \begin{bmatrix} 1 & 0 \\ 1 & 1 \\ 1 & 0 \\ 0 & 1 \end{bmatrix} = [0, 1] \text{ in $\mathbb{Z}_2^2$}$$
+The solutions to $\mathbf{r}H^T = \mathbf{x}H^T$ are:
+$$\mathbf{x} = (x_3, 1 + x_3 + x_4, x_3, x_4) \quad \text{for } x_3, x_4 \in \mathbb{Z}_2$$
+Vectors from solution set with the smallest weight are:
+$$\mathbf{e}_1 = (0, 1, 0, 0)$$
+$$\mathbf{e}_2 = (0, 0, 0, 1)$$
+Hence, the decoder can choose either $\mathbf{e}_1$ or $\mathbf{e}_2$ as the error vector, and decode $\mathbf{r}$ to $\mathbf{c} = \mathbf{r} - \mathbf{e}_1 = (1,0,1,1)$ or $\mathbf{c} = \mathbf{r} - \mathbf{e}_2 = (1,1,1,0)$, both of which are valid codewords in $C$.
 \end{document}
