@@ -1,11 +1,9 @@
 \documentclass[docmute]{article}
 
-\usepackage[margin=1in]{geometry}
-
 \input{preamble.tex}
 \input{watermark/watermark.tex}
 
-\title{Graphs}
+\title{Introduction to Graph Theory}
 \author{Tomasz Brengos}
 \date{}
 
@@ -14,7 +12,6 @@
 
 
 \section{Formal definition}
-% HEHHE
 A graph is a pair \(G=(V,E)\) where \(V\) is a finite non-empty set (called the set of  \emph{vertices}) 
 and \(E\) is a set (called the set of \emph{edges}), where \(E \subseteq \binom{V}{2}\) (all two-element subsets of \(V\)).
 \medskip
@@ -60,6 +57,9 @@ Let \(G_1 = (V_1, E_1)\) and \(G_2 = (V_2, E_2)\) be two graphs such that  \(V_1
     \item \(E = E(G_1) \cup E(G_2)\)
 \end{itemize}
 
+\subsection*{Walks and Paths}
+A \textbf{walk} in a graph \(G\) is a sequence of vertices \(v_0, v_1, \dots, v_k\) such that \(v_i v_{i+1} \in E(G)\) for every \(0 \le i < k\); the number \(k\) of edges traversed is the \emph{length} of the walk. A \textbf{path} is a walk whose vertices are pairwise distinct. We say that vertices \(u\) and \(v\) are \emph{connected by a path} if there exists a path \(v_0, v_1, \dots, v_k\) with \(v_0 = u\) and \(v_k = v\).
+
 \subsection*{Connectedness}
 A graph \(G\) is \textbf{connected} if it cannot be represented as the sum \(G_1 + G_2\) for some non-empty graphs \(G_1\) and \(G_2\). Otherwise, the graph is called \textbf{disconnected}.
 Equivalently, a graph is connected if there is a path between every pair of distinct vertices.
@@ -85,7 +85,7 @@ For a vertex \(v \in V(G)\), we define its \textbf{degree}, as:
  
 
 \subsection*{Degree Sequence}
-Let \(G\) be a graph with vertices \(V(G) = \{v_1, v_2, \dots, v_n\}\). Then \( sort  [deg(v_1),\dots, deg(v_n) ] \) is called the \textbf{degree sequence} of \(G\)
+Let \(G\) be a graph with vertices \(V(G) = \{v_1, v_2, \dots, v_n\}\). Then the sequence \( (\text{deg}_G(v_1),\dots, \text{deg}_G(v_n)) \), sorted in non-increasing order, is called the \textbf{degree sequence} of \(G\).
 
 \subsection*{Handshaking Lemma}
 In any graph \(G=(V,E)\), the sum of the degrees of all vertices is equal to twice the number of edges:
@@ -99,11 +99,12 @@ In any graph \(G\), the number of vertices with an odd degree is even.
 \end{corollary}
 
 \subsection*{Subgraphs}
-A \textbf{subgraph} \(H\) of a graph \(G\) is a graph \(H=(V_1,E_1)\) , such that
+A \textbf{subgraph} \(H\) of a graph \(G\) is a graph \(H=(V_1,E_1)\) such that
 \begin{itemize}
     \item \(V_1 \subseteq V(G)\)
-    \item \(E_1 \subseteq E(G)\)
+    \item \(E_1 \subseteq E(G) \cap \binom{V_1}{2}\)
 \end{itemize}
+(The second condition says that \(E_1\) consists of edges of \(G\) whose both endpoints lie in \(V_1\); without it, \((V_1,E_1)\) need not be a graph at all.)
 
 
 \end{document}

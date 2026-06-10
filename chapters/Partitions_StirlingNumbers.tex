@@ -30,11 +30,12 @@ For \( N = \{1,2,3,4\} \), one partition into \( 2 \) blocks could be
  \paragraph{Question:}  
 How many \( k \)-partitions of an \( n \)-set are there?  
 \paragraph{Answer:}  
-Let \( S(n, k) \) (or \( \{n \; k\} \)) denote the answer to our question, called the \emph{Stirling number of the second kind}.  
-We define the base cases as follows:  
+Let \( S(n, k) \) (also written \( \genfrac\{\}{0pt}{}{n}{k} \)) denote the answer to our question, called the \emph{Stirling number of the second kind}.
+We define the base cases as follows:
 \[
 S(0,0) := 1, \quad S(0,k) := 0 \quad \text{for } k > 0.
-\]  
+\]
+Moreover, for \(n > 0\) we set \(S(n,0) := 0\) (a nonempty set cannot be split into zero blocks), and \(S(n,k) := 0\) for \(k > n\) (there are not enough elements for \(k\) nonempty blocks). These conventions are used silently in the summation formulas below.
 \paragraph{Theorem:}  
 The total number of set partitions of \( N \) is given by  
 \[
@@ -71,9 +72,9 @@ S(5,2) = 15.
 \]
 
 \paragraph{Note:}  
-Stirling numbers consider objects that we distribute as distinct, the boxes (subsets) as identical, and the size of subsets as known. Due to this, in the example, we did not consider the cases \( 1\,2 | 3\,4\,5 \) and \( 3\,4\,5 | 1\,2 \) as distinct.  
+Stirling numbers consider the objects that we distribute as distinct, the boxes (subsets) as identical, and the number of boxes \( k \) as fixed (the \emph{sizes} of the individual subsets, however, are not prescribed). Due to this, in the example, we did not consider the cases \( 1\,2 | 3\,4\,5 \) and \( 3\,4\,5 | 1\,2 \) as distinct.
 
-Additionally, Bell's number counts all possible partitions, meaning the number of subsets \( k \) is not fixed but varies from \( 0 \) to \( |N| \). This concept may seem similar to multisets; however, Bell's number treats objects being distributed as distinct and the boxes(subsets) as identical, while multisets treat objects as identical and boxes as distinct.
+Additionally, Bell's number counts all possible partitions, meaning the number of subsets \( k \) is not fixed but varies from \( 0 \) to \( |N| \). This concept may seem similar to multisets; however, Bell's number treats objects being distributed as distinct and the boxes (subsets) as identical, while multisets treat objects as identical and boxes as distinct.
 
 
 \paragraph{Recurrence Relation:}  
@@ -115,11 +116,12 @@ Each of the \(n\) elements of \(N\) can be mapped to any of the \(r\) elements o
 
 \paragraph{Q2: How many injective (one-to-one) functions from \(N\) to \(R\)?}
 \paragraph{Answer:} 
-To build an injective function, choose a distinct image in \(R\) for each element of \(N\). Thus, the number of injective functions is
+To build an injective function, choose a distinct image in \(R\) for each element of \(N\). For \(n \le r\), the number of injective functions is therefore
 \[
 r \times (r - 1) \times (r - 2) \times \cdots \times (r - n + 1)
 = \frac{r!}{(r - n)!}.
 \]
+(For \(n > r\) there are no injective functions at all, consistent with the product above containing the factor \(0\).)
 
 \paragraph{Q3: How many surjective (onto) functions from \(N\) to \(R\)?}
 \paragraph{Answer:}
@@ -175,9 +177,18 @@ Moreover, set
 \[
 P(n)=\bigcup_{k=1}^{n} P(n,k) \quad\text{and}\quad p(n)=|P(n)|.
 \]
+For these definitions to interact smoothly we adopt the following conventions:
+\[
+p(0) = p(0,0) := 1 \quad \text{(the \emph{empty partition} of } 0\text{, with no parts)},
+\]
+\[
+p(n,0) := 0 \;\text{ for } n>0,
+\qquad
+p(n,k) := 0 \;\text{ for } k>n.
+\]
 An immediate observation is that
 \[
-p(n)=\sum_{k=0}^{n} p(n,k).
+p(n)=\sum_{k=1}^{n} p(n,k).
 \]
 
 \medskip
@@ -231,7 +242,7 @@ Our goal is to relate partitions of \(n\) into exactly \(k\) parts to partitions
 \[
 n = \lambda_1+\lambda_2+\cdots+\lambda_k \quad \Longrightarrow \quad n-k = (\lambda_1-1)+(\lambda_2-1)+\cdots+(\lambda_k-1).
 \]
-Graphically, subtracting \(1\) from a part corresponds to removing one cell from its corresponding row. Since the Ferrers diagram is left-justified, every row begins with a cell in the leftmost column. Thus, removing the entire leftmost column is equivalent to subtracting \(1\) from each \(\lambda_i\). In this way, the original diagram representing a partition of \(n\) with \(k\) parts is transformed into a diagram representing a partition of \(n-k\) that has at most \(k\) parts (some rows may vanish if \(\lambda_i=1\)).
+Graphically, subtracting \(1\) from a part corresponds to removing one cell from its corresponding row. Since the Ferrers diagram is left-justified, every row begins with a cell in the leftmost column. Thus, removing the entire leftmost column is equivalent to subtracting \(1\) from each \(\lambda_i\). In this way, the original diagram representing a partition of \(n\) with \(k\) parts is transformed into a diagram representing a partition of \(n-k\) that has at most \(k\) parts (some rows may vanish if \(\lambda_i=1\)). In the extreme case \(n=k\), i.e.\ \(\lambda=(1,1,\dots,1)\), \emph{all} rows vanish and the image is the empty partition of \(0\); accordingly, in line with the convention \(p(0)=1\), we regard \(P(0,\le k)\) as containing exactly one element (the empty partition), so the theorem also holds for \(n=k\).
 
 \medskip
 
@@ -312,5 +323,6 @@ we obtain the recurrence relation
 \[
 p(n,k)=p(n-1,k-1)+p(n-k,k).
 \]
+(In the boundary cases the conventions from the definition are used: for \(k=1\) the first summand is \(p(n-1,0)\), which is \(1\) if \(n=1\) and \(0\) otherwise, and for \(n=k\) the second summand is \(p(0,k)=0\) for \(k > 0\), with \(p(0,\le k)=1\) accounting for the empty partition. One checks directly that the recurrence then gives the correct values, e.g.\ \(p(n,1)=1\) and \(p(n,n)=1\).)
 \end{corollary}
 \end{document}

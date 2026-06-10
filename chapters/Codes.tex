@@ -1,7 +1,5 @@
 \documentclass[docmute]{article}
 
-\usepackage[margin=1in]{geometry}
-
 \input{preamble.tex}
 \input{watermark/watermark.tex}
 
@@ -21,8 +19,8 @@ Let $p$ be a prime number. We work over the finite field $\mathbb{Z}_p$ (the int
 \medskip
 
 \noindent \textbf{Encoding function:} A map $\xi: \mathbb{Z}_p^k \to \mathbb{Z}_p^n$ is called an \emph{encoding function} (or \emph{coding function}) if it is one-to-one (distinct messages have distinct codewords). In other words, $\xi$ takes each possible message (an element of $\mathbb{Z}_p^k$) and encodes it as a longer string (an element of $\mathbb{Z}_p^n$). The image of $\xi$, denoted 
-\[ \mathcal{C} = \xi(\mathbb{Z}_p^k) \subseteq \mathbb{Z}_p^n, \] 
-is the set of all possible encoded messages and is called the \emph{code}. The elements of $\mathcal{C}$ are called \emph{codewords}. Working over the field $\mathbb{Z}_p$ is crucial here, because it ensures we can use the tools of linear algebra and arithmetic modulo $p$ when designing and analyzing codes.
+\[ C = \xi(\mathbb{Z}_p^k) \subseteq \mathbb{Z}_p^n, \] 
+is the set of all possible encoded messages and is called the \emph{code}. The elements of $C$ are called \emph{codewords}. Working over the field $\mathbb{Z}_p$ is crucial here, because it ensures we can use the tools of linear algebra and arithmetic modulo $p$ when designing and analyzing codes.
 
 \medskip
 
@@ -34,7 +32,7 @@ Once a message $u \in \mathbb{Z}_p^k$ is encoded as a codeword $c = \xi(u) \in \
 
 \section{Error Vectors and Transmission Errors}
 
-When a codeword is transmitted (over a noisy channel, or stored and later retrieved), some of its components may change due to errors. We can model the effect of errors by an \emph{error vector}. An \emph{error vector} \(\mathbf{e} \in \mathbb{Z}_p^n\) is a vector that, when added to the original codeword, yields the \emph{received word}. If \(\mathbf{c} \in \mathcal{C}\) is the sent codeword and \(\mathbf{e}\) is the error vector, then the received word is
+When a codeword is transmitted (over a noisy channel, or stored and later retrieved), some of its components may change due to errors. We can model the effect of errors by an \emph{error vector}. An \emph{error vector} \(\mathbf{e} \in \mathbb{Z}_p^n\) is a vector that, when added to the original codeword, yields the \emph{received word}. If \(\mathbf{c} \in C\) is the sent codeword and \(\mathbf{e}\) is the error vector, then the received word is
 \[
   \mathbf{r} = \mathbf{c} + \mathbf{e},
 \]
@@ -47,7 +45,7 @@ The number of errors that occur is the number of nonzero entries in \(\mathbf{e}
             \mathbf{r} = \mathbf{c} + \mathbf{e}
             \xrightarrow{\eta} \hat{\mathbf{u}},
 \]
-where \(\hat{\mathbf{u}} = \eta(\mathbf{r})\) is the decoder’s estimate of the original message. We desire \(\hat{\mathbf{u}} = \mathbf{u}\) even if \(\mathbf{e}\) is nonzero (up to a certain weight). The design of \(\mathcal{C}\) and \(\eta\) determines how many errors can be reliably detected or corrected.
+where \(\hat{\mathbf{u}} = \eta(\mathbf{r})\) is the decoder’s estimate of the original message. We desire \(\hat{\mathbf{u}} = \mathbf{u}\) even if \(\mathbf{e}\) is nonzero (up to a certain weight). The design of \(C\) and \(\eta\) determines how many errors can be reliably detected or corrected.
 
 
 \section{Examples of Encoding Functions (Codes)}
@@ -57,11 +55,11 @@ We now present a few example encoding functions and their corresponding codes:
 \subsection*{Example 1: Repetition Code}
 One simple encoding is the \emph{repetition code}. Here the message space is $\mathbb{Z}_p$ (messages of length 1). The encoding function $\xi_1: \mathbb{Z}_p \to \mathbb{Z}_p^n$ for some chosen length $n$ is defined by 
 \[ \xi_1(a) = (\underbrace{a, a, \ldots, a}_{n \text{ times}}), \] 
-i.e. the single-symbol message $a$ is repeated $n$ times to form the codeword. The code $\mathcal{C}_1 = \{(a,a,\ldots,a) : a \in \mathbb{Z}_p\}$ consists of all $n$-tuples with identical entries. This encoding is one-to-one (different $a$ give different constant tuples).
+i.e. the single-symbol message $a$ is repeated $n$ times to form the codeword. The code $C_1 = \{(a,a,\ldots,a) : a \in \mathbb{Z}_p\}$ consists of all $n$-tuples with identical entries. This encoding is one-to-one (different $a$ give different constant tuples).
 
 \medskip
 
-For example, over $\mathbb{Z}_2$ (the binary case), if $a=1$ and $n=5$, the codeword would be $(1,1,1,1,1)$. If a transmission error flips one of these bits (say we receive $(1,1,1,0,1)$), the decoder can notice that this is not a valid codeword in $\mathcal{C}_1$ (since not all bits are the same), hence an error is detected. In fact, the repetition code is able to detect up to $n-1$ errors (any change in at most $n-1$ positions will yield a tuple that is not constant and thus not in the code). This code even has error-correcting capability: intuitively, the decoder could guess that the majority value is the intended bit (for example, from $(1,1,1,0,1)$ a reasonable decoded value for $a$ would be 1, since most bits are 1). However, our focus here is on error detection criteria, which we formalize later.
+For example, over $\mathbb{Z}_2$ (the binary case), if $a=1$ and $n=5$, the codeword would be $(1,1,1,1,1)$. If a transmission error flips one of these bits (say we receive $(1,1,1,0,1)$), the decoder can notice that this is not a valid codeword in $C_1$ (since not all bits are the same), hence an error is detected. In fact, the repetition code is able to detect up to $n-1$ errors (any change in at most $n-1$ positions will yield a tuple that is not constant and thus not in the code). This code even has error-correcting capability: intuitively, the decoder could guess that the majority value is the intended bit (for example, from $(1,1,1,0,1)$ a reasonable decoded value for $a$ would be 1, since most bits are 1). However, our focus here is on error detection criteria, which we formalize later.
 
 \subsection*{Example 2: Parity Check Code}
 Another useful encoding adds a \emph{parity check} to the message. For this example, let's work in $\mathbb{Z}_p$ (and especially consider $p=2$ for binary parity). Let the message space be $\mathbb{Z}_p^{\,k-1}$ (messages of length $k-1$). Define an encoding function $\xi_2: \mathbb{Z}_p^{\,k-1} \to \mathbb{Z}_p^k$ by 
@@ -71,7 +69,7 @@ where the last component $a_k$ is chosen such that the total sum of the $k$ comp
 which ensures $a_1 + a_2 + \cdots + a_{k-1} + a_k \equiv 0 \pmod{p}$. This extra symbol $a_k$ is a redundancy (the \emph{parity symbol}) chosen to enforce a constraint on every codeword.
 
 The resulting code is 
-\[ \mathcal{C}_2 = \{(a_1,\ldots,a_{k-1},a_k) \in \mathbb{Z}_p^k : a_1 + \cdots + a_{k-1} + a_k = 0\}. \] 
+\[ C_2 = \{(a_1,\ldots,a_{k-1},a_k) \in \mathbb{Z}_p^k : a_1 + \cdots + a_{k-1} + a_k = 0\}. \] 
 In the special case $p=2$ (binary), this encoding is the standard single-parity-bit code: the last bit $a_k$ is 0 or 1 chosen to make the total number of 1's in the codeword even. For example, if the message is $(1,0,1,1)$ in $\mathbb{Z}_2^4$ (so $k-1=4$), then the parity bit $a_5$ is chosen so that $1+0+1+1+a_5 \equiv 0 \pmod{2}$. Here $1+0+1+1 = 3 \equiv 1 \pmod{2}$, so we must take $a_5 = 1$ to make the sum even. The encoded 5-bit codeword is $(1,0,1,1,1)$, which has an even number of 1's (four 1's in this case).
 
 This parity check code allows detection of any single-error in transmission: if one bit of a codeword is flipped, the parity (sum mod $p$) will no longer be zero, so the received word will violate the code constraint and thus be recognized as invalid. For instance, if $(1,0,1,1,1)$ is sent and one bit flips, the sum of bits will be odd, alerting us to the error. In fact, more generally, if an odd number of bits are in error, the parity check will detect it (sum becomes nonzero mod 2). However, if an even number of bits are corrupted in the binary case, the parity check could fail to detect it (since an even number of flips can restore the sum to even).
@@ -123,9 +121,12 @@ where
   (w_i)_{i=1}^{10}=1,3,7,9,1,3,7,9,1,3.
 \]
 Because $\xi_{3}$ is injective, its image
-$\mathcal{C}_3=\xi_{3}(\mathbb{Z}_{10}^{10})\subset\mathbb{Z}_{10}^{11}$
+$C_3=\xi_{3}(\mathbb{Z}_{10}^{10})\subset\mathbb{Z}_{10}^{11}$
 is a legitimate code—the \textsc{PESEL} code—whose distance properties
 are governed by the checksum just illustrated.
+(Note that $\mathbb{Z}_{10}$ is \emph{not} a field, since $10$ is composite;
+this example only uses arithmetic modulo $10$, not the linear-algebra tools
+that the field structure of $\mathbb{Z}_p$ provides for prime $p$.)
 \section{Hamming Distance}
 
 We need a way to quantify how “different” two vectors (e.g. the transmitted and received words) are. The appropriate notion is the \emph{Hamming distance}. For vectors $\mathbf{x}, \mathbf{y} \in \mathbb{Z}_p^n$, the \textbf{Hamming distance} $d_H(\mathbf{x}, \mathbf{y})$ is defined as the number of coordinates in which $\mathbf{x}$ and $\mathbf{y}$ differ. Equivalently, 
@@ -299,7 +300,7 @@ Therefore, the maximum number of errors that can be \emph{corrected} is
 \]
 These simple formulas allow us, once we know \(d_{\min}\), to immediately read off how many errors the code can detect and how many it can correct.
 
-\subsection*{Example 1}
+\begin{example}
 
 \noindent Consider the 5-bit binary code
 \[
@@ -323,8 +324,9 @@ Hence
   t_{\rm corr}=\bigl\lfloor(3-1)/2\bigr\rfloor=1.
 \]
 \emph{Conclusion:} this code can detect up to 2 errors and correct up to 1 error.
+\end{example}
 
-\subsection*{Example 2}
+\begin{example}
 
 \noindent Now take the 6-bit code
 \[
@@ -341,8 +343,9 @@ Thus again
   \quad
   t_{\rm corr}=1.
 \]
+\end{example}
 
-\subsection*{Example 3: Repetition Code of Length 7}
+\begin{example}[repetition code of length 7]
 
 \noindent Finally, the binary repetition code of length~7 is
 \[
@@ -360,6 +363,7 @@ Therefore
   t_{\rm corr}=\bigl\lfloor(7-1)/2\bigr\rfloor=3.
 \]
 \emph{Conclusion:} the 7-fold repetition code can detect up to 6 errors and correct up to 3 errors.
+\end{example}
 
 
 
@@ -368,16 +372,18 @@ Therefore
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 1.  DETECTION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Theorem}
-\textit{A code $C$ is able to detect $t$ errors or fewer \emph{iff}
-the minimum distance satisfies $d_C\ge t+1$,}\\[4pt]
-\centerline{$d_C = \min\{\,d_H(c_1,c_2) : c_1,c_2\in C,\; c_1\neq c_2\,\}$.}\\[10pt]
+\begin{theorem}
+A code $C$ is able to detect $t$ errors or fewer \emph{iff}
+the minimum distance satisfies $d_C\ge t+1$, where
+\[
+d_C = \min\{\,d_H(c_1,c_2) : c_1,c_2\in C,\; c_1\neq c_2\,\}.
+\]
+\end{theorem}
 
-\subsection*{Proof}
-
-\textbf{($\Rightarrow$)}\;
+\begin{proof}
+\textbf{($\Leftarrow$)}\;
 Let $c_1\in C$ be the original codeword sent, and let $f$ be the received
-word.  \underline{Assume $d_C\ge t+1$}.  
+word.  \underline{Assume $d_C\ge t+1$}.
 If at most $t$ errors occurred, then $d_H(c_1,f)\le t$.  
 For any \emph{other} codeword $c_2\in C$ with $c_2\neq c_1$ we have
 \[
@@ -411,7 +417,7 @@ error is \textit{detectable}.
 \end{tikzpicture}
 \end{center}
 
-\textbf{($\Leftarrow$)}\;
+\textbf{($\Rightarrow$)}\;
 Suppose the code detects every pattern of at most $t$ errors.
 For any $c\in C$ and word $f$ with $d_H(c,f)\le t$, we must
 have $f\notin C$ unless $f=c$.  
@@ -419,29 +425,33 @@ Thus if $c,c'\in C$ are distinct, $c'$ cannot lie within
 distance $t$ of $c$; otherwise $c'$ would be a second codeword in the ball
 of radius $t$ around $c$.  Therefore $d_H(c,c')>t$ for all $c\neq c'$,
 hence (integer distance) $d_H(c,c')\ge t+1$.  Taking the minimum over all
-pairs gives $d_C\ge t+1$.\hfill$\square$
+pairs gives $d_C\ge t+1$.
+\end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2.  CORRECTION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bigskip
-\subsection*{Definition}
+\begin{definition}
 A code $C$ \textit{corrects $t$ errors or fewer} if, whenever
 $d_H(c,f)\le t$ for some $c\in C$, that $c$ is the \emph{unique} codeword
-within distance $\le t$ of $f$.\\[10pt]
+within distance $\le t$ of $f$.
+\end{definition}
 
-\subsection*{Theorem}
+\begin{theorem}
 A code $C$ corrects $t$ or fewer errors \emph{iff}
 \[
   d_C \;\ge\; 2t+1.
-\]\\[6pt]
+\]
+\end{theorem}
 
-\subsection*{Corollary}
+\begin{corollary}
 $C$ corrects $t$ errors or fewer \emph{iff}
 \[
-  B(c,t)\cap B(c',t)=\varnothing
+  B_t(c)\cap B_t(c')=\varnothing
   \quad\text{for all } c\neq c'\in C.
 \]
+\end{corollary}
 
 \begin{center}
 \begin{tikzpicture}[scale=1]
@@ -462,7 +472,7 @@ $C$ corrects $t$ errors or fewer \emph{iff}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 3.  EXAMPLE  (single‐parity‐check code)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Example}
+\begin{example}
 Let
 \[
   \varphi:\ \mathbb Z_p^{\,n-1}\longrightarrow \mathbb Z_p^{\,n},
@@ -470,21 +480,22 @@ Let
   \varphi(a_1,\dots,a_{n-1}) \;=\;
   (a_1,\dots,a_{n-1}, -\sum_{i=1}^{\,n-1}a_i).
 \]
-This is the length-$n$ \emph{single‐parity‐check code}.  
+This is the length-$n$ \emph{single‐parity‐check code}.
 Its minimum distance is $d_C=2$.
 
 \begin{itemize}
-  \item \textbf{Detection:} $d\ge t+1$ \;($2\ge t+1\Rightarrow t\le1$).  
+  \item \textbf{Detection:} $d_C\ge t+1$ \;($2\ge t+1\Rightarrow t\le1$).
         So the code \emph{detects exactly one error}.
-  \item \textbf{Correction:} $d\ge 2t+1$ \;($2\ge 2t+1$ impossible for
+  \item \textbf{Correction:} $d_C\ge 2t+1$ \;($2\ge 2t+1$ impossible for
         $t\ge1$).  Hence it \emph{cannot correct a single error}
         (only $t=0$).
 \end{itemize}
+\end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 4.  REPETITION CODE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Example (repetition code)}
+\begin{example}[repetition code]
 Define
 \[
   \xi : \mathbb Z_p \longrightarrow \mathbb Z_p^{\,n},
@@ -497,20 +508,27 @@ This $n$‐fold repetition code has
   \text{detection capacity } n-1,\qquad
   \text{correction capacity }\Bigl\lfloor\frac{n-1}{2}\Bigr\rfloor.
 \]
+\end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 5.  HAMMING BOUND & PERFECT CODES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Theorem (Hamming bound)}
+\begin{theorem}[Hamming bound]
 If a code $C\subseteq\mathbb Z_p^{\,n}$ with $M$ elements corrects $t$
 errors, then
 \[
-  M\bigl(1 + (p-1)\tbinom{n}{1} + (p-1)\tbinom{n}{2}
-        + \cdots + (p-1)\tbinom{n}{t}\bigr)\;\le\;p^{\,n}.
+  M\bigl(1 + (p-1)\tbinom{n}{1} + (p-1)^2\tbinom{n}{2}
+        + \cdots + (p-1)^t\tbinom{n}{t}\bigr)\;\le\;p^{\,n}.
 \]
+\end{theorem}
 
-\subsubsection*{Proof (sketch)}
-Draw a radius-$t$ Hamming ball around each codeword.  
+\noindent The factor in parentheses is the number of vectors in a Hamming ball of
+radius $t$: there are exactly $\binom{n}{i}(p-1)^i$ vectors at distance
+$i$ from the centre, since we choose $i$ positions and, in each, one of
+the $p-1$ values different from the centre's entry.
+
+\begin{proof}[Proof (sketch)]
+Draw a radius-$t$ Hamming ball around each codeword.
 Since the balls are disjoint, their union fits inside
 $\mathbb Z_p^{\,n}$, giving the inequality.
 
@@ -525,32 +543,40 @@ $\mathbb Z_p^{\,n}$, giving the inequality.
   }
 \end{tikzpicture}
 \end{center}
+\end{proof}
 
-\subsection*{Definition (perfect code)}
+\begin{definition}[perfect code]
 A code correcting $t$ errors is \emph{perfect} when equality holds, i.e.
 \[
-  M\bigl(1 + (p-1)\tbinom{n}{1} + \cdots + (p-1)\tbinom{n}{t}\bigr)=p^{\,n}.
+  M\bigl(1 + (p-1)\tbinom{n}{1} + \cdots + (p-1)^t\tbinom{n}{t}\bigr)=p^{\,n}.
 \]
+\end{definition}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 6.  LINEAR CODES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Linear Codes}
-\subsection*{Definition (Linear codes)}
+\begin{definition}[Linear codes]
 Let $\zeta: \mathbb{Z}_p^k \to \mathbb{Z}_p^n$ be a coding function that maps a message vector of length $k$ to a codeword of length $n$ (where $k < n$).
-The function $\zeta$ is called a linear encoder, if it is a linear mapping between the vector spaces $\mathbb{Z}_p^k$ and $\mathbb{Z}_p^n$. 
+The function $\zeta$ is called a \emph{linear encoder} if it is a linear mapping between the vector spaces $\mathbb{Z}_p^k$ and $\mathbb{Z}_p^n$.
 That is, for all vectors $\mathbf{u}, \mathbf{v} \in \mathbb{Z}_p^k$ and all scalars $\alpha, \beta \in \mathbb{Z}_p$, the function satisfies:
 $$\zeta(\alpha \mathbf{u} + \beta \mathbf{v}) = \alpha \zeta(\mathbf{u}) + \beta \zeta(\mathbf{v})$$
-The image of $\mathbb{Z}_p^k$ under $\zeta$, denoted as $C = \text{Im}(\zeta)$, is a subspace of $\mathbb{Z}_p^n$.\\\\
-Hence:
-A non-empty subset $C \subseteq \mathbb{Z}_p^n$ is a linear code if and only if it is closed under linear combinations. That is, for all codewords $\mathbf{c}_1, \mathbf{c}_2 \in C$ and all scalars $\alpha, \beta \in \mathbb{Z}_p$:$$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 \in C$$
+The image of $\mathbb{Z}_p^k$ under $\zeta$, denoted as $C = \text{Im}(\zeta)$, is a subspace of $\mathbb{Z}_p^n$, called a \emph{linear code}.
+\end{definition}
 
-\subsection*{Example 1}
-Consider the repetition code 
-$$C = \left\{ (\underbrace{a, a, \dots, a}_{n \text{ times}}) \;\middle|\; a \in \mathbb{Z}_p \right\} \subseteq \mathbb{Z}_p^n$$ 
+\begin{remark}
+A non-empty subset $C \subseteq \mathbb{Z}_p^n$ is a linear code if and only if it is closed under linear combinations. That is, for all codewords $\mathbf{c}_1, \mathbf{c}_2 \in C$ and all scalars $\alpha, \beta \in \mathbb{Z}_p$:$$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 \in C$$
+\end{remark}
+
+\begin{example}
+Consider the repetition code
+$$C = \left\{ (\underbrace{a, a, \dots, a}_{n \text{ times}}) \;\middle|\; a \in \mathbb{Z}_p \right\} \subseteq \mathbb{Z}_p^n$$
 It is easy to show that $C$ is a linear code.
-\\\\Proof:\\To prove that $C$ is a linear code, we must demonstrate that it is a subspace of $\mathbb{Z}_p^n$. 
+\end{example}
+
+\begin{proof}
+To prove that $C$ is a linear code, we must demonstrate that it is a subspace of $\mathbb{Z}_p^n$.
 We will use the combined subspace criterion. 
 Let $\mathbf{c}_1, \mathbf{c}_2$ be any two codewords from $C$, and let $\alpha, \beta$ be any two scalars from the finite field $\mathbb{Z}_p$. 
 By definition of the set $C$, since $\mathbf{c}_1 \in C$ and $\mathbf{c}_2 \in C$, there must exist two scalars $a_1, a_2 \in \mathbb{Z}_p$ such that:
@@ -567,14 +593,18 @@ $$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 = (\underbrace{a_3, a_3, \dots, a_3}_
 Since this resulting vector consists of the same scalar $a_3$ repeated $n$ times, where $a_3 \in \mathbb{Z}_p$, it perfectly matches the definition of the set $C$. 
 Therefore:
 $$\alpha \mathbf{c}_1 + \beta \mathbf{c}_2 \in C$$
-Because the linear combination of any two codewords remains within $C$, the set $C$ is a valid subspace of $\mathbb{Z}_p^n$. 
-Hence, $C$ is a linear code. $\square$
+Because the linear combination of any two codewords remains within $C$, the set $C$ is a valid subspace of $\mathbb{Z}_p^n$.
+Hence, $C$ is a linear code.
+\end{proof}
 
-\subsection*{Example 2}
-Formally, the general parity-check code $C$ is defined as the following set:
-$$C = \left\{ \left( a_1, a_2, \dots, a_{n-1}, -\sum_{i=1}^{n-1} a_i \right) \;\middle|\; a_i \in \mathbb{Z}_p \right\} \subseteq \mathbb{Z}_p^n$$
-\\\\Proof:\\
-Let $\mathbf{c} = (c_1, c_2, \dots, c_n)$ be an arbitrary vector in $\mathbb{Z}_p^n$. 
+\begin{example}
+The general parity-check code, formally defined as the set
+$$C = \left\{ \left( a_1, a_2, \dots, a_{n-1}, -\sum_{i=1}^{n-1} a_i \right) \;\middle|\; a_i \in \mathbb{Z}_p \right\} \subseteq \mathbb{Z}_p^n,$$
+is also a linear code.
+\end{example}
+
+\begin{proof}
+Let $\mathbf{c} = (c_1, c_2, \dots, c_n)$ be an arbitrary vector in $\mathbb{Z}_p^n$.
 By definition, $\mathbf{c}$ belongs to $C$ if and only if its components satisfy the relation:
 $$c_n = -\sum_{i=1}^{n-1} c_i$$
 By moving the summation to the left-hand side of the equation, we can rewrite this structural constraint as a single homogeneous linear equation:
@@ -582,20 +612,24 @@ $$c_1 + c_2 + \dots + c_{n-1} + c_n = 0$$
 Thus, the code $C$ can be explicitly defined as the set of all vectors that satisfy this homogeneous equation:
 $$C = \left\{ \mathbf{c} \in \mathbb{Z}_p^n \;\middle|\; \sum_{i=1}^{n} c_i = 0 \right\}$$
 
-From fundamental linear algebra, the set of all solutions to any system of homogeneous linear equations over a field always forms a vector subspace of the surrounding vector space. $\square$
-\subsection*{Remark}
-Let 
-\\$\zeta: \mathbb{Z}_p^k \to \mathbb{Z}_p^n$ be a linear encoding function defining a linear code $C$. 
+From fundamental linear algebra, the set of all solutions to any system of homogeneous linear equations over a field always forms a vector subspace of the surrounding vector space.
+\end{proof}
+
+\begin{remark}
+Let $\zeta: \mathbb{Z}_p^k \to \mathbb{Z}_p^n$ be a linear encoding function defining a linear code $C$.
 Then, there exists a $k \times n$ matrix $G$ with entries in $\mathbb{Z}_p$ such that for every message $\mathbf{u} \in \mathbb{Z}_p^k$, the encoding function can be presented as:
 $$\zeta(\mathbf{u}) = \mathbf{u}G$$
 The matrix $G$ is called the \textbf{generator matrix} of the linear code $C$.
+\end{remark}
 
-\subsection*{Remark}
-Let $C$ be a linear code and let $G$ be its generating matrix. 
+\begin{remark}
+Let $C$ be a linear code and let $G$ be its generating matrix.
 Then, every codeword $\mathbf{c} \in C$ can be expressed as a linear combination of the rows of $G$.
 $$\mathbf{c} \in C \iff \mathbf{c} = \mathbf{u}G \quad \text{for } \mathbf{u} \in \mathbb{Z}_p^k$$
 Rephrased: $$C = \left\{ \mathbf{u}G \;\middle|\; \mathbf{u} \in \mathbb{Z}_p^k \right\}$$
-\subsection*{Example 3}
+\end{remark}
+
+\begin{example}
 $$C = \left\{ (0, 0, 0, 0), (0, 1, 0, 1), (1, 0, 1, 1), (1, 1, 1, 0) \right\} \subseteq \mathbb{Z}_2^4$$
 C is a linear code, since it is closed under linear combinations.
 Encoding function:
@@ -631,14 +665,20 @@ $$ G'' =
 0 & 1 & 0 & 1 \\
 \end{bmatrix} $$
 The rows of the generator matrix $G$ must be linearly independent.
-\subsection*{Definition (standard form)}
-We say that a generating matrix $G$ is in \textbf{standard form} if is of the form:
+\end{example}
+
+\begin{definition}[standard form]
+We say that a generating matrix $G$ is in \textbf{standard form} if it is of the form:
 $$G = [I_k | P]$$
 where $I_k$ is the $k \times k$ identity matrix and $P$ is a $k \times (n-k)$ matrix.
-\subsection*{Remark}
-If G is in standard form, then:
-$$\underbrace{(u1, u2, ..., uk)}_{\text{u}} G = (u1, u2, ..., uk,   ...   )$$
-\subsection*{Example}
+\end{definition}
+
+\begin{remark}
+If $G = [I_k | P]$ is in standard form, then the codeword starts with the message itself, followed by $n-k$ redundancy (parity) symbols:
+$$\underbrace{(u_1, u_2, \dots, u_k)}_{\mathbf{u}} G = (\underbrace{u_1, u_2, \dots, u_k}_{\mathbf{u}I_k = \mathbf{u}}, \underbrace{\;\ast, \dots, \ast\;}_{\mathbf{u}P}).$$
+\end{remark}
+
+\begin{example}
 $$C = \left\{ \left( a_1, a_2, \dots, a_{n-1}, -\sum_{i=1}^{n-1} a_i \right) \;\middle|\; a_i \in \mathbb{Z}_p \right\}$$
 A generator matrix for this code in standard form is:
 $$G = \left[
@@ -660,13 +700,16 @@ $$G = \left[
 \end{array}
 \right]$$
 $$(a_1, a_2, \dots, a_{n-1})G = (a_1, a_2, \dots, a_{n-1}, -\sum_{i=1}^{n-1} a_i)$$
-Notice that if we define H = (1, 1, ..., 1), then:
+Notice that if we define $H = (1, 1, \dots, 1)$, then:
 $$\mathbf{c}H^T = 0 \iff \mathbf{c} \in C$$
-\subsection*{Definition (parity-check matrix)}
-Let $C$ be a linear code in $\mathbb{Z}_p^n$. with generating matrix $G$ of size $k \times n$.
+\end{example}
+
+\begin{definition}[parity-check matrix]
+Let $C$ be a linear code in $\mathbb{Z}_p^n$ with generating matrix $G$ of size $k \times n$.
 A matrix $H$ of size $(n-k) \times n$ over $\mathbb{Z}_p$
 is called a \textbf{parity-check matrix} for $C$, whenever:
 $$\mathbf{c} \in C \iff \mathbf{c}H^T = 0$$
+\end{definition}
 \subsection*{How to obtain H from G?}
 If $G$ is in standard form, i.e. $G = [I_k | P]$, then a parity-check matrix for $C$ can be constructed as:
 $$H = [-P^T | I_{n-k}]$$
@@ -685,12 +728,15 @@ By construction, $G H^T = \mathbf{0}$, which ensures that $H$ is a valid parity-
 Assume C is a linear code with parity-check matrix H. Moreover assume $\mathbf{c}$ is the codeword sent, but $\mathbf{r} = \mathbf{c} + \mathbf{e}$ was the received word, where $\mathbf{e}$ is the error vector. 
 Then:
 $$\mathbf{r}H^T = (\mathbf{c} + \mathbf{e})H^T = \mathbf{c}H^T + \mathbf{e}H^T = \mathbf{0} + \mathbf{e}H^T = \mathbf{e}H^T$$
-The product $\mathbf{s} = \mathbf{r}H^T$ is called the syndrome of the received vector $\mathbf{r}$.
-\subsection*{Theorem}
-If C corrects $d$ errors or less and $\mathbf{r} = \mathbf{c} + \mathbf{e}$, where $\mathbf{c} \in C$ is the codeword sent and $\mathbf{e}$ is the error vector, whose weight is at most $d$, then $\mathbf{e}H^T$ is unique and can be determined by finding all solutions to:
-$$\mathbf{r}H^T = \mathbf{x}H^T$$
-and choosing the solution $\mathbf{x}$ with the smallest weight.
-\subsection*{Example}
+The product $\mathbf{s} = \mathbf{r}H^T$ is called the \emph{syndrome} of the received vector $\mathbf{r}$.
+
+\begin{theorem}
+If $C$ corrects $t$ errors or fewer and $\mathbf{r} = \mathbf{c} + \mathbf{e}$, where $\mathbf{c} \in C$ is the codeword sent and $\mathbf{e}$ is the error vector, whose weight is at most $t$, then $\mathbf{e}$ is the unique vector of smallest weight among the solutions $\mathbf{x}$ of
+$$\mathbf{r}H^T = \mathbf{x}H^T.$$
+Hence $\mathbf{e}$ (and with it the sent codeword $\mathbf{c} = \mathbf{r} - \mathbf{e}$) can be determined by finding all solutions of this equation and choosing the one with the smallest weight.
+\end{theorem}
+
+\begin{example}
 Let C = $\{(0,0,0,0), (0,1,0,1), (1,0,1,1), (1,1,1,0)\}$ be a linear code with generating matrix:
 $$ G = 
 \begin{bmatrix}
@@ -710,5 +756,6 @@ $$\mathbf{x} = (x_3, 1 + x_3 + x_4, x_3, x_4) \quad \text{for } x_3, x_4 \in \ma
 Vectors from solution set with the smallest weight are:
 $$\mathbf{e}_1 = (0, 1, 0, 0)$$
 $$\mathbf{e}_2 = (0, 0, 0, 1)$$
-Hence, the decoder can choose either $\mathbf{e}_1$ or $\mathbf{e}_2$ as the error vector, and decode $\mathbf{r}$ to $\mathbf{c} = \mathbf{r} - \mathbf{e}_1 = (1,0,1,1)$ or $\mathbf{c} = \mathbf{r} - \mathbf{e}_2 = (1,1,1,0)$, both of which are valid codewords in $C$.
+Hence, the decoder can choose either $\mathbf{e}_1$ or $\mathbf{e}_2$ as the error vector, and decode $\mathbf{r}$ to $\mathbf{c} = \mathbf{r} - \mathbf{e}_1 = (1,0,1,1)$ or $\mathbf{c} = \mathbf{r} - \mathbf{e}_2 = (1,1,1,0)$, both of which are valid codewords in $C$. (The ambiguity does not contradict the theorem: this code has minimum distance $2$, so it corrects $t=0$ errors, while here the error has weight $1$.)
+\end{example}
 \end{document}

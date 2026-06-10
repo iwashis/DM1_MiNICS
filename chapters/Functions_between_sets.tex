@@ -4,7 +4,7 @@
 \input{watermark/watermark.tex}
 
 
-\title{Functions between sets}
+\title{Functions Between Sets}
 \author{Tomasz Brengos \\  
 Committers : Mykhailo Moroz}
 \date{}
@@ -48,15 +48,12 @@ For \( N = \{1, 2, 3\} \) and \( R = \{y_1, y_2\} \):
     \item[] Here \( |N| = 3 \) and \( |R| = 2 \).
     \item Total functions: $2^3 = 8$.
     \item Injective functions: Not possible since $|R|<|N|$.
-    \item Surjective functions: Consider all possible surjective functions:
-
- \( f_1: \{1, 2\} \mapsto y_1, 3 \mapsto y_2 \)
-- Another possible permutation for this partition: \( f_2: \{1, 2\} \mapsto y_2, 3 \mapsto y_1 \)
- \( f_3: \{2, 3\} \mapsto y_1, 1 \mapsto y_2 \)
-- Another possible permutation for this partition: \( f_4: 1 \mapsto y_1, \{2, 3\} \mapsto y_2 \)
- \( f_5: \{1, 3\} \mapsto y_1, 2 \mapsto y_2 \)
-- Another possible permutation for this partition: \( f_6: 2 \mapsto y_1, \{1, 3\} \mapsto y_2 \)
-
+    \item Surjective functions: Consider all possible surjective functions, grouped by the partition \(\{f^{-1}(y_1), f^{-1}(y_2)\}\) of \(N\) they induce:
+    \begin{itemize}[nosep]
+      \item partition \(\{1,2\} \mid \{3\}\): \quad \( f_1: \{1, 2\} \mapsto y_1,\; 3 \mapsto y_2 \) \quad and \quad \( f_2: \{1, 2\} \mapsto y_2,\; 3 \mapsto y_1 \);
+      \item partition \(\{2,3\} \mid \{1\}\): \quad \( f_3: \{2, 3\} \mapsto y_1,\; 1 \mapsto y_2 \) \quad and \quad \( f_4: \{2, 3\} \mapsto y_2,\; 1 \mapsto y_1 \);
+      \item partition \(\{1,3\} \mid \{2\}\): \quad \( f_5: \{1, 3\} \mapsto y_1,\; 2 \mapsto y_2 \) \quad and \quad \( f_6: \{1, 3\} \mapsto y_2,\; 2 \mapsto y_1 \).
+    \end{itemize}
 So, we have 6 surjective functions. Using the formula for surjective functions, we first find the Stirling number \( S(3, 2) = 3 \), which corresponds to the number of partitions without considering permutations. Then, accounting for the permutations of the \( r = 2 \) elements in \( R \), we compute:
 \[
 2! \cdot S(3, 2) = 2! \cdot 3 = 6,

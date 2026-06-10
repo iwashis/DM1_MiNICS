@@ -12,13 +12,13 @@ Committers : Aliaksei Kudzelka}
 \maketitle
 \section{Introduction and Motivating Problem}
 
-How many ways can we correctly place $n$ pairs of parentheses? This is a classic combinatorial question about **valid parentheses combinations**. For example, with $n=1$ pair, there is only one valid arrangement: `()`. With $n=2$ pairs, there are two valid arrangements: `()()` and `(())`. With $n=3$ pairs, there are five valid arrangements (e.g. `()()()`, `()(())`, `(())()`, `(()())`, `((()))`). In general, the number of distinct well-formed parentheses sequences grows quickly with $n$. 
+How many ways can we correctly place $n$ pairs of parentheses? This is a classic combinatorial question about \emph{valid parentheses combinations}. For example, with $n=1$ pair, there is only one valid arrangement: \texttt{()}. With $n=2$ pairs, there are two valid arrangements: \texttt{()()} and \texttt{(())}. With $n=3$ pairs, there are five valid arrangements: \texttt{()()()}, \texttt{()(())}, \texttt{(())()}, \texttt{(()())}, \texttt{((()))}. In general, the number of distinct well-formed parentheses sequences grows quickly with $n$.
 
-This problem was our motivation to study a famous sequence of numbers. (It has connection to a similar LeetCode programming problem about generating parentheses.) The numbers counting valid parentheses structures for $n=1,2,3,\dots$ are:
+This problem was our motivation to study a famous sequence of numbers. The numbers counting valid parentheses structures for $n=1,2,3,\dots$ are:
 
 \[1,\; 2,\; 5,\; 14,\; 42,\; 132,\;\dots\]
 
-These are known as the **Catalan numbers**. In these notes, we will explore Catalan numbers, their recursive definition, how they relate to binary tree structures, and a derivation of their formula using generating functions.
+These are known as the \textbf{Catalan numbers}. In these notes, we will explore Catalan numbers, their recursive definition, how they relate to binary tree structures, and a derivation of their formula using generating functions.
 
 \section{Definition of Catalan Numbers}
 
@@ -30,11 +30,11 @@ C_n \;=\; \sum_{k=0}^{\,n-1} C_k \;\cdot\; C_{\,n-1-k}\,.
 
 In other words, each $C_n$ is obtained by summing over all products $C_k \cdot C_{n-1-k}$ for $0 \le k \le n-1$. This recurrence is the heart of what makes Catalan numbers arise in so many combinatorial structures. We will soon see why this recurrence formula makes sense in terms of counting valid parentheses or binary tree configurations.
 
-\textit{*(Additional note: There is also a direct formula for $C_n$ which we will derive later. The first few values $C_0=1$, $C_1=1$, $C_2=2$, $C_3=5$, $C_4=14$ confirm the sequence given above.)*}
+\textit{(Additional note: There is also a direct formula for $C_n$ which we will derive later. The first few values $C_0=1$, $C_1=1$, $C_2=2$, $C_3=5$, $C_4=14$ confirm the sequence given above.)}
 
 \subsection*{Combinatorial reasoning (parenthesis perspective)}
 
-Why does the above recurrence hold for valid parentheses? Consider a valid parentheses sequence of $n$ pairs. Focus on the very first “(`” character. It must have a matching “)`”. Say this matching “)`” occurs after forming $k$ pairs inside (between this “(`” and its matching “)`”) – those $k$ pairs inside must themselves form a valid sequence. The remaining parentheses (after the matching “)`”) will form another valid sequence with $n-1-k$ pairs. See the schematic below for a sequence split by the first pair:
+Why does the above recurrence hold for valid parentheses? Consider a valid parentheses sequence of $n$ pairs. Focus on the very first \texttt{(} character. It must have a matching \texttt{)}. Say this matching \texttt{)} occurs after forming $k$ pairs inside (between this \texttt{(} and its matching \texttt{)}) -- those $k$ pairs inside must themselves form a valid sequence. The remaining parentheses (after the matching \texttt{)}) will form another valid sequence with $n-1-k$ pairs. See the schematic below for a sequence split by the first pair:
 
 \[
 \underbrace{\vphantom{()}( \;\;\; S_{\text{inside}} \;\;\; )}_{\text{$1+k$ pairs}} \;\; S_{\text{outside}}\,,
@@ -42,13 +42,13 @@ Why does the above recurrence hold for valid parentheses? Consider a valid paren
 
 where $S_{\text{inside}}$ is a valid sequence of $k$ pairs, and $S_{\text{outside}}$ is a valid sequence of $n-1-k$ pairs. Any valid sequence can be uniquely decomposed in this way. There are $C_k$ possibilities for $S_{\text{inside}}$ and $C_{\,n-1-k}$ possibilities for $S_{\text{outside}}$. Multiplying and summing over all $k$ from $0$ to $n-1$ gives the recurrence $C_n = \sum_{k=0}^{n-1} C_k\,C_{n-1-k}$, as stated above.
 
-\textit{*(Additional note: The same recurrence will be explained again using binary trees below, which is an equivalent interpretation. The key idea is splitting a structure (parentheses or tree) at a certain point, resulting in two smaller independent structures.)*}
+\textit{(Additional note: The same recurrence will be explained again using binary trees below, which is an equivalent interpretation. The key idea is splitting a structure (parentheses or tree) at a certain point, resulting in two smaller independent structures.)}
 
 \section{Catalan Numbers and Binary Trees}
 
-Catalan numbers also count the number of distinct **binary tree** structures with a given number of nodes. To appreciate this connection, we first review what a binary tree is:
+Catalan numbers also count the number of distinct \emph{binary tree} structures with a given number of nodes. To appreciate this connection, we first review what a binary tree is:
 
-A **binary tree** is a hierarchical structure consisting of nodes, where each node may have up to two children: a left child and a right child. A node with no children is called a *leaf*. We often draw binary trees in a planar way with the root at the top, left children branching to the left, and right children to the right. In counting binary trees for Catalan numbers, we consider different shapes of the tree (different arrangements of nodes and child connections) as distinct, but we do *not* label the nodes with any specific values.
+A \textbf{binary tree} is a hierarchical structure consisting of nodes, where each node may have up to two children: a left child and a right child. A node with no children is called a \emph{leaf}. We often draw binary trees in a planar way with the root at the top, left children branching to the left, and right children to the right. In counting binary trees for Catalan numbers, we consider different shapes of the tree (different arrangements of nodes and child connections) as distinct, but we do *not* label the nodes with any specific values.
 
 For example, with only 1 node, there is exactly one possible binary tree (just the root by itself). With 2 nodes, there are exactly two distinct binary tree shapes:
 
@@ -115,16 +115,20 @@ In the first tree above, the root has a left child but no right child. In the se
 \vspace{1ex}
 
 For 3 nodes, the five tree shapes can be described as:
-1. A right-skewed chain (root $\to$ right child $\to$ right grandchild).
-2. A tree where the root has only a right child, and that child in turn has a left child.
-3. A balanced tree (root with one left child and one right child).
-4. A tree where the root has only a left child, and that child has a right child.
-5. A left-skewed chain (root $\to$ left child $\to$ left grandchild).
+\begin{enumerate}
+  \item A right-skewed chain (root $\to$ right child $\to$ right grandchild).
+  \item A tree where the root has only a right child, and that child in turn has a left child.
+  \item A balanced tree (root with one left child and one right child).
+  \item A tree where the root has only a left child, and that child has a right child.
+  \item A left-skewed chain (root $\to$ left child $\to$ left grandchild).
+\end{enumerate}
 
 If we proceed to 4 nodes, the number of distinct binary trees grows to 14. Detailing all 14 shapes is cumbersome, but we can categorize them by how the root splits the nodes between left and right subtrees:
-- 5 of those trees have all 3 of the other nodes in the left subtree (and right subtree empty), and another 5 have all 3 in the right subtree (left empty). These 10 are essentially a root with one side empty and the other side being one of the 5 shapes from the 3-node case.
-- 2 of the trees have the root with 1 node in the left subtree and 2 in the right subtree.
-- The remaining 2 have 2 nodes in the left subtree and 1 in the right subtree.
+\begin{itemize}
+  \item 5 of those trees have all 3 of the other nodes in the left subtree (and right subtree empty), and another 5 have all 3 in the right subtree (left empty). These 10 are essentially a root with one side empty and the other side being one of the 5 shapes from the 3-node case.
+  \item 2 of the trees have the root with 1 node in the left subtree and 2 in the right subtree.
+  \item The remaining 2 have 2 nodes in the left subtree and 1 in the right subtree.
+\end{itemize}
 
 Adding these cases: $5 + 5 + 2 + 2 = 14$ total shapes for 4 nodes. (Indeed, 14 is the next Catalan number after 5.)
 
@@ -132,7 +136,7 @@ This pattern is no coincidence. In fact, the recurrence relation for $C_n$ can b
 
 \section{Deriving the Formula using Generating Functions}
 
-While the recursive definition of Catalan numbers is useful, we can go further and derive a closed-form formula for $C_n$. A powerful method to solve such recurrences is to use a **generating function**. Define the generating function $C(x)$ for the Catalan sequence as:
+While the recursive definition of Catalan numbers is useful, we can go further and derive a closed-form formula for $C_n$. A powerful method to solve such recurrences is to use a \textbf{generating function}. Define the generating function $C(x)$ for the Catalan sequence as:
 
 \[
 C(x) \;=\; C_0 + C_1 x + C_2 x^2 + C_3 x^3 + \cdots \;=\; \sum_{n\ge 0} C_n \, x^n\,.
@@ -180,7 +184,7 @@ Solving this quadratic for $C(x)$, we use the quadratic formula (treating $C(x)$
 C(x) \;=\; \frac{1 \pm \sqrt{\,1 - 4x\,}}{2x}\,. 
 \]
 
-There are two solutions, but we must choose the one that gives a valid power series expansion. Since $C(0)$ should equal $C_0 = 1$, we take the **negative** branch of the $\pm$ (this ensures $C(x)$ is finite at $x=0$):
+There are two solutions, but we must choose the one that gives a valid power series expansion. Since $C(0)$ should equal $C_0 = 1$, we take the \textbf{negative} branch of the $\pm$ (this ensures $C(x)$ is finite at $x=0$):
 
 \[
 C(x) \;=\; \frac{\,1 - \sqrt{\,1 - 4x\,}\,}{2x}\,.
@@ -189,7 +193,7 @@ C(x) \;=\; \frac{\,1 - \sqrt{\,1 - 4x\,}\,}{2x}\,.
 This is the generating function for the Catalan numbers. We can expand this to obtain a formula for $C_n$. The series expansion of the square root can be derived using the binomial series:
 
 \[
-\sqrt{\,1 - 4x\,} \;=\; 1 \;-\; 2x \;-\; 2x^2 \;-\; 4x^3 \;-\; 8x^4 \;-\; \cdots\,,
+\sqrt{\,1 - 4x\,} \;=\; 1 \;-\; 2x \;-\; 2x^2 \;-\; 4x^3 \;-\; 10x^4 \;-\; \cdots\,,
 \] 
 
 but a more straightforward way is to recognize the known power series for Catalan numbers. In fact, the coefficient extraction can be done by comparing with the binomial theorem. The final result (which one can derive by expanding or by known combinatorial identities) is:
@@ -200,7 +204,7 @@ C_n \;=\; \frac{1}{\,n+1\,}\binom{2n}{\,n}\,,
 
 for $n \ge 0$. This elegant formula gives the $n$th Catalan number directly. For example, for $n=4$ it gives $C_4 = \frac{1}{5}\binom{8}{4} = \frac{1}{5}\cdot 70 = 14$, consistent with our earlier count of binary trees or parentheses combinations.
 
-\textit{*(Additional note: The closed-form formula above was not explicitly given in the lecture, but it is a well-known result for Catalan numbers. It can be proven by induction or other methods as well. Catalan numbers appear in numerous other combinatorial problems, such as counting paths in a grid, polygon triangulations, full binary trees with $n+1$ leaves, and many more.)*}
+\textit{(Additional note: The closed-form formula above was not explicitly given in the lecture, but it is a well-known result for Catalan numbers. It can be proven by induction or other methods as well. Catalan numbers appear in numerous other combinatorial problems, such as counting paths in a grid, polygon triangulations, full binary trees with $n+1$ leaves, and many more.)}
 
 
 \end{document}
