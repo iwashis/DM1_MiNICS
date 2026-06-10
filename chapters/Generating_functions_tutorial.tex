@@ -4,7 +4,7 @@
 \input{watermark/watermark.tex}
 
 
-\title{Generating functions tutorial tasks}
+\title{Generating Functions Tutorial Tasks}
 \author{Tomasz Brengos \\  
 Committers : Aliaksei Kudzelka}
 \date{}
@@ -19,8 +19,8 @@ Committers : Aliaksei Kudzelka}
 \section*{Preliminaries: two work-horse identities}
 
 Throughout the solutions we repeatedly invoke the following elementary—but
-indispensable—summation formulas. Which have already been discussed on the lecture.
-They are stated once here for quick reference and are *not* re-derived every time
+indispensable—summation formulas, which have already been discussed in the lecture.
+They are stated once here for quick reference and are \emph{not} re-derived every time
 we use them.
 
 \begin{description}[leftmargin=1.4cm,labelsep=0.5cm]
@@ -113,6 +113,19 @@ Substituting \(r=\alpha x\) gives
 \boxed{G(x)=\frac{1}{1-\alpha x}}.
 \]
 
+
+\medskip
+%-----------------------------------------------------------
+\item \textbf{Truncated constant sequence (\(a_n=1\) for \(n\le N\), \(a_n=0\) for \(n>N\)).}
+
+Only finitely many terms survive, so the generating function is a polynomial:
+\[
+f(x)=\sum_{n=0}^{N}x^{n},
+\]
+which is exactly the finite geometric series \eqref{eq:geom-fin} with \(r=x\):
+\[
+\boxed{G(x)=\frac{1-x^{N+1}}{1-x}}.
+\]
 
 \medskip
 %-----------------------------------------------------------
@@ -227,7 +240,7 @@ F(x) = \sum_{n \geq 0} a_{n+1} x^n
 \textbf{Rewriting the sum as:}
 
 \[
-\sum_{n=1}^{\infty} a_n x^{n-1} = x \cdot \left( \sum_{n=1}^{\infty} a_n x^n \right) = x \cdot \left( \sum_{n=0}^{\infty} a_n x^n - a_0 \right)= \frac{1}{x} \left( f(x) - a_0 \right)
+\sum_{n=1}^{\infty} a_n x^{n-1} = \frac{1}{x} \left( \sum_{n=1}^{\infty} a_n x^n \right) = \frac{1}{x} \left( \sum_{n=0}^{\infty} a_n x^n - a_0 \right)= \frac{1}{x} \left( f(x) - a_0 \right)
 \]
 
 %-----------------------------------------------------------
@@ -396,7 +409,7 @@ Multiply the recurrence \(a_{n+2}=2a_{n+1}+3a_n\) by \(x^n\) and sum for \(n\ge0
 \sum_{n=0}^\infty a_{n+2}x^n
 &= \sum_{m=2}^\infty a_m\,x^{m-2}
  &&(\text{set }m=n+2)\\
-& x^{-2}\sum_{m=2}^\infty a_m\,x^m
+&= x^{-2}\sum_{m=2}^\infty a_m\,x^m
  = x^{-2}\bigl(f(x)-a_0 - a_1x\bigr),\\
 \sum_{n=0}^\infty a_{n+1}x^n
 &= \sum_{m=1}^\infty a_m\,x^{m-1}

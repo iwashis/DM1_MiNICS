@@ -33,7 +33,7 @@ c_0 + c_1 x + c_2 x^2 + c_3 x^3 + \cdots.
 We say that \(G(x)\) “generates” the sequence \(\{c_n\}\) because each coefficient of \(x^n\) in \(G(x)\) is precisely \(c_n\).  Generating series turn sequence‑based problems into algebraic manipulations of power series, a technique we will exploit heavily in what follows.
 
 \subsection*{Recall of the Basic Series}
-\paragraph{A Geometric View of the Binary Series}
+\paragraph{A Geometric View of the Binary Series}\label{par:gf-binary-series}
 \begin{figure}[ht]
   \centering
   \begin{tikzpicture}[scale=2]
@@ -124,7 +124,7 @@ Continuing indefinitely produces
 as claimed. \par
 \noindent We will use this fact in further examples throughout the notes.
 
-\section{Building Generating Functions}
+\section{Building Generating Functions}\label{sec:gf-building}
 
 The simplest (or “basic”) generating function is
 \[
@@ -316,8 +316,8 @@ F_{n+2} = F_{n+1} + F_n \quad \text{for} \; n \ge 0.
 Blue bars represent small rabbits; orange bars represent big (mature) rabbits.}
 \end{figure}
 
-Q: is there a non-recursive (closed-form) formula for \(F_n\) ?
-\paragraph{Idea: consider and calculate it}
+\medskip
+\noindent\textbf{Question:} is there a non-recursive (closed-form) formula for \(F_n\)?  The next section answers this using generating functions.
 
 \section{Deriving the Closed-Form for the Fibonacci Sequence}
 
@@ -374,7 +374,7 @@ Thus,
 f(x) = \frac{x}{\,1 - x - x^2\,}.
 \]
 
-\paragraph{Step 3: Partial-Fraction Decomposition (as in the images).}
+\paragraph{Step 3: Partial-Fraction Decomposition.}
 
 First, rewrite
 \[
@@ -403,6 +403,14 @@ x^2 + x - 1
 \Bigl(x + \tfrac{1 + \sqrt{5}}{2}\Bigr)
 \;\cdot\;
 \Bigl(x + \tfrac{1 - \sqrt{5}}{2}\Bigr).
+\]
+To simplify the notation in what follows, set
+\[
+\alpha := \frac{1+\sqrt{5}}{2},
+\qquad
+\beta := \frac{1-\sqrt{5}}{2},
+\qquad\text{so that}\qquad
+x^2 + x - 1 = (x+\alpha)(x+\beta).
 \]
 Therefore,
 \[
@@ -525,21 +533,40 @@ x^n.
 
 \paragraph{Step 7: Identify Fibonacci numbers.}
 
-Recall that \(\alpha - \beta = \sqrt{5}\), and
+Recall that \(\alpha - \beta = \sqrt{5}\) and \(\alpha\beta = -1\), so that \(1/\alpha = -\beta\) and \(1/\beta = -\alpha\).  Using these relations, the coefficient of \(x^n\) found in Step~6 simplifies:
 \[
+\frac{1}{\alpha - \beta}
+\Bigl(
+\frac{(-1)^n}{\alpha^{\,n+1}}
+-
+\frac{(-1)^n}{\beta^{\,n+1}}
+\Bigr)
+\;=\;
+\frac{(-1)^n}{\sqrt{5}}
+\Bigl(
+(-\beta)^{n+1} - (-\alpha)^{n+1}
+\Bigr)
+\;=\;
+\frac{\alpha^{n+1} - \beta^{n+1}}{\sqrt{5}}.
+\]
+Hence
+\[
+\frac{1}{\,1 - x - x^2\,}
+\;=\;
+\sum_{n=0}^\infty \frac{\alpha^{n+1} - \beta^{n+1}}{\sqrt{5}}\, x^n ,
+\]
+and multiplying by \(x\) (recall \(f(x) = \dfrac{x}{1-x-x^2}\)) shifts the coefficients by one:
+\[
+f(x)
+\;=\;
+\sum_{n=0}^\infty F_n \, x^n
+\qquad\text{with}\qquad
 F_n
 \;=\;
 \frac{\alpha^n - \beta^n}{\,\alpha - \beta\,}
 \;=\;
 \frac{\alpha^n - \beta^n}{\,\sqrt{5}\,}.
 \]
-One checks (or uses known identities) to see that the coefficient of \(x^n\) in the above power series is exactly \(F_n\).  Consequently,
-\[
-\sum_{n=0}^\infty F_n \, x^n
-\;=\;
-\frac{1}{\,1 - x - x^2\,},
-\]
-which is the generating function for the Fibonacci sequence.
 
 \paragraph{Conclusion.}
 We have shown that the generating function for the Fibonacci sequence is 
@@ -552,7 +579,7 @@ This gives a non-recursive (closed-form) expression for \(F_n\), completing the 
 
 \section{More examples}
 
-In earlier sections (see, e.g., \emph{A Geometric View of the Binary Series} on page~14), we explored methods to solve recurrences and introduced generating functions as a tool to transform sequences into functions. In this section, we briefly reiterate these ideas and demonstrate, through several examples, how generating functions serve as a bridge between discrete mathematics and calculus.
+In earlier sections (see, e.g., \emph{A Geometric View of the Binary Series} on page~\pageref{par:gf-binary-series}), we explored methods to solve recurrences and introduced generating functions as a tool to transform sequences into functions. In this section, we briefly reiterate these ideas and demonstrate, through several examples, how generating functions serve as a bridge between discrete mathematics and calculus.
 
 \paragraph{Example 1: Constant Sequence.}  
 Consider the sequence defined by
@@ -619,7 +646,7 @@ f(x)=\sum_{n=0}^{\infty}\binom{n+k}{k}x^n=\frac{1}{(1-x)^{k+1}}, \quad |x|<1.
     \[
     \frac{1}{(1-x)^2} = \sum_{n=0}^{\infty} (n+1)x^n.
     \]
-    This recovers the generating function for \(k=1\). A less formal derivation was given in the subsection \emph{Building Generating Functions} on page~16.
+    This recovers the generating function for \(k=1\). A less formal derivation was given in the section \emph{Building Generating Functions} on page~\pageref{sec:gf-building}.
 \end{itemize}
 A complete inductive proof follows similar lines but is omitted here for brevity.
 
@@ -704,11 +731,18 @@ To determine the number of ways to select 30 candies, we need the coefficient of
 \]
 the convolution gives:
 \[
-[x^{30}]\,G(x)=\sum_{i=0}^{20}\binom{20}{i}\binom{39+30-i}{39}.
+[x^{30}]\,G(x)=\sum_{i=0}^{20}\binom{20}{i}\binom{39+30-i}{39}
+=\sum_{i=0}^{20}\binom{20}{i}\binom{69-i}{39}.
 \]
-Using a Vandermonde’s convolution argument, one can show that
+This sum has no simpler closed form, but it can be rewritten compactly.  Since
+\((1+x)(1-x) = 1-x^2\), we have
 \[
-\sum_{i=0}^{20}\binom{20}{i}\binom{69-i}{39} = \binom{59}{30}.
+G(x) = (1+x)^{20}(1-x)^{-40} = (1-x^2)^{20}\,(1-x)^{-60},
+\]
+and extracting the coefficient of \(x^{30}\) from this product yields the equivalent
+alternating form
+\[
+[x^{30}]\,G(x)=\sum_{j=0}^{15}(-1)^j\binom{20}{j}\binom{89-2j}{59}.
 \]
 
 \bigskip

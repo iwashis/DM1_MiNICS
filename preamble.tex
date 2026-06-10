@@ -33,6 +33,12 @@
 % Load additional TikZ libraries:
 \usetikzlibrary{trees} % Provides additional tree-specific commands for TikZ
 
-% Define theorem-like environments using amsthm:
-\newtheorem{corollary}{Corollary} % Defines a new "corollary" environment
-\newtheorem{lemma}{Lemma}         % Defines a new "lemma" environment
+% Define theorem-like environments using amsthm.
+% All environments share one counter, numbered within sections (e.g. "Theorem 2.1"):
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}         % Upright body text for the environments below
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}

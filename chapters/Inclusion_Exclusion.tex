@@ -12,7 +12,7 @@ Committers : Aliaksei Kudzelka}
 \begin{document}
 \maketitle 
 \noindent
-\textbf{Very often, we need to calculate the number of elements in the union of certain sets.}
+Very often, we need to calculate the number of elements in the union of certain sets.
 Assuming that we know the sizes of these sets, and their mutual intersections, the principle of
 inclusion and exclusion allows us to do exactly that.
 
@@ -22,7 +22,7 @@ Suppose you have two sets \(A\) and \(B\). The size of the union is certainly at
 \[
 |A \cup B| \;=\; |A| + |B| \;-\; |A \cap B|.
 \]
-In general, the formula gets more complicated because we must take into account intersections of multiple sets. The following statement is what we call the \emph{principle of inclusion and exclusion}:
+In general, the formula gets more complicated because we must take into account intersections of multiple sets. Throughout, we write \([n] := \{1,2,\dots,n\}\). The following statement is what we call the \emph{principle of inclusion and exclusion}:
 
 \begin{lemma}
 \label{lem:PIE}
@@ -50,13 +50,43 @@ Equivalently,
 (-1)^{n-1}\,\bigl|A_1 \cap A_2 \cap \cdots \cap A_n\bigr|.
 $}
 \]
+\end{lemma}
 
-
-\noindent \textbf{Proof Outline (informal):} Each element that belongs to exactly \(t\) of the sets \(A_i\) is counted \(\binom{t}{1}\) times in the first summation, then subtracted \(\binom{t}{2}\) times in the second summation, added \(\binom{t}{3}\) times in the third, and so on. In other words, its total contribution is
+\begin{proof}[Proof outline (informal)]
+Each element that belongs to exactly \(t \ge 1\) of the sets \(A_i\) is counted \(\binom{t}{1}\) times in the first summation, then subtracted \(\binom{t}{2}\) times in the second summation, added \(\binom{t}{3}\) times in the third, and so on. In other words, its total contribution is
 \[
 \binom{t}{1} - \binom{t}{2} + \binom{t}{3} - \cdots + (-1)^{t-1}\binom{t}{t},
 \]
-which equals 1. This alternating sum ensures that each element is ultimately counted exactly once, thereby correcting for any overcounting.
+which equals \(1\): by the binomial theorem,
+\[
+0 = (1-1)^t = \sum_{j=0}^{t} (-1)^j \binom{t}{j}
+= 1 - \left( \binom{t}{1} - \binom{t}{2} + \cdots + (-1)^{t-1}\binom{t}{t} \right).
+\]
+This alternating sum ensures that each element is ultimately counted exactly once, thereby correcting for any overcounting.
+\end{proof}
 
-\end{lemma}
+\begin{example}
+How many integers in \(\{1, 2, \dots, 100\}\) are divisible by \(2\), \(3\), or \(5\)?
+
+Let \(A_1\), \(A_2\), \(A_3\) be the sets of integers in \(\{1,\dots,100\}\) divisible by \(2\), \(3\), and \(5\), respectively. Counting multiples directly:
+\[
+|A_1| = 50, \qquad |A_2| = \left\lfloor \tfrac{100}{3} \right\rfloor = 33, \qquad |A_3| = 20.
+\]
+An integer lies in \(A_1 \cap A_2\) exactly when it is divisible by \(6\), and similarly for the other intersections:
+\[
+|A_1 \cap A_2| = \left\lfloor \tfrac{100}{6} \right\rfloor = 16, \quad
+|A_1 \cap A_3| = \left\lfloor \tfrac{100}{10} \right\rfloor = 10, \quad
+|A_2 \cap A_3| = \left\lfloor \tfrac{100}{15} \right\rfloor = 6,
+\]
+\[
+|A_1 \cap A_2 \cap A_3| = \left\lfloor \tfrac{100}{30} \right\rfloor = 3.
+\]
+By Lemma~\ref{lem:PIE},
+\[
+|A_1 \cup A_2 \cup A_3|
+= 50 + 33 + 20 - 16 - 10 - 6 + 3
+= 74.
+\]
+So \(74\) of the first \(100\) positive integers are divisible by \(2\), \(3\), or \(5\).
+\end{example}
 \end{document}
